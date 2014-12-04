@@ -2,6 +2,18 @@
 
 A gem for manipulating time with business hours.
 
+## Why?
+
+Similar gems out there suffer from a few common problems:
+
+* Incorrect handling of Daylight Saving Time
+* Inability to provide second-level precision
+* Heavy reliance on (slow) ActiveSupport time objects and extensions
+
+This gem solves these issues by performing set operations on pure integer
+representations of time segments before returning a result in the desired
+form.
+
 ## Installation
 
 Add this line to your application's Gemfile:
