@@ -1,8 +1,3 @@
-require 'biz/duration'
-require 'biz/time'
-require 'biz/week'
-require 'equalizer'
-
 module Biz
   class TimeSegment
 
@@ -20,8 +15,8 @@ module Biz
                 :end_time
 
     def initialize(start_time, end_time)
-      @start_time = Integer(start_time)
-      @end_time   = Integer(end_time)
+      @start_time = start_time
+      @end_time   = end_time
     end
 
     def duration
@@ -48,10 +43,6 @@ module Biz
         self.class.new(start_time, other.start_time),
         self.class.new(other.end_time, end_time)
       ].reject(&:empty?).map { |potential| self & potential }
-    end
-
-    def inspect
-      "#{::Time.at(start_time).utc} #{::Time.at(end_time).utc}"
     end
 
     private

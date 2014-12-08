@@ -1,7 +1,3 @@
-require 'helper'
-
-require 'biz/day'
-
 RSpec.describe Biz::Day do
   subject(:day) { described_class.new(9) }
 
@@ -32,15 +28,15 @@ RSpec.describe Biz::Day do
   end
 
   describe ".from_date" do
-    let(:epoch_time) { Date.new(1970, 1, 10) }
+    let(:epoch_time) { Date.new(2006, 1, 10) }
 
     it "creates the proper day" do
-      expect(described_class.from_time(epoch_time)).to eq 9
+      expect(described_class.from_date(epoch_time)).to eq 9
     end
   end
 
   describe ".from_time" do
-    let(:epoch_time) { Time.new(1970, 1, 10) }
+    let(:epoch_time) { Time.new(2006, 1, 10) }
 
     it "creates the proper day" do
       expect(described_class.from_time(epoch_time)).to eq 9
@@ -48,7 +44,7 @@ RSpec.describe Biz::Day do
   end
 
   describe ".since_epoch" do
-    let(:epoch_time) { Time.new(1970, 1, 10) }
+    let(:epoch_time) { Time.new(2006, 1, 10) }
 
     it "creates the proper day" do
       expect(described_class.since_epoch(epoch_time)).to eq 9
@@ -57,13 +53,7 @@ RSpec.describe Biz::Day do
 
   describe "#to_date" do
     it "returns the corresponding date since epoch" do
-      expect(day.to_date).to eq Date.new(1970, 1, 10)
-    end
-  end
-
-  describe "#as_json" do
-    it "returns the day" do
-      expect(day.as_json).to eq 9
+      expect(day.to_date).to eq Date.new(2006, 1, 10)
     end
   end
 

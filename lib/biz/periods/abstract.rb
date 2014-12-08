@@ -1,5 +1,3 @@
-require 'forwardable'
-
 module Biz
   class Periods
     class Abstract
@@ -8,17 +6,14 @@ module Biz
 
       extend Forwardable
 
-      attr_reader :origin,
-                  :work_periods,
-                  :holidays
+      attr_reader :schedule,
+                  :origin
 
       delegate each: :periods
 
-      def initialize(origin, schedule = {})
+      def initialize(schedule, origin)
+        @schedule = schedule
         @origin   = origin
-
-        @work_periods = schedule.fetch(:work_periods)
-        @holidays     = schedule.fetch(:holidays)
       end
 
       def until(terminus)
@@ -54,17 +49,21 @@ module Biz
       def periods
         weeks
           .lazy
-          .flat_map { |week| week_periods(week) }
-          .map      { |period| period & boundary }
-          .flat_map { |period|
-            holidays.(period).inject([period]) { |periods, holiday|
+          .flat_map { |week| work_periods(week) }
+          .map      { |work_period| work_period & boundary }
+          .flat_map { |work_period|
+            holiday_periods.inject([work_period]) { |periods, holiday|
               periods.flat_map { |period| period / holiday }
             }
           }.reject(&:empty?)
       end
 
-      def week_periods(week)
-        work_periods.(week)
+      def work_periods(week)
+        schedule.intervals.map { |interval| interval.to_time_segment(week) }
+      end
+
+      def holiday_periods
+        schedule.holidays.map(&:to_time_segment)
       end
 
     end

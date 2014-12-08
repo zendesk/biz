@@ -1,9 +1,7 @@
-require 'helper'
-
-require 'biz/duration'
-
 RSpec.describe Biz::Duration do
-  subject(:duration) { described_class.new(((2 * 24 + 5) * 60 + 9) * 60 + 30) }
+  subject(:duration) {
+    described_class.new(in_seconds(days: 2, hours: 5, minutes: 9, seconds: 30))
+  }
 
   context "when initializing" do
     context "with an integer" do
@@ -51,31 +49,41 @@ RSpec.describe Biz::Duration do
 
   describe ".seconds" do
     it "returns the proper duration" do
-      expect(described_class.seconds(60)).to eq described_class.new(60)
+      expect(described_class.seconds(60)).to eq(
+        described_class.new(in_seconds(seconds: 60))
+      )
     end
   end
 
   describe ".minutes" do
     it "returns the proper duration" do
-      expect(described_class.minutes(60)).to eq described_class.new(3_600)
+      expect(described_class.minutes(60)).to eq(
+        described_class.new(in_seconds(minutes: 60))
+      )
     end
   end
 
   describe ".hours" do
     it "returns the proper duration" do
-      expect(described_class.hours(1)).to eq described_class.new(3_600)
+      expect(described_class.hours(1)).to eq(
+        described_class.new(in_seconds(hours: 1))
+      )
     end
   end
 
   describe ".days" do
     it "returns the proper duration" do
-      expect(described_class.days(1)).to eq described_class.new(86_400)
+      expect(described_class.days(1)).to eq(
+        described_class.new(in_seconds(days: 1))
+      )
     end
   end
 
   describe "#in_seconds" do
     it "returns the number of seconds" do
-      expect(duration.in_seconds).to eq 191_370
+      expect(duration.in_seconds).to eq(
+        in_seconds(days: 2, hours: 5, minutes: 9, seconds: 30)
+      )
     end
   end
 

@@ -1,3 +1,4 @@
+require 'biz/periods/abstract'
 require 'biz/periods/after'
 require 'biz/periods/before'
 
@@ -11,11 +12,11 @@ module Biz
     end
 
     def after(origin)
-      After.new(origin, schedule)
+      After.new(schedule, origin)
     end
 
     def before(origin)
-      Before.new(origin, schedule)
+      Before.new(schedule, origin)
     end
 
   end

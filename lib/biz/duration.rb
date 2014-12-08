@@ -1,8 +1,3 @@
-require 'biz/time'
-require 'equalizer'
-require 'forwardable'
-require 'set'
-
 module Biz
   class Duration
 

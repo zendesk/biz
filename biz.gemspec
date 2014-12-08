@@ -13,7 +13,10 @@ Gem::Specification.new do |gem|
 
   gem.license = 'Copyright Zendesk. All Rights Reserved.'
 
-  gem.add_runtime_dependency 'equalizer', '~> 0.0'
+  gem.add_runtime_dependency 'adamantium', '~> 0.0'
+  gem.add_runtime_dependency 'equalizer',  '~> 0.0'
+  gem.add_runtime_dependency 'memoizable', '~> 0.0'
+  gem.add_runtime_dependency 'tzinfo'
 
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec', '~> 3.0'

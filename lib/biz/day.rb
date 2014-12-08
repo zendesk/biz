@@ -1,6 +1,3 @@
-require 'biz/date'
-require 'forwardable'
-
 module Biz
   class Day
 
@@ -32,10 +29,6 @@ module Biz
 
     def to_date
       Date.from_day(day)
-    end
-
-    def as_json(*)
-      day
     end
 
     def coerce(other)

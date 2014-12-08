@@ -28,6 +28,25 @@ Or install it yourself as:
 
     $ gem install biz
 
+## Configuration
+
+```ruby
+Biz::Schedule.new do |config|
+  config.work_hours = {
+    mon: {'09:00' => '12:00', '13:00' => '17:00'},
+    tue: {'09:00' => '12:00', '13:00' => '17:00'},
+    wed: {'09:00' => '12:00', '13:00' => '17:00'},
+    thu: {'09:00' => '12:00', '13:00' => '17:00'},
+    fri: {'09:00' => '12:00', '13:00' => '17:00'},
+    sat: {'10:00' => '14:00'}
+  }
+
+  config.holidays = [Date.new(2014, 1, 1), Date.new(2014, 12, 25)]
+
+  config.time_zone = 'America/Los_Angeles'
+end
+```
+
 ## Usage
 
 TODO: Write usage instructions here

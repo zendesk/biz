@@ -1,8 +1,3 @@
-require 'biz/date'
-require 'biz/day'
-require 'biz/time'
-require 'forwardable'
-
 module Biz
   class Week
 
@@ -30,6 +25,10 @@ module Biz
 
     def initialize(week)
       @week = Integer(week)
+    end
+
+    def start_date
+      Date.from_day(week * Time::DAYS_IN_WEEK)
     end
 
     def succ

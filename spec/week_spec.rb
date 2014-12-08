@@ -1,7 +1,3 @@
-require 'helper'
-
-require 'biz/week'
-
 RSpec.describe Biz::Week do
   subject(:week) { described_class.new(2) }
 
@@ -32,15 +28,15 @@ RSpec.describe Biz::Week do
   end
 
   describe ".from_date" do
-    let(:epoch_time) { Date.new(1970, 1, 10) }
+    let(:epoch_time) { Date.new(2006, 1, 10) }
 
     it "creates the proper week" do
-      expect(described_class.from_time(epoch_time)).to eq 1
+      expect(described_class.from_date(epoch_time)).to eq 1
     end
   end
 
   describe ".from_time" do
-    let(:epoch_time) { Time.new(1970, 1, 10) }
+    let(:epoch_time) { Time.new(2006, 1, 10) }
 
     it "creates the proper week" do
       expect(described_class.from_time(epoch_time)).to eq 1
@@ -48,10 +44,16 @@ RSpec.describe Biz::Week do
   end
 
   describe ".since_epoch" do
-    let(:epoch_time) { Time.new(1970, 1, 10) }
+    let(:epoch_time) { Time.new(2006, 1, 10) }
 
     it "creates the proper week" do
       expect(described_class.since_epoch(epoch_time)).to eq 1
+    end
+  end
+
+  describe "#start_date" do
+    it "returns the corresponding date since epoch of the first day" do
+      expect(week.start_date).to eq Date.new(2006, 1, 15)
     end
   end
 

@@ -1,10 +1,6 @@
-require 'helper'
-
-require 'biz/time_segment'
-
 RSpec.describe Biz::TimeSegment do
-  let(:start_time) { Time.utc(1970, 1, 8, 9, 30) }
-  let(:end_time)   { Time.utc(1970, 1, 22, 17) }
+  let(:start_time) { Time.utc(2006, 1, 8, 9, 30) }
+  let(:end_time)   { Time.utc(2006, 1, 22, 17) }
 
   subject(:time_segment) { described_class.new(start_time, end_time) }
 
@@ -61,8 +57,8 @@ RSpec.describe Biz::TimeSegment do
     let(:other) { described_class.new(other_start_time, other_end_time) }
 
     context "when the other segment occurs before the time segment" do
-      let(:other_start_time) { Time.utc(1970, 1, 1) }
-      let(:other_end_time)   { Time.utc(1970, 1, 2) }
+      let(:other_start_time) { Time.utc(2006, 1, 1) }
+      let(:other_end_time)   { Time.utc(2006, 1, 2) }
 
       it "returns a zero-duration time segment" do
         expect(time_segment & other).to eq(
@@ -72,10 +68,10 @@ RSpec.describe Biz::TimeSegment do
     end
 
     context "when the other segment starts before the time segment" do
-      let(:other_start_time) { Time.utc(1970, 1, 7) }
+      let(:other_start_time) { Time.utc(2006, 1, 7) }
 
       context "and ends before the time segment" do
-        let(:other_end_time) { Time.utc(1970, 1, 8, 11, 45) }
+        let(:other_end_time) { Time.utc(2006, 1, 8, 11, 45) }
 
         it "returns the correct time segment" do
           expect(time_segment & other).to eq(
@@ -85,7 +81,7 @@ RSpec.describe Biz::TimeSegment do
       end
 
       context "and ends after the time segment" do
-        let(:other_end_time) { Time.utc(1970, 1, 23) }
+        let(:other_end_time) { Time.utc(2006, 1, 23) }
 
         it "returns the correct time segment" do
           expect(time_segment & other).to eq(
@@ -96,10 +92,10 @@ RSpec.describe Biz::TimeSegment do
     end
 
     context "when the other segment starts after the time segment" do
-      let(:other_start_time) { Time.utc(1970, 1, 8, 11, 30) }
+      let(:other_start_time) { Time.utc(2006, 1, 8, 11, 30) }
 
       context "and ends before the time segment" do
-        let(:other_end_time) { Time.utc(1970, 1, 9, 12, 30) }
+        let(:other_end_time) { Time.utc(2006, 1, 9, 12, 30) }
 
         it "returns the correct time segment" do
           expect(time_segment & other).to eq(
@@ -109,7 +105,7 @@ RSpec.describe Biz::TimeSegment do
       end
 
       context "and ends after the time segment" do
-        let(:other_end_time) { Time.utc(1970, 1, 23) }
+        let(:other_end_time) { Time.utc(2006, 1, 23) }
 
         it "returns the correct time segment" do
           expect(time_segment & other).to eq(
@@ -120,8 +116,8 @@ RSpec.describe Biz::TimeSegment do
     end
 
     context "when the other segment occurs after the time segment" do
-      let(:other_start_time) { Time.utc(1970, 2, 1) }
-      let(:other_end_time)   { Time.utc(1970, 2, 7) }
+      let(:other_start_time) { Time.utc(2006, 2, 1) }
+      let(:other_end_time)   { Time.utc(2006, 2, 7) }
 
       it "returns a zero-duration time segment" do
         expect(time_segment & other).to eq(
@@ -135,8 +131,8 @@ RSpec.describe Biz::TimeSegment do
     let(:other) { described_class.new(other_start_time, other_end_time) }
 
     context "when the other segment occurs before the time segment" do
-      let(:other_start_time) { Time.utc(1970, 1, 1) }
-      let(:other_end_time)   { Time.utc(1970, 1, 2) }
+      let(:other_start_time) { Time.utc(2006, 1, 1) }
+      let(:other_end_time)   { Time.utc(2006, 1, 2) }
 
       it "returns the original time segment" do
         expect(time_segment / other).to eq [time_segment]
@@ -144,10 +140,10 @@ RSpec.describe Biz::TimeSegment do
     end
 
     context "when the other segment starts before the time segment" do
-      let(:other_start_time) { Time.utc(1970, 1, 7) }
+      let(:other_start_time) { Time.utc(2006, 1, 7) }
 
       context "and ends before the time segment" do
-        let(:other_end_time) { Time.utc(1970, 1, 8, 11, 45) }
+        let(:other_end_time) { Time.utc(2006, 1, 8, 11, 45) }
 
         it "returns the correct time segment" do
           expect(time_segment / other).to eq(
@@ -157,7 +153,7 @@ RSpec.describe Biz::TimeSegment do
       end
 
       context "and ends after the time segment" do
-        let(:other_end_time) { Time.utc(1970, 1, 23) }
+        let(:other_end_time) { Time.utc(2006, 1, 23) }
 
         it "returns an empty array" do
           expect(time_segment / other).to eq []
@@ -166,10 +162,10 @@ RSpec.describe Biz::TimeSegment do
     end
 
     context "when the other segment starts after the time segment" do
-      let(:other_start_time) { Time.utc(1970, 1, 8, 11, 30) }
+      let(:other_start_time) { Time.utc(2006, 1, 8, 11, 30) }
 
       context "and ends before the time segment" do
-        let(:other_end_time) { Time.utc(1970, 1, 9, 12, 30) }
+        let(:other_end_time) { Time.utc(2006, 1, 9, 12, 30) }
 
         it "returns the correct time segments" do
           expect(time_segment / other).to eq [
@@ -180,7 +176,7 @@ RSpec.describe Biz::TimeSegment do
       end
 
       context "and ends after the time segment" do
-        let(:other_end_time) { Time.utc(1970, 1, 23) }
+        let(:other_end_time) { Time.utc(2006, 1, 23) }
 
         it "returns the correct time segment" do
           expect(time_segment / other).to eq(
@@ -191,8 +187,8 @@ RSpec.describe Biz::TimeSegment do
     end
 
     context "when the other segment occurs after the time segment" do
-      let(:other_start_time) { Time.utc(1970, 2, 1) }
-      let(:other_end_time)   { Time.utc(1970, 2, 7) }
+      let(:other_start_time) { Time.utc(2006, 2, 1) }
+      let(:other_end_time)   { Time.utc(2006, 2, 7) }
 
       it "returns the original time segment" do
         expect(time_segment / other).to eq [time_segment]

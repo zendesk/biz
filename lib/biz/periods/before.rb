@@ -1,8 +1,3 @@
-require 'biz/periods/abstract'
-require 'biz/time'
-require 'biz/time_segment'
-require 'biz/week'
-
 module Biz
   class Periods
     class Before < Abstract
@@ -13,7 +8,7 @@ module Biz
         Week.since_epoch(origin).downto(Week.since_epoch(Time::BIG_BANG))
       end
 
-      def week_periods(week)
+      def work_periods(week)
         super.reverse
       end
 
@@ -22,7 +17,7 @@ module Biz
       end
 
       def occurred?(period, time)
-        period.start_time <= time.to_i
+        period.start_time <= time
       end
 
       def comparison_period(period, time)
@@ -30,7 +25,10 @@ module Biz
       end
 
       def duration_period(period, duration)
-        TimeSegment.new(period.end_time - duration, period.end_time)
+        TimeSegment.new(
+          period.end_time - duration.in_seconds,
+          period.end_time
+        )
       end
 
     end

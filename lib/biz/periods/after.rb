@@ -1,8 +1,3 @@
-require 'biz/periods/abstract'
-require 'biz/time'
-require 'biz/time_segment'
-require 'biz/week'
-
 module Biz
   class Periods
     class After < Abstract
@@ -18,7 +13,7 @@ module Biz
       end
 
       def occurred?(period, time)
-        period.end_time >= time.to_i
+        period.end_time >= time
       end
 
       def comparison_period(period, time)
@@ -26,7 +21,10 @@ module Biz
       end
 
       def duration_period(period, duration)
-        TimeSegment.new(period.start_time, period.start_time + duration)
+        TimeSegment.new(
+          period.start_time,
+          period.start_time + duration.in_seconds
+        )
       end
 
     end
