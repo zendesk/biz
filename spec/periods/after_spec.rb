@@ -9,7 +9,7 @@ RSpec.describe Biz::Periods::After do
       sat: {'11:00' => '14:30'}
     }
   }
-  let(:holidays)  { [] }
+  let(:holidays)  { [Date.new(2006, 1, 16), Date.new(2006, 1, 18)] }
   let(:time_zone) { 'Etc/UTC' }
 
   let(:schedule) {
@@ -22,265 +22,151 @@ RSpec.describe Biz::Periods::After do
 
   subject(:periods) { described_class.new(schedule, origin) }
 
-  describe "#until" do
-    context "when an endpoint has second precision" do
-      let(:origin)   { Time.utc(2006, 1, 9, 8) }
-      let(:terminus) { Time.utc(2006, 1, 9, 14, 32, 41) }
+  context "when one week of periods is requested" do
+    let(:origin) { Time.utc(2006, 1, 1) }
 
-      it "returns a period with second precision" do
-        expect(periods.until(terminus).to_a).to include(
-          Biz::TimeSegment.new(
-            Time.utc(2006, 1, 9, 9),
-            Time.utc(2006, 1, 9, 14, 32, 41)
-          )
+    it "returns the proper intervals" do
+      expect(periods.take(6).to_a).to eq [
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 2, 9),
+          Time.utc(2006, 1, 2, 17)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 3, 10),
+          Time.utc(2006, 1, 3, 16)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 4, 9),
+          Time.utc(2006, 1, 4, 17)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 5, 10),
+          Time.utc(2006, 1, 5, 16)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 6, 9),
+          Time.utc(2006, 1, 6, 17)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 11),
+          Time.utc(2006, 1, 7, 14, 30)
         )
-      end
-    end
-
-    context "when no periods occur in the range" do
-      let(:origin)   { Time.utc(2006, 1, 8, 0) }
-      let(:terminus) { Time.utc(2006, 1, 9, 8) }
-
-      it "returns no periods" do
-        expect(periods.until(terminus).count).to eq 0
-      end
-    end
-
-    context "when one period occurs in the range" do
-      let(:origin)   { Time.utc(2006, 1, 8, 0) }
-      let(:terminus) { Time.utc(2006, 1, 9, 18) }
-
-      it "returns the period" do
-        expect(periods.until(terminus).to_a).to eq [
-          Biz::TimeSegment.new(
-            Time.utc(2006, 1, 9, 9),
-            Time.utc(2006, 1, 9, 17)
-          )
-        ]
-      end
-    end
-
-    context "when multiple periods occur in the range" do
-      let(:origin)   { Time.utc(2006, 1, 8, 0) }
-      let(:terminus) { Time.utc(2006, 1, 10, 17) }
-
-      it "returns the periods" do
-        expect(periods.until(terminus).to_a).to eq [
-          Biz::TimeSegment.new(
-            Time.utc(2006, 1, 9, 9),
-            Time.utc(2006, 1, 9, 17)
-          ),
-          Biz::TimeSegment.new(
-            Time.utc(2006, 1, 10, 10),
-            Time.utc(2006, 1, 10, 16)
-          )
-        ]
-      end
-    end
-
-    context "when the terminus is in the middle of a period" do
-      let(:origin)   { Time.utc(2006, 1, 8, 0) }
-      let(:terminus) { Time.utc(2006, 1, 9, 12) }
-
-      it "includes only the contained part as a period" do
-        expect(periods.until(terminus).to_a).to include(
-          Biz::TimeSegment.new(
-            Time.utc(2006, 1, 9, 9),
-            Time.utc(2006, 1, 9, 12)
-          )
-        )
-      end
-    end
-
-    context "when the origin is in the middle of a period" do
-      let(:origin)   { Time.utc(2006, 1, 9, 12) }
-      let(:terminus) { Time.utc(2006, 1, 9, 18) }
-
-      it "includes only the contained part as a period" do
-        expect(periods.until(terminus).to_a).to include(
-          Biz::TimeSegment.new(
-            Time.utc(2006, 1, 9, 12),
-            Time.utc(2006, 1, 9, 17)
-          )
-        )
-      end
-    end
-
-    context "when the range is contained by a period" do
-      let(:origin)   { Time.utc(2006, 1, 9, 10) }
-      let(:terminus) { Time.utc(2006, 1, 9, 14) }
-
-      it "returns only the contained part of the period" do
-        expect(periods.until(terminus).to_a).to include(
-          Biz::TimeSegment.new(
-            Time.utc(2006, 1, 9, 10),
-            Time.utc(2006, 1, 9, 14)
-          )
-        )
-      end
-    end
-
-    context "when the endpoints are contained by two different periods" do
-      let(:origin)   { Time.utc(2006, 1, 9, 14) }
-      let(:terminus) { Time.utc(2006, 1, 10, 12) }
-
-      it "returns the contained parts of the periods" do
-        expect(periods.until(terminus).to_a).to eq [
-          Biz::TimeSegment.new(
-            Time.utc(2006, 1, 9, 14),
-            Time.utc(2006, 1, 9, 17)
-          ),
-          Biz::TimeSegment.new(
-            Time.utc(2006, 1, 10, 10),
-            Time.utc(2006, 1, 10, 12)
-          )
-        ]
-      end
-    end
-
-    context "when the range spans multiple weeks" do
-      let(:origin)   { Time.utc(2006, 1, 9, 8) }
-      let(:terminus) { Time.utc(2006, 2, 6, 8) }
-
-      it "returns all of the periods" do
-        expect(periods.until(terminus).count).to eq 24
-      end
-    end
-
-    context "when the terminus is before the origin" do
-      let(:origin)   { Time.utc(2006, 1, 9, 8) }
-      let(:terminus) { Time.utc(2006, 1, 1, 8) }
-
-      it "returns no periods" do
-        expect(periods.until(terminus).count).to eq 0
-      end
-    end
-
-    context "when a holiday contains a period" do
-      let(:origin)   { Time.utc(2006, 1, 9, 8) }
-      let(:terminus) { Time.utc(2006, 1, 9, 18) }
-
-      let(:holidays) { [Date.new(2006, 1, 9), Date.new(2006, 1, 10)] }
-
-      it "does not include the period" do
-        expect(periods.until(terminus).count).to eq 0
-      end
+      ]
     end
   end
 
-  describe "#for" do
-    context "when the origin has second precision" do
-      let(:origin)   { Time.utc(2006, 1, 9, 9, 32, 42) }
-      let(:duration) { Biz::Duration.hours(2) }
+  context "when multiple weeks of periods are requested" do
+    let(:origin) { Time.utc(2006, 1, 1) }
 
-      it "returns a period with second precision" do
-        expect(periods.for(duration).to_a).to include(
-          Biz::TimeSegment.new(
-            Time.utc(2006, 1, 9, 9, 32, 42),
-            Time.utc(2006, 1, 9, 11, 32, 42)
-          )
+    it "returns the proper intervals" do
+      expect(periods.take(12).to_a).to eq [
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 2, 9),
+          Time.utc(2006, 1, 2, 17)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 3, 10),
+          Time.utc(2006, 1, 3, 16)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 4, 9),
+          Time.utc(2006, 1, 4, 17)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 5, 10),
+          Time.utc(2006, 1, 5, 16)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 6, 9),
+          Time.utc(2006, 1, 6, 17)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 11),
+          Time.utc(2006, 1, 7, 14, 30)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 9, 9),
+          Time.utc(2006, 1, 9, 17)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 10, 10),
+          Time.utc(2006, 1, 10, 16)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 11, 9),
+          Time.utc(2006, 1, 11, 17)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 12, 10),
+          Time.utc(2006, 1, 12, 16)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 13, 9),
+          Time.utc(2006, 1, 13, 17)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 14, 11),
+          Time.utc(2006, 1, 14, 14, 30)
         )
-      end
+      ]
     end
+  end
 
-    context "when the duration has second precision" do
-      let(:origin)   { Time.utc(2006, 1, 9, 9, 30) }
-      let(:duration) { Biz::Duration.seconds(127) }
+  context "when the origin is outside a period" do
+    let(:origin) { Time.utc(2006, 1, 1) }
 
-      it "returns a period with second precision" do
-        expect(periods.for(duration).to_a).to include(
-          Biz::TimeSegment.new(
-            Time.utc(2006, 1, 9, 9, 30),
-            Time.utc(2006, 1, 9, 9, 32, 7)
-          )
+    it "returns a full period first" do
+      expect(periods.first).to eq(
+        Biz::TimeSegment.new(Time.utc(2006, 1, 2, 9), Time.utc(2006, 1, 2, 17))
+      )
+    end
+  end
+
+  context "when the origin is inside a period" do
+    let(:origin) { Time.utc(2006, 1, 2, 12) }
+
+    it "returns a partial period first" do
+      expect(periods.first).to eq(
+        Biz::TimeSegment.new(Time.utc(2006, 1, 2, 12), Time.utc(2006, 1, 2, 17))
+      )
+    end
+  end
+
+  context "when a period on a holiday is encountered" do
+    let(:origin) { Time.utc(2006, 1, 14) }
+
+    it "does not include that period" do
+      expect(periods.take(2).to_a).to eq [
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 14, 11),
+          Time.utc(2006, 1, 14, 14, 30)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 17, 10),
+          Time.utc(2006, 1, 17, 16)
         )
-      end
+      ]
     end
+  end
 
-    context "when the origin is in a period" do
-      let(:origin) { Time.utc(2006, 1, 9, 12) }
+  context "when multiple periods on holidays are encountered" do
+    let(:origin) { Time.utc(2006, 1, 14) }
 
-      context "and the duration is contained in the same period" do
-        let(:duration) { Biz::Duration.hours(2) }
-
-        it "includes the correct period" do
-          expect(periods.for(duration).to_a).to include(
-            Biz::TimeSegment.new(
-              Time.utc(2006, 1, 9, 12),
-              Time.utc(2006, 1, 9, 14)
-            )
-          )
-        end
-      end
-
-      context "and the duration extends to the edge of the period" do
-        let(:duration) { Biz::Duration.hours(5) }
-
-        it "includes the correct period" do
-          expect(periods.for(duration).to_a).to include(
-            Biz::TimeSegment.new(
-              Time.utc(2006, 1, 9, 12),
-              Time.utc(2006, 1, 9, 17)
-            )
-          )
-        end
-      end
-
-      context "and the duration extends beyond the period" do
-        let(:duration) { Biz::Duration.hours(8) }
-
-        it "returns the correct periods" do
-          expect(periods.for(duration).to_a).to eq [
-            Biz::TimeSegment.new(
-              Time.utc(2006, 1, 9, 12),
-              Time.utc(2006, 1, 9, 17)
-            ),
-            Biz::TimeSegment.new(
-              Time.utc(2006, 1, 10, 10),
-              Time.utc(2006, 1, 10, 13)
-            )
-          ]
-        end
-      end
-    end
-
-    context "when the origin is not in a period" do
-      let(:origin) { Time.utc(2006, 1, 9, 8) }
-
-      context "and the duration is shorter than the next period" do
-        let(:duration) { Biz::Duration.hours(2) }
-
-        it "returns a part of the next period" do
-          expect(periods.for(duration).to_a).to include(
-            Biz::TimeSegment.new(
-              Time.utc(2006, 1, 9, 9),
-              Time.utc(2006, 1, 9, 11)
-            )
-          )
-        end
-      end
-
-      context "and the duration is longer than the next period" do
-        let(:duration) { Biz::Duration.hours(9) }
-
-        it "includes a part of the following period" do
-          expect(periods.for(duration).to_a).to include(
-            Biz::TimeSegment.new(
-              Time.utc(2006, 1, 10, 10),
-              Time.utc(2006, 1, 10, 11)
-            )
-          )
-        end
-      end
-    end
-
-    context "when the duration spans multiple weeks" do
-      let(:origin)   { Time.utc(2006, 1, 9, 8) }
-      let(:duration) { Biz::Duration.hours(158) }
-
-      it "returns all of the periods" do
-        expect(periods.for(duration).count).to eq 24
-      end
+    it "does not include any of those periods" do
+      expect(periods.take(3).to_a).to eq [
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 14, 11),
+          Time.utc(2006, 1, 14, 14, 30)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 17, 10),
+          Time.utc(2006, 1, 17, 16)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 19, 10),
+          Time.utc(2006, 1, 19, 16)
+        )
+      ]
     end
   end
 end
