@@ -5,7 +5,6 @@ require 'date'
 require 'forwardable'
 require 'set'
 
-require 'adamantium'
 require 'equalizer'
 require 'memoizable'
 require 'tzinfo'

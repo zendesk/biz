@@ -1,7 +1,7 @@
 module Biz
   class Schedule
 
-    include Adamantium
+    include Memoizable
 
     def initialize(&block)
       @configuration = Configuration.new(&block)
@@ -39,8 +39,7 @@ module Biz
 
     memoize :periods,
             :intervals,
-            :holidays,
-            :time_zone
+            :holidays
 
     protected
 
