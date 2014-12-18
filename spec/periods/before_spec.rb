@@ -20,6 +20,8 @@ RSpec.describe Biz::Periods::Before do
     end
   }
 
+  let(:origin) { Time.utc(2006, 1, 8) }
+
   subject(:periods) { described_class.new(schedule, origin) }
 
   context "when one week of periods is requested" do
@@ -167,6 +169,16 @@ RSpec.describe Biz::Periods::Before do
           Time.utc(2006, 1, 14, 14, 30)
         )
       ]
+    end
+  end
+
+  describe "#timeline" do
+    it "returns a timeline" do
+      expect(periods.timeline).to be_a Biz::Timeline
+    end
+
+    it "configures the timeline to use its periods" do
+      expect(periods.timeline.periods).to be periods
     end
   end
 end

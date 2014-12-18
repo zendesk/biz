@@ -7,6 +7,10 @@ module Biz
       @configuration = Configuration.new(&block)
     end
 
+    def periods
+      Periods.new(self)
+    end
+
     def intervals
       configuration.work_hours.flat_map { |weekday, hours|
         hours.map { |start_timestamp, end_timestamp|
@@ -33,7 +37,8 @@ module Biz
       TZInfo::Timezone.get(configuration.time_zone)
     end
 
-    memoize :intervals,
+    memoize :periods,
+            :intervals,
             :holidays,
             :time_zone
 

@@ -12,6 +12,10 @@ module Biz
         super(periods) do |yielder, period| yielder << period end
       end
 
+      def timeline
+        Timeline.new(self)
+      end
+
       private
 
       def periods

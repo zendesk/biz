@@ -20,6 +20,16 @@ RSpec.describe Biz::Schedule do
     end
   }
 
+  describe "#periods" do
+    it "returns a set of periods" do
+      expect(schedule.periods).to be_a Biz::Periods
+    end
+
+    it "configures the periods to use the schedule" do
+      expect(schedule.periods.schedule).to be schedule
+    end
+  end
+
   describe "#intervals" do
     it "returns the proper intervals" do
       expect(schedule.intervals).to eq [
