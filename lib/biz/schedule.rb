@@ -34,7 +34,7 @@ module Biz
     end
 
     def time_zone
-      TZInfo::Timezone.get(configuration.time_zone)
+      TZInfo::TimezoneProxy.new(configuration.time_zone)
     end
 
     memoize :periods,
