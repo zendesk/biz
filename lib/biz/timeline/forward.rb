@@ -1,6 +1,6 @@
 module Biz
   class Timeline
-    class After < Abstract
+    class Forward < Abstract
 
       private
 
@@ -8,12 +8,8 @@ module Biz
         period.end_time >= time
       end
 
-      def comparison_period(terminus)
-        TimeSegment.new(origin, terminus)
-      end
-
-      def boundary
-        TimeSegment.after(origin)
+      def comparison_period(period, terminus)
+        TimeSegment.new(period.start_time, terminus)
       end
 
       def duration_period(period, duration)

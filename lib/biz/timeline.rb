@@ -1,6 +1,6 @@
 require 'biz/timeline/abstract'
-require 'biz/timeline/after'
-require 'biz/timeline/before'
+require 'biz/timeline/forward'
+require 'biz/timeline/backward'
 
 module Biz
   class Timeline
@@ -11,12 +11,12 @@ module Biz
       @periods = periods
     end
 
-    def after(origin)
-      After.new(periods, origin)
+    def forward
+      Forward.new(periods)
     end
 
-    def before(origin)
-      Before.new(periods, origin)
+    def backward
+      Backward.new(periods)
     end
 
   end

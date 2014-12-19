@@ -64,12 +64,8 @@ module Biz
       self.class.new(seconds - other.seconds)
     end
 
-    def negative?
-      seconds < 0
-    end
-
-    def zero?
-      seconds == 0
+    def positive?
+      seconds > 0
     end
 
     def abs

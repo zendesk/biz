@@ -123,38 +123,12 @@ RSpec.describe Biz::Duration do
     end
   end
 
-  describe "#negative?" do
-    context "when the duration is negative" do
-      let(:duration) { described_class.new(-1) }
-
-      it "returns true" do
-        expect(duration.negative?).to eq true
-      end
-    end
-
-    context "when the duration is positive" do
-      let(:duration) { described_class.new(1) }
-
-      it "returns false" do
-        expect(duration.negative?).to eq false
-      end
-    end
-
+  describe "#positive?" do
     context "when the duration is zero" do
       let(:duration) { described_class.new(0) }
 
       it "returns false" do
-        expect(duration.negative?).to eq false
-      end
-    end
-  end
-
-  describe "#zero?" do
-    context "when the duration is zero" do
-      let(:duration) { described_class.new(0) }
-
-      it "returns true" do
-        expect(duration.zero?).to eq true
+        expect(duration.positive?).to eq false
       end
     end
 
@@ -162,15 +136,15 @@ RSpec.describe Biz::Duration do
       let(:duration) { described_class.new(-1) }
 
       it "returns false" do
-        expect(duration.zero?).to eq false
+        expect(duration.positive?).to eq false
       end
     end
 
     context "when the duration is positive" do
       let(:duration) { described_class.new(1) }
 
-      it "returns false" do
-        expect(duration.zero?).to eq false
+      it "returns true" do
+        expect(duration.positive?).to eq true
       end
     end
   end

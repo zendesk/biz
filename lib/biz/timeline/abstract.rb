@@ -2,19 +2,17 @@ module Biz
   class Timeline
     class Abstract
 
-      attr_reader :periods,
-                  :origin
+      attr_reader :periods
 
-      def initialize(periods, origin)
-        @periods = periods
-        @origin  = origin
+      def initialize(periods)
+        @periods = periods.lazy
       end
 
       def until(terminus)
         return enum_for(:until, terminus) unless block_given?
 
         periods.map { |period|
-          period & comparison_period(terminus)
+          period & comparison_period(period, terminus)
         }.each do |period|
           yield period unless period.empty?
 
@@ -28,15 +26,13 @@ module Biz
         remaining = duration
 
         periods.map { |period|
-          period & boundary
-        }.map { |period|
           period & duration_period(period, remaining)
         }.each do |period|
           yield period unless period.empty?
 
           remaining -= period.duration
 
-          break if remaining.zero?
+          break unless remaining.positive?
         end
       end
 
