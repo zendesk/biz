@@ -13,19 +13,7 @@ module Biz
 
     def intervals
       configuration.work_hours.flat_map { |weekday, hours|
-        hours.map { |start_timestamp, end_timestamp|
-          Interval.new(
-            WeekTime.new(
-              DayOfWeek.from_symbol(weekday).start_minute +
-              DayTime.from_timestamp(start_timestamp).day_minute
-            ),
-            WeekTime.new(
-              DayOfWeek.from_symbol(weekday).start_minute +
-                DayTime.from_timestamp(end_timestamp).day_minute
-            ),
-            time_zone
-          )
-        }
+        weekday_intervals(weekday, hours)
       }.sort_by(&:start_time)
     end
 
@@ -37,13 +25,31 @@ module Biz
       TZInfo::TimezoneProxy.new(configuration.time_zone)
     end
 
-    memoize :periods,
-            :intervals,
-            :holidays
-
     protected
 
     attr_reader :configuration
+
+    private
+
+    def weekday_intervals(weekday, hours)
+      hours.map { |start_timestamp, end_timestamp|
+        Interval.new(
+          WeekTime.new(
+            DayOfWeek.from_symbol(weekday).start_minute +
+            DayTime.from_timestamp(start_timestamp).day_minute
+          ),
+          WeekTime.new(
+            DayOfWeek.from_symbol(weekday).start_minute +
+              DayTime.from_timestamp(end_timestamp).day_minute
+          ),
+          time_zone
+        )
+      }
+    end
+
+    memoize :periods,
+            :intervals,
+            :holidays
 
   end
 end
