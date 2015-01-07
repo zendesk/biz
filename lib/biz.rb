@@ -1,13 +1,14 @@
-module Biz
-end
-
 require 'date'
 require 'forwardable'
 require 'set'
 
+require 'abstract_type'
 require 'equalizer'
 require 'memoizable'
 require 'tzinfo'
+
+module Biz
+end
 
 require 'biz/version'
 

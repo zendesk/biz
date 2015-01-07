@@ -35,14 +35,6 @@ RSpec.describe Biz::DayOfWeek do
     end
   end
 
-  describe ".from_week_time" do
-    let(:week_time) { Biz::WeekTime.new(week_minute(wday: 3, hour: 0)) }
-
-    it "creates the proper day of the week" do
-      expect(described_class.from_week_time(week_time).wday).to eq 3
-    end
-  end
-
   describe ".from_date" do
     let(:date) { Date.new(2006, 1, 3) }
 
@@ -71,7 +63,7 @@ RSpec.describe Biz::DayOfWeek do
 
   describe "#contains?" do
     context "when the week time is at the beginning of the day of the week" do
-      let(:week_time) { Biz::WeekTime.new(week_minute(wday: 1, hour: 0)) }
+      let(:week_time) { Biz::WeekTime.build(week_minute(wday: 1, hour: 0)) }
 
       it "returns true" do
         expect(day.contains?(week_time)).to eq true
@@ -79,7 +71,7 @@ RSpec.describe Biz::DayOfWeek do
     end
 
     context "when the week time is in the middle of the day of the week" do
-      let(:week_time) { Biz::WeekTime.new(week_minute(wday: 1, hour: 12)) }
+      let(:week_time) { Biz::WeekTime.build(week_minute(wday: 1, hour: 12)) }
 
       it "returns true" do
         expect(day.contains?(week_time)).to eq true
@@ -87,7 +79,7 @@ RSpec.describe Biz::DayOfWeek do
     end
 
     context "when the week time is at the end of the day of the week" do
-      let(:week_time) { Biz::WeekTime.new(week_minute(wday: 2, hour: 0)) }
+      let(:week_time) { Biz::WeekTime.build(week_minute(wday: 2, hour: 0)) }
 
       it "returns true" do
         expect(day.contains?(week_time)).to eq true
@@ -95,7 +87,7 @@ RSpec.describe Biz::DayOfWeek do
     end
 
     context "when the week time is not within the day of the week" do
-      let(:week_time) { Biz::WeekTime.new(week_minute(wday: 3, hour: 12)) }
+      let(:week_time) { Biz::WeekTime.build(week_minute(wday: 3, hour: 12)) }
 
       it "returns false" do
         expect(day.contains?(week_time)).to eq false
@@ -120,6 +112,24 @@ RSpec.describe Biz::DayOfWeek do
       expect(day.week_minute(day_minute(hour: 9, min: 30))).to eq(
         week_minute(wday: 1, hour: 9, min: 30)
       )
+    end
+  end
+
+  describe "#day_minute" do
+    context "when the week minute occurs in the middle of a day" do
+      it "returns the corresponding day minute" do
+        expect(day.day_minute(week_minute(wday: 2, hour: 9, min: 30))).to eq(
+          day_minute(hour: 9, min: 30)
+        )
+      end
+    end
+
+    context "when the week minute is on the day boundary" do
+      it "returns the last minute of the day" do
+        expect(day.day_minute(week_minute(wday: 2, hour: 24))).to eq(
+          day_minute(hour: 24)
+        )
+      end
     end
   end
 

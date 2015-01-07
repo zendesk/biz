@@ -53,6 +53,10 @@ module Biz
       start_minute + day_minute
     end
 
+    def day_minute(week_minute)
+      (week_minute - 1) % Time::MINUTES_IN_DAY + 1
+    end
+
     def symbol
       SYMBOLS.fetch(wday)
     end

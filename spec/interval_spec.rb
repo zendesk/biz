@@ -1,6 +1,6 @@
 RSpec.describe Biz::Interval do
-  let(:start_time) { Biz::WeekTime.new(week_minute(wday: 1, hour: 9)) }
-  let(:end_time)   { Biz::WeekTime.new(week_minute(wday: 1, hour: 17)) }
+  let(:start_time) { Biz::WeekTime.start(week_minute(wday: 1, hour: 9)) }
+  let(:end_time)   { Biz::WeekTime.end(week_minute(wday: 1, hour: 17)) }
   let(:time_zone)  { TZInfo::Timezone.get('America/Los_Angeles') }
 
   subject(:interval) { described_class.new(start_time, end_time, time_zone) }

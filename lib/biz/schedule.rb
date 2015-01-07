@@ -34,11 +34,11 @@ module Biz
     def weekday_intervals(weekday, hours)
       hours.map { |start_timestamp, end_timestamp|
         Interval.new(
-          WeekTime.new(
+          WeekTime.start(
             DayOfWeek.from_symbol(weekday).start_minute +
-            DayTime.from_timestamp(start_timestamp).day_minute
+              DayTime.from_timestamp(start_timestamp).day_minute
           ),
-          WeekTime.new(
+          WeekTime.end(
             DayOfWeek.from_symbol(weekday).start_minute +
               DayTime.from_timestamp(end_timestamp).day_minute
           ),

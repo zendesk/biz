@@ -40,7 +40,9 @@ RSpec.describe Biz::Time do
 
   describe "#during_week" do
     let(:week)      { Biz::Week.new(1) }
-    let(:week_time) { Biz::WeekTime.new(week_minute(wday: 0, hour: 1, min: 5)) }
+    let(:week_time) {
+      Biz::WeekTime.build(week_minute(wday: 0, hour: 1, min: 5))
+    }
 
     let(:target_time) { time_zone.local_to_utc(Time.local(2006, 1, 8, 1, 5)) }
 

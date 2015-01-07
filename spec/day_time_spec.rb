@@ -33,18 +33,6 @@ RSpec.describe Biz::DayTime do
     end
   end
 
-  describe ".from_week_time" do
-    let(:week_time) {
-      Biz::WeekTime.new(week_minute(wday: 3, hour: 7, min: 30))
-    }
-
-    it "creates a day time from the given week_time" do
-      expect(described_class.from_week_time(week_time).day_minute).to(
-        eq day_minute(hour: 7, min: 30)
-      )
-    end
-  end
-
   describe ".from_timestamp" do
     context "when the timestamp is malformed" do
       let(:timestamp) { 'timestamp' }

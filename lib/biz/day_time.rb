@@ -12,10 +12,6 @@ module Biz
       new(hour * Time::MINUTES_IN_HOUR)
     end
 
-    def self.from_week_time(week_time)
-      new(week_time.week_minute % Time::MINUTES_IN_DAY)
-    end
-
     def self.from_timestamp(timestamp)
       timestamp.match(TIMESTAMP_PATTERN) { |match|
         new(match[:hour].to_i * Time::MINUTES_IN_HOUR + match[:minute].to_i)

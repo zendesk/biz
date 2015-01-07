@@ -34,33 +34,33 @@ RSpec.describe Biz::Schedule do
     it "returns the proper intervals" do
       expect(schedule.intervals).to eq [
         Biz::Interval.new(
-          Biz::WeekTime.new(week_minute(wday: 1, hour: 9)),
-          Biz::WeekTime.new(week_minute(wday: 1, hour: 17)),
+          Biz::WeekTime.start(week_minute(wday: 1, hour: 9)),
+          Biz::WeekTime.end(week_minute(wday: 1, hour: 17)),
           TZInfo::Timezone.get('Etc/UTC')
         ),
         Biz::Interval.new(
-          Biz::WeekTime.new(week_minute(wday: 2, hour: 10)),
-          Biz::WeekTime.new(week_minute(wday: 2, hour: 16)),
+          Biz::WeekTime.start(week_minute(wday: 2, hour: 10)),
+          Biz::WeekTime.end(week_minute(wday: 2, hour: 16)),
           TZInfo::Timezone.get('Etc/UTC')
         ),
         Biz::Interval.new(
-          Biz::WeekTime.new(week_minute(wday: 3, hour: 9)),
-          Biz::WeekTime.new(week_minute(wday: 3, hour: 17)),
+          Biz::WeekTime.start(week_minute(wday: 3, hour: 9)),
+          Biz::WeekTime.end(week_minute(wday: 3, hour: 17)),
           TZInfo::Timezone.get('Etc/UTC')
         ),
         Biz::Interval.new(
-          Biz::WeekTime.new(week_minute(wday: 4, hour: 10)),
-          Biz::WeekTime.new(week_minute(wday: 4, hour: 16)),
+          Biz::WeekTime.start(week_minute(wday: 4, hour: 10)),
+          Biz::WeekTime.end(week_minute(wday: 4, hour: 16)),
           TZInfo::Timezone.get('Etc/UTC')
         ),
         Biz::Interval.new(
-          Biz::WeekTime.new(week_minute(wday: 5, hour: 9)),
-          Biz::WeekTime.new(week_minute(wday: 5, hour: 17)),
+          Biz::WeekTime.start(week_minute(wday: 5, hour: 9)),
+          Biz::WeekTime.end(week_minute(wday: 5, hour: 17)),
           TZInfo::Timezone.get('Etc/UTC')
         ),
         Biz::Interval.new(
-          Biz::WeekTime.new(week_minute(wday: 6, hour: 11)),
-          Biz::WeekTime.new(week_minute(wday: 6, hour: 14, min: 30)),
+          Biz::WeekTime.start(week_minute(wday: 6, hour: 11)),
+          Biz::WeekTime.end(week_minute(wday: 6, hour: 14, min: 30)),
           TZInfo::Timezone.get('Etc/UTC')
         )
       ]
@@ -77,13 +77,13 @@ RSpec.describe Biz::Schedule do
       it "returns the intervals in order" do
         expect(schedule.intervals).to eq [
           Biz::Interval.new(
-            Biz::WeekTime.new(week_minute(wday: 1, hour: 9)),
-            Biz::WeekTime.new(week_minute(wday: 1, hour: 17)),
+            Biz::WeekTime.start(week_minute(wday: 1, hour: 9)),
+            Biz::WeekTime.end(week_minute(wday: 1, hour: 17)),
             TZInfo::Timezone.get('Etc/UTC')
           ),
           Biz::Interval.new(
-            Biz::WeekTime.new(week_minute(wday: 2, hour: 10)),
-            Biz::WeekTime.new(week_minute(wday: 2, hour: 16)),
+            Biz::WeekTime.start(week_minute(wday: 2, hour: 10)),
+            Biz::WeekTime.end(week_minute(wday: 2, hour: 16)),
             TZInfo::Timezone.get('Etc/UTC')
           )
         ]
