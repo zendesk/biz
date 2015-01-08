@@ -3,6 +3,60 @@ RSpec.describe Biz::WeekTime::End do
     described_class.new(week_minute(wday: 0, hour: 9, min: 30))
   }
 
+  describe "#wday" do
+    context "when the time is contained within a day" do
+      subject(:week_time) {
+        described_class.new(week_minute(wday: 0, hour: 12))
+      }
+
+      it "returns the weekday integer for that day" do
+        expect(week_time.wday).to eq 0
+      end
+    end
+
+    context "when the time is on a day boundary" do
+      subject(:week_time) {
+        described_class.new(week_minute(wday: 1, hour: 0))
+      }
+
+      it "returns the weekday integer for the endnight day" do
+        expect(week_time.wday).to eq 0
+      end
+    end
+
+    context "when the time is the last minute of the week" do
+      subject(:week_time) {
+        described_class.new(week_minute(wday: 7, hour: 0))
+      }
+
+      it "returns the weekday integer for Saturday" do
+        expect(week_time.wday).to eq 6
+      end
+    end
+  end
+
+  describe "#wday_symbol" do
+    context "when the time is contained within a day" do
+      subject(:week_time) {
+        described_class.new(week_minute(wday: 0, hour: 12))
+      }
+
+      it "returns the weekday symbol for that day" do
+        expect(week_time.wday_symbol).to eq :sun
+      end
+    end
+
+    context "when the time is on a day boundary" do
+      subject(:week_time) {
+        described_class.new(week_minute(wday: 1, hour: 0))
+      }
+
+      it "returns the weekday symbol for the endnight day" do
+        expect(week_time.wday_symbol).to eq :sun
+      end
+    end
+  end
+
   describe "#day_minute" do
     it "returns the corresponding day minute" do
       expect(week_time.day_minute).to eq day_minute(hour: 9, min: 30)

@@ -18,6 +18,20 @@ module Biz
 
       attr_reader :week_minute
 
+      def initialize(week_minute)
+        @week_minute = Integer(week_minute)
+      end
+
+      def wday_symbol
+        day_of_week.symbol
+      end
+
+      def coerce(other)
+        [self.class.new(other), self]
+      end
+
+      delegate wday: :day_of_week
+
       delegate %i[
         hour
         minute
@@ -33,28 +47,6 @@ module Biz
         to_int
       ] => :week_minute
 
-      def initialize(week_minute)
-        @week_minute = Integer(week_minute)
-
-        @day = DayOfWeek.from_week_time(self)
-      end
-
-      def wday
-        week_minute / Time::MINUTES_IN_DAY % Time::DAYS_IN_WEEK
-      end
-
-      def wday_symbol
-        day.symbol
-      end
-
-      def week(base_week)
-        base_week + relative_week
-      end
-
-      def coerce(other)
-        [self.class.new(other), self]
-      end
-
       protected
 
       def <=>(other)
@@ -62,8 +54,6 @@ module Biz
 
         week_minute <=> other.to_i
       end
-
-      attr_reader :day
 
       private
 
@@ -77,11 +67,8 @@ module Biz
         )
       end
 
-      def relative_week
-        Week.new(week_minute / Time::MINUTES_IN_WEEK)
-      end
-
-      abstract_method :day_time
+      abstract_method :day_of_week,
+                      :day_time
 
     end
   end

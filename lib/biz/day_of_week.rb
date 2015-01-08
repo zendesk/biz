@@ -21,8 +21,6 @@ module Biz
 
     class << self
 
-      alias_method :from_week_time, :from_time
-
       alias_method :from_date, :from_time
 
     end

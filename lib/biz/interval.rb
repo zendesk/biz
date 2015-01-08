@@ -20,7 +20,7 @@ module Biz
     def to_time_segment(week)
       TimeSegment.new(
         *endpoints.map { |endpoint|
-          Time.new(time_zone).during_week(endpoint.week(week), endpoint)
+          Time.new(time_zone).during_week(week, endpoint)
         }
       )
     end

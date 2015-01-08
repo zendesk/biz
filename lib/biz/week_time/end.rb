@@ -4,15 +4,16 @@ module Biz
 
       private
 
-      def day_time
-        DayTime.new(
-          DayOfWeek::DAYS.find { |day_of_week|
-            day_of_week.contains?(week_minute)
-          }.day_minute(week_minute)
-        )
+      def day_of_week
+        DayOfWeek::DAYS.find { |day| day.contains?(week_minute) }
       end
 
-      memoize :day_time
+      def day_time
+        DayTime.new(day_of_week.day_minute(week_minute))
+      end
+
+      memoize :day_of_week,
+              :day_time
 
     end
   end
