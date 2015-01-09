@@ -31,6 +31,10 @@ module Biz
       start_time >= end_time
     end
 
+    def contain?(time)
+      (start_time..end_time).cover?(time)
+    end
+
     def &(other)
       self.class.new(
         lower_bound(other),

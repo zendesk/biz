@@ -1,35 +1,56 @@
 module Biz
   class Duration
 
-    UNITS = Set[:seconds, :minutes, :hours, :days]
+    UNITS = Set[
+      :second,
+      :seconds,
+      :minute,
+      :minutes,
+      :hour,
+      :hours,
+      :day,
+      :days
+    ]
 
     include Equalizer.new(:seconds)
     include Comparable
 
     extend Forwardable
 
-    def self.with_unit(unit, duration)
-      unless UNITS.include?(unit)
-        fail ArgumentError, 'The unit is not supported.'
+    class << self
+
+      def with_unit(scalar, unit)
+        unless UNITS.include?(unit)
+          fail ArgumentError, 'The unit is not supported.'
+        end
+
+        public_send(unit, scalar)
       end
 
-      public_send(unit, duration)
-    end
+      def seconds(seconds)
+        new(seconds)
+      end
 
-    def self.seconds(seconds)
-      new(seconds)
-    end
+      alias_method :second, :seconds
 
-    def self.minutes(minutes)
-      new(minutes * Time::MINUTE)
-    end
+      def minutes(minutes)
+        new(minutes * Time::MINUTE)
+      end
 
-    def self.hours(hours)
-      new(hours * Time::HOUR)
-    end
+      alias_method :minute, :minutes
 
-    def self.days(days)
-      new(days * Time::DAY)
+      def hours(hours)
+        new(hours * Time::HOUR)
+      end
+
+      alias_method :hour, :hours
+
+      def days(days)
+        new(days * Time::DAY)
+      end
+
+      alias_method :day, :days
+
     end
 
     attr_reader :seconds

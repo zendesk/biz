@@ -52,7 +52,17 @@ end
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+# Find the time after an amount of elapsed business time
+Biz.time(30, :minutes).before(Time.utc(2015, 1, 1, 11, 45))
+Biz.time(2, :hours).after(Time.utc(2015, 12, 25, 9, 30))
+
+# Find the amount of elapsed business time between two times
+Biz.within(Time.utc(2015, 3, 7), Time.utc(2015, 3, 14)).in_seconds
+
+# Determine if a time is in business hours
+Biz.working?(Time.utc(2015, 1, 10, 9))
+```
 
 ## Contributing
 

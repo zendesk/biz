@@ -1,13 +1,5 @@
 RSpec.describe Biz::Timeline::Forward do
-  let(:periods) {
-    Enumerator.new do |yielder|
-      (2006..Float::INFINITY).each do |year|
-        yielder << Biz::TimeSegment.new(Time.utc(year), Time.utc(year, 2))
-      end
-    end
-  }
-
-  subject(:timeline) { described_class.new(periods) }
+  subject(:timeline) { described_class.new(forward_periods) }
 
   describe "#until" do
     context "when the terminus has second precision" do

@@ -1,55 +1,40 @@
 module Biz
   class Schedule
 
-    include Memoizable
+    extend Forwardable
 
     def initialize(&block)
       @configuration = Configuration.new(&block)
     end
 
+    delegate %i[
+      intervals
+      holidays
+      time_zone
+    ] => :configuration
+
     def periods
       Periods.new(self)
     end
 
-    def intervals
-      configuration.work_hours.flat_map { |weekday, hours|
-        weekday_intervals(weekday, hours)
-      }.sort_by(&:start_time)
+    def time(scalar, unit)
+      Calculation::ForDuration.new(periods, Duration.with_unit(scalar, unit))
     end
 
-    def holidays
-      configuration.holidays.map { |date| Holiday.new(date, time_zone) }
+    def within(origin, terminus)
+      Calculation::DurationWithin.new(
+        periods,
+        TimeSegment.new(origin, terminus)
+      )
     end
 
-    def time_zone
-      TZInfo::TimezoneProxy.new(configuration.time_zone)
+    def working?(time)
+      Calculation::Active.new(periods, time).active?
     end
 
     protected
 
     attr_reader :configuration
-
-    private
-
-    def weekday_intervals(weekday, hours)
-      hours.map { |start_timestamp, end_timestamp|
-        Interval.new(
-          WeekTime.start(
-            DayOfWeek.from_symbol(weekday).start_minute +
-              DayTime.from_timestamp(start_timestamp).day_minute
-          ),
-          WeekTime.end(
-            DayOfWeek.from_symbol(weekday).start_minute +
-              DayTime.from_timestamp(end_timestamp).day_minute
-          ),
-          time_zone
-        )
-      }
-    end
-
-    memoize :periods,
-            :intervals,
-            :holidays
 
   end
 end

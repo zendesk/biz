@@ -32,7 +32,7 @@ RSpec.describe Biz::Duration do
   describe "#with_unit" do
     context "when called with a supported unit" do
       it "returns the proper duration" do
-        expect(described_class.with_unit(:days, 1)).to eq(
+        expect(described_class.with_unit(1, :day)).to eq(
           described_class.days(1)
         )
       end
@@ -40,7 +40,7 @@ RSpec.describe Biz::Duration do
 
     context "when called with an unsupported unit" do
       it "fails hard" do
-        expect { described_class.with_unit(:parsec, 1) }.to raise_error(
+        expect { described_class.with_unit(1, :parsec) }.to raise_error(
           ArgumentError
         )
       end
@@ -55,9 +55,25 @@ RSpec.describe Biz::Duration do
     end
   end
 
+  describe ".second" do
+    it "returns the proper duration" do
+      expect(described_class.second(60)).to eq(
+        described_class.new(in_seconds(seconds: 60))
+      )
+    end
+  end
+
   describe ".minutes" do
     it "returns the proper duration" do
       expect(described_class.minutes(60)).to eq(
+        described_class.new(in_seconds(minutes: 60))
+      )
+    end
+  end
+
+  describe ".minute" do
+    it "returns the proper duration" do
+      expect(described_class.minute(60)).to eq(
         described_class.new(in_seconds(minutes: 60))
       )
     end
@@ -71,9 +87,25 @@ RSpec.describe Biz::Duration do
     end
   end
 
+  describe ".hour" do
+    it "returns the proper duration" do
+      expect(described_class.hour(1)).to eq(
+        described_class.new(in_seconds(hours: 1))
+      )
+    end
+  end
+
   describe ".days" do
     it "returns the proper duration" do
       expect(described_class.days(1)).to eq(
+        described_class.new(in_seconds(days: 1))
+      )
+    end
+  end
+
+  describe ".day" do
+    it "returns the proper duration" do
+      expect(described_class.day(1)).to eq(
         described_class.new(in_seconds(days: 1))
       )
     end

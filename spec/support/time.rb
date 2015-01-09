@@ -52,6 +52,26 @@ module Biz
           args.fetch(:seconds, 0)
       end
 
+      def forward_periods
+        Enumerator.new do |yielder|
+          (2006..Float::INFINITY).each do |year|
+            yielder.yield(
+              Biz::TimeSegment.new(::Time.utc(year), ::Time.utc(year, 2))
+            )
+          end
+        end
+      end
+
+      def backward_periods
+        Enumerator.new do |yielder|
+          2006.downto(-Float::INFINITY).each do |year|
+            yielder.yield(
+              Biz::TimeSegment.new(::Time.utc(year), ::Time.utc(year, 2))
+            )
+          end
+        end
+      end
+
     end
   end
 end

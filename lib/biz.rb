@@ -1,4 +1,5 @@
 require 'date'
+require 'delegate'
 require 'forwardable'
 require 'set'
 
@@ -15,6 +16,7 @@ require 'biz/version'
 require 'biz/date'
 require 'biz/time'
 
+require 'biz/calculation'
 require 'biz/configuration'
 require 'biz/day'
 require 'biz/day_of_week'

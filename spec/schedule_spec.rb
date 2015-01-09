@@ -11,14 +11,33 @@ RSpec.describe Biz::Schedule do
   }
   let(:holidays)  { [Date.new(2006, 1, 1), Date.new(2006, 12, 25)] }
   let(:time_zone) { 'Etc/UTC' }
-
-  subject(:schedule) {
-    Biz::Schedule.new do |config|
-      config.work_hours = work_hours
-      config.holidays   = holidays
-      config.time_zone  = time_zone
+  let(:config)    {
+    proc do |c|
+      c.work_hours = work_hours
+      c.holidays   = holidays
+      c.time_zone  = time_zone
     end
   }
+
+  subject(:schedule) { Biz::Schedule.new(&config) }
+
+  describe "#intervals" do
+    it "delegates to the configuration" do
+      expect(schedule.intervals).to eq Biz::Configuration.new(&config).intervals
+    end
+  end
+
+  describe "#holidays" do
+    it "delegates to the configuration" do
+      expect(schedule.holidays).to eq Biz::Configuration.new(&config).holidays
+    end
+  end
+
+  describe "#time_zone" do
+    it "delegates to the configuration" do
+      expect(schedule.time_zone).to eq Biz::Configuration.new(&config).time_zone
+    end
+  end
 
   describe "#periods" do
     it "returns a set of periods" do
@@ -30,85 +49,37 @@ RSpec.describe Biz::Schedule do
     end
   end
 
-  describe "#intervals" do
-    it "returns the proper intervals" do
-      expect(schedule.intervals).to eq [
-        Biz::Interval.new(
-          Biz::WeekTime.start(week_minute(wday: 1, hour: 9)),
-          Biz::WeekTime.end(week_minute(wday: 1, hour: 17)),
-          TZInfo::Timezone.get('Etc/UTC')
-        ),
-        Biz::Interval.new(
-          Biz::WeekTime.start(week_minute(wday: 2, hour: 10)),
-          Biz::WeekTime.end(week_minute(wday: 2, hour: 16)),
-          TZInfo::Timezone.get('Etc/UTC')
-        ),
-        Biz::Interval.new(
-          Biz::WeekTime.start(week_minute(wday: 3, hour: 9)),
-          Biz::WeekTime.end(week_minute(wday: 3, hour: 17)),
-          TZInfo::Timezone.get('Etc/UTC')
-        ),
-        Biz::Interval.new(
-          Biz::WeekTime.start(week_minute(wday: 4, hour: 10)),
-          Biz::WeekTime.end(week_minute(wday: 4, hour: 16)),
-          TZInfo::Timezone.get('Etc/UTC')
-        ),
-        Biz::Interval.new(
-          Biz::WeekTime.start(week_minute(wday: 5, hour: 9)),
-          Biz::WeekTime.end(week_minute(wday: 5, hour: 17)),
-          TZInfo::Timezone.get('Etc/UTC')
-        ),
-        Biz::Interval.new(
-          Biz::WeekTime.start(week_minute(wday: 6, hour: 11)),
-          Biz::WeekTime.end(week_minute(wday: 6, hour: 14, min: 30)),
-          TZInfo::Timezone.get('Etc/UTC')
-        )
-      ]
+  describe "#time" do
+    it "returns the time after an amount of elapsed business time" do
+      expect(schedule.time(30, :minutes).after(Time.utc(2006, 1, 2, 9))).to eq(
+        Time.utc(2006, 1, 2, 9, 30)
+      )
     end
+  end
 
-    context "when the weekdays are configured out of order" do
-      let(:work_hours) {
-        {
-          tue: {'10:00' => '16:00'},
-          mon: {'09:00' => '17:00'}
-        }
-      }
+  describe "#within" do
+    it "returns the amount of elapsed business time between two times" do
+      expect(
+        schedule.within(Time.utc(2006, 1, 2, 11), Time.utc(2006, 1, 3, 11))
+      ).to eq Biz::Duration.hours(7)
+    end
+  end
 
-      it "returns the intervals in order" do
-        expect(schedule.intervals).to eq [
-          Biz::Interval.new(
-            Biz::WeekTime.start(week_minute(wday: 1, hour: 9)),
-            Biz::WeekTime.end(week_minute(wday: 1, hour: 17)),
-            TZInfo::Timezone.get('Etc/UTC')
-          ),
-          Biz::Interval.new(
-            Biz::WeekTime.start(week_minute(wday: 2, hour: 10)),
-            Biz::WeekTime.end(week_minute(wday: 2, hour: 16)),
-            TZInfo::Timezone.get('Etc/UTC')
-          )
-        ]
+  describe "#working?" do
+    context "when the time is not in business hours" do
+      let(:time) { Time.utc(2006, 1, 2, 8) }
+
+      it "returns false" do
+        expect(schedule.working?(time)).to eq false
       end
     end
-  end
 
-  describe "#holidays" do
-    it "returns the proper holidays" do
-      expect(schedule.holidays).to eq [
-        Biz::Holiday.new(
-          Date.new(2006, 1, 1),
-          TZInfo::Timezone.get('Etc/UTC')
-        ),
-        Biz::Holiday.new(
-          Date.new(2006, 12, 25),
-          TZInfo::Timezone.get('Etc/UTC')
-        )
-      ]
-    end
-  end
+    context "when the time is in business hours" do
+      let(:time) { Time.utc(2006, 1, 2, 10) }
 
-  describe "#time_zone" do
-    it "returns the proper time zone object" do
-      expect(schedule.time_zone).to eq TZInfo::Timezone.get('Etc/UTC')
+      it "returns true" do
+        expect(schedule.working?(time)).to eq true
+      end
     end
   end
 end
