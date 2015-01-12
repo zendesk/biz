@@ -1,25 +1,4 @@
 RSpec.describe Biz::Calculation::Active do
-  let(:work_hours) {
-    {
-      mon: {'09:00' => '17:00'},
-      tue: {'10:00' => '16:00'},
-      wed: {'09:00' => '17:00'},
-      thu: {'10:00' => '16:00'},
-      fri: {'09:00' => '17:00'},
-      sat: {'11:00' => '14:30'}
-    }
-  }
-  let(:holidays)  { [] }
-  let(:time_zone) { 'Etc/UTC' }
-
-  let(:schedule) {
-    Biz::Schedule.new do |config|
-      config.work_hours = work_hours
-      config.holidays   = holidays
-      config.time_zone  = time_zone
-    end
-  }
-
   subject(:calculation) { described_class.new(schedule.periods, time) }
 
   describe "#active?" do

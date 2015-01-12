@@ -1,28 +1,10 @@
 RSpec.describe Biz::Periods::Before do
-  let(:work_hours) {
-    {
-      mon: {'09:00' => '17:00'},
-      tue: {'10:00' => '16:00'},
-      wed: {'09:00' => '17:00'},
-      thu: {'10:00' => '16:00'},
-      fri: {'09:00' => '17:00'},
-      sat: {'11:00' => '14:30'}
-    }
+  let(:holidays) { [Date.new(2006, 1, 16), Date.new(2006, 1, 18)] }
+  let(:origin)   { Time.utc(2006, 1, 8) }
+
+  subject(:periods) {
+    described_class.new(schedule(holidays: holidays), origin)
   }
-  let(:holidays)  { [Date.new(2006, 1, 16), Date.new(2006, 1, 18)] }
-  let(:time_zone) { 'Etc/UTC' }
-
-  let(:schedule) {
-    Biz::Schedule.new do |config|
-      config.work_hours = work_hours
-      config.holidays   = holidays
-      config.time_zone  = time_zone
-    end
-  }
-
-  let(:origin) { Time.utc(2006, 1, 8) }
-
-  subject(:periods) { described_class.new(schedule, origin) }
 
   context "when one week of periods is requested" do
     let(:origin) { Time.utc(2006, 1, 8) }

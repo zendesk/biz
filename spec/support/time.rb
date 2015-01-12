@@ -52,6 +52,23 @@ module Biz
           args.fetch(:seconds, 0)
       end
 
+      def schedule(args = {})
+        Biz::Schedule.new do |config|
+          config.work_hours = args.fetch(:work_hours,
+            mon: {'09:00' => '17:00'},
+            tue: {'10:00' => '16:00'},
+            wed: {'09:00' => '17:00'},
+            thu: {'10:00' => '16:00'},
+            fri: {'09:00' => '17:00'},
+            sat: {'11:00' => '14:30'}
+          )
+
+          config.holidays = args.fetch(:holidays, [])
+
+          config.time_zone = args.fetch(:time_zone, 'Etc/UTC')
+        end
+      end
+
       def forward_periods
         Enumerator.new do |yielder|
           (2006..Float::INFINITY).each do |year|
