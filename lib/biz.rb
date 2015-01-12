@@ -9,6 +9,31 @@ require 'memoizable'
 require 'tzinfo'
 
 module Biz
+  class << self
+
+    extend Forwardable
+
+    def configure(&block)
+      Thread.current[:biz_schedule] = Schedule.new(&block)
+    end
+
+    delegate %i[
+      intervals
+      holidays
+      time_zone
+      periods
+      time
+      within
+      working?
+    ] => :schedule
+
+    private
+
+    def schedule
+      Thread.current[:biz_schedule] or fail 'Biz has not been configured.'
+    end
+
+  end
 end
 
 require 'biz/version'
