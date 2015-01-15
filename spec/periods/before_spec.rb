@@ -6,10 +6,10 @@ RSpec.describe Biz::Periods::Before do
     described_class.new(schedule(holidays: holidays), origin)
   }
 
-  context "when one week of periods is requested" do
+  context 'when one week of periods is requested' do
     let(:origin) { Time.utc(2006, 1, 8) }
 
-    it "returns the proper intervals" do
+    it 'returns the proper intervals' do
       expect(periods.take(6).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 7, 11),
@@ -39,10 +39,10 @@ RSpec.describe Biz::Periods::Before do
     end
   end
 
-  context "when multiple weeks of periods are requested" do
+  context 'when multiple weeks of periods are requested' do
     let(:origin) { Time.utc(2006, 1, 15) }
 
-    it "returns the proper intervals" do
+    it 'returns the proper intervals' do
       expect(periods.take(12).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 14, 11),
@@ -96,30 +96,30 @@ RSpec.describe Biz::Periods::Before do
     end
   end
 
-  context "when the origin is outside a period" do
+  context 'when the origin is outside a period' do
     let(:origin) { Time.utc(2006, 1, 3) }
 
-    it "returns a full period first" do
+    it 'returns a full period first' do
       expect(periods.first).to eq(
         Biz::TimeSegment.new(Time.utc(2006, 1, 2, 9), Time.utc(2006, 1, 2, 17))
       )
     end
   end
 
-  context "when the origin is inside a period" do
+  context 'when the origin is inside a period' do
     let(:origin) { Time.utc(2006, 1, 2, 12) }
 
-    it "returns a partial period first" do
+    it 'returns a partial period first' do
       expect(periods.first).to eq(
         Biz::TimeSegment.new(Time.utc(2006, 1, 2, 9), Time.utc(2006, 1, 2, 12))
       )
     end
   end
 
-  context "when a period on a holiday is encountered" do
+  context 'when a period on a holiday is encountered' do
     let(:origin) { Time.utc(2006, 1, 18) }
 
-    it "does not include that period" do
+    it 'does not include that period' do
       expect(periods.take(2).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 17, 10),
@@ -133,10 +133,10 @@ RSpec.describe Biz::Periods::Before do
     end
   end
 
-  context "when multiple periods on holidays are encountered" do
+  context 'when multiple periods on holidays are encountered' do
     let(:origin) { Time.utc(2006, 1, 20) }
 
-    it "does not include any of those periods" do
+    it 'does not include any of those periods' do
       expect(periods.take(3).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 19, 10),
@@ -154,12 +154,12 @@ RSpec.describe Biz::Periods::Before do
     end
   end
 
-  describe "#timeline" do
-    it "returns a timeline" do
+  describe '#timeline' do
+    it 'returns a timeline' do
       expect(periods.timeline).to be_a Biz::Timeline
     end
 
-    it "configures the timeline to use its periods" do
+    it 'configures the timeline to use its periods' do
       expect(periods.timeline.periods).to be periods
     end
   end

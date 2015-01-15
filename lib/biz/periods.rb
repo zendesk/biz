@@ -1,7 +1,3 @@
-require 'biz/periods/abstract'
-require 'biz/periods/after'
-require 'biz/periods/before'
-
 module Biz
   class Periods
 
@@ -21,3 +17,8 @@ module Biz
 
   end
 end
+
+require 'biz/periods/abstract'
+
+require 'biz/periods/after'
+require 'biz/periods/before'

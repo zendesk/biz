@@ -13,8 +13,8 @@ module Biz
     MINUTES_IN_DAY  = MINUTES_IN_HOUR * HOURS_IN_DAY
     MINUTES_IN_WEEK = MINUTES_IN_DAY * DAYS_IN_WEEK
 
-    BIG_BANG   = ::Time.new(-10 ** 100)
-    HEAT_DEATH = ::Time.new(10 ** 100)
+    BIG_BANG   = ::Time.new(-10**100)
+    HEAT_DEATH = ::Time.new(10**100)
 
     attr_reader :time_zone
 

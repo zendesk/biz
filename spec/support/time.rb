@@ -47,7 +47,7 @@ module Biz
 
       def in_seconds(args = {})
         args.fetch(:days, 0) * Biz::Time::DAY +
-        args.fetch(:hours, 0) * Biz::Time::HOUR +
+          args.fetch(:hours, 0) * Biz::Time::HOUR +
           args.fetch(:minutes, 0) * Biz::Time::MINUTE +
           args.fetch(:seconds, 0)
       end

@@ -20,8 +20,8 @@ RSpec.describe Biz::Configuration do
     end
   }
 
-  describe "#intervals" do
-    it "returns the proper intervals" do
+  describe '#intervals' do
+    it 'returns the proper intervals' do
       expect(configuration.intervals).to eq [
         Biz::Interval.new(
           Biz::WeekTime.start(week_minute(wday: 1, hour: 9)),
@@ -56,7 +56,7 @@ RSpec.describe Biz::Configuration do
       ]
     end
 
-    context "when the weekdays are configured out of order" do
+    context 'when the weekdays are configured out of order' do
       let(:work_hours) {
         {
           tue: {'10:00' => '16:00'},
@@ -64,7 +64,7 @@ RSpec.describe Biz::Configuration do
         }
       }
 
-      it "returns the intervals in order" do
+      it 'returns the intervals in order' do
         expect(configuration.intervals).to eq [
           Biz::Interval.new(
             Biz::WeekTime.start(week_minute(wday: 1, hour: 9)),
@@ -81,8 +81,8 @@ RSpec.describe Biz::Configuration do
     end
   end
 
-  describe "#holidays" do
-    it "returns the proper holidays" do
+  describe '#holidays' do
+    it 'returns the proper holidays' do
       expect(configuration.holidays).to eq [
         Biz::Holiday.new(
           Date.new(2006, 1, 1),
@@ -96,8 +96,8 @@ RSpec.describe Biz::Configuration do
     end
   end
 
-  describe "#time_zone" do
-    it "returns the proper time zone object" do
+  describe '#time_zone' do
+    it 'returns the proper time zone object' do
       expect(configuration.time_zone).to eq TZInfo::Timezone.get('Etc/UTC')
     end
   end

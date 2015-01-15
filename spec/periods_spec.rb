@@ -1,10 +1,10 @@
 RSpec.describe Biz::Periods do
   subject(:periods) { described_class.new(schedule) }
 
-  describe "#after" do
+  describe '#after' do
     let(:origin) { Time.utc(2006, 1, 3) }
 
-    it "generates periods after the provided origin" do
+    it 'generates periods after the provided origin' do
       expect(periods.after(origin).take(2).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 3, 10),
@@ -18,10 +18,10 @@ RSpec.describe Biz::Periods do
     end
   end
 
-  describe "#before" do
+  describe '#before' do
     let(:origin) { Time.utc(2006, 1, 5) }
 
-    it "generates periods before the provided origin" do
+    it 'generates periods before the provided origin' do
       expect(periods.before(origin).take(2).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 4, 9),

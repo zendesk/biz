@@ -21,7 +21,11 @@ module Biz
 
     attr_reader :day
 
-    delegate %i[to_s to_i to_int] => :day
+    delegate %i[
+      to_s
+      to_i
+      to_int
+    ] => :day
 
     def initialize(day)
       @day = Integer(day)

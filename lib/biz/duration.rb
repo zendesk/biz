@@ -1,16 +1,7 @@
 module Biz
   class Duration
 
-    UNITS = Set[
-      :second,
-      :seconds,
-      :minute,
-      :minutes,
-      :hour,
-      :hours,
-      :day,
-      :days
-    ]
+    UNITS = Set.new(%i[second seconds minute minutes hour hours day days])
 
     include Equalizer.new(:seconds)
     include Comparable

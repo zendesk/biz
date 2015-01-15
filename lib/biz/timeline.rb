@@ -1,7 +1,3 @@
-require 'biz/timeline/abstract'
-require 'biz/timeline/forward'
-require 'biz/timeline/backward'
-
 module Biz
   class Timeline
 
@@ -21,3 +17,8 @@ module Biz
 
   end
 end
+
+require 'biz/timeline/abstract'
+
+require 'biz/timeline/forward'
+require 'biz/timeline/backward'

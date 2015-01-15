@@ -42,7 +42,10 @@ module Biz
 
     delegate strftime: :day_time
 
-    delegate %i[to_i to_int] => :day_minute
+    delegate %i[
+      to_i
+      to_int
+    ] => :day_minute
 
     def initialize(day_minute)
       @day_minute = Integer(day_minute)
@@ -57,7 +60,7 @@ module Biz
     end
 
     def timestamp
-      TIMESTAMP_FORMAT % [hour, minute]
+      format(TIMESTAMP_FORMAT, hour, minute)
     end
 
     def coerce(other)

@@ -1,0 +1,52 @@
+AllCops:
+  Include:
+    - 'Rakefile'
+  Exclude:
+    - 'bin/**/*'
+    - 'vendor/**/*'
+
+Metrics/LineLength:
+  Exclude:
+    - 'Gemfile'
+
+Metrics/MethodLength:
+  Enabled: false
+
+Style/AlignParameters:
+  Enabled: false
+
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+Style/Blocks:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Style/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%':  ()
+    '%i': '[]'
+    '%q': ()
+    '%Q': ()
+    '%r': '{}'
+    '%s': ()
+    '%w': '[]'
+    '%W': '[]'
+    '%x': ()
+
+Style/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space

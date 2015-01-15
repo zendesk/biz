@@ -9,3 +9,7 @@ end
 group :test do
   gem 'codeclimate-test-reporter', '~> 0.4', require: false
 end
+
+group :development, :test do
+  gem 'rubocop', '~> 0.28.0', require: false
+end
