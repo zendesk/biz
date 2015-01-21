@@ -5,17 +5,19 @@
 
 A gem for manipulating time with business hours.
 
-## Why?
+## Features
 
-Similar gems out there suffer from a few common problems:
+* Second-level precision on all calculations.
+* Accurate handling of Daylight Saving Time.
+* Support for business-hours intervals spanning any period of the day, including
+  the entirety.
+* Support for interday intervals and holidays.
+* Thread-safe.
 
-* Incorrect handling of Daylight Saving Time
-* Inability to provide second-level precision
-* Heavy reliance on (slow) ActiveSupport time objects and extensions
+## Anti-features
 
-This gem solves these issues by performing set operations on pure integer
-representations of time segments before returning a result in the desired
-form.
+* No dependency on ActiveSupport.
+* No monkey patching.
 
 ## Installation
 
@@ -34,13 +36,12 @@ Or install it yourself as:
 ## Configuration
 
 ```ruby
-Biz::Schedule.new do |config|
-  config.work_hours = {
-    mon: {'09:00' => '12:00', '13:00' => '17:00'},
-    tue: {'09:00' => '12:00', '13:00' => '17:00'},
-    wed: {'09:00' => '12:00', '13:00' => '17:00'},
+Biz.configure do |config|
+  config.business_hours = {
+    mon: {'09:00' => '17:00'},
+    tue: {'00:00' => '24:00'},
+    wed: {'09:00' => '17:00'},
     thu: {'09:00' => '12:00', '13:00' => '17:00'},
-    fri: {'09:00' => '12:00', '13:00' => '17:00'},
     sat: {'10:00' => '14:00'}
   }
 
@@ -50,24 +51,47 @@ Biz::Schedule.new do |config|
 end
 ```
 
+If global configuration isn't your thing, configure an instance instead:
+
+```ruby
+Biz::Schedule.new do |config|
+  # ...
+end
+```
+
 ## Usage
 
 ```ruby
-# Find the time after an amount of elapsed business time
+# Find the time an amount of business time *before* a specified starting time
 Biz.time(30, :minutes).before(Time.utc(2015, 1, 1, 11, 45))
+
+# Find the time an amount of business time *after* a specified starting time
 Biz.time(2, :hours).after(Time.utc(2015, 12, 25, 9, 30))
 
-# Find the amount of elapsed business time between two times
+# Find the amount of business time between two times
 Biz.within(Time.utc(2015, 3, 7), Time.utc(2015, 3, 14)).in_seconds
 
 # Determine if a time is in business hours
-Biz.working?(Time.utc(2015, 1, 10, 9))
+Biz.business_hours?(Time.utc(2015, 1, 10, 9))
 ```
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/biz/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+Pull requests are welcome, but consider asking for a feature or bug fix first
+through the issue tracker. When contributing code, please squash sloppy commits
+aggressively and follow [Tim Pope's guidelines](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
+for commit messages.
+
+There are a number of ways to get started after cloning the repository.
+
+To set up your environment:
+
+    script/bootstrap
+
+To run the spec suite:
+
+    script/spec
+
+To open a console with the gem and sample schedule loaded:
+
+    script/console
