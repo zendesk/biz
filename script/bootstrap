@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+bold() {
+  echo "\033[1m$1\033[0m"
+}
+
+echo 'Installing dependencies...'
+
+if ! bundle check > /dev/null
+then
+  bundle install --quiet 2> /dev/null
+fi
+
+echo
+bold 'Bootstrapping complete!'
