@@ -20,17 +20,17 @@ module Biz
 
       def periods
         weeks.lazy.flat_map { |week|
-          work_periods(week)
-        }.map { |work_period|
-          work_period & boundary
-        }.flat_map { |work_period|
-          holiday_periods.inject([work_period]) { |periods, holiday|
+          business_periods(week)
+        }.map { |business_period|
+          business_period & boundary
+        }.flat_map { |business_period|
+          holiday_periods.inject([business_period]) { |periods, holiday|
             periods.flat_map { |period| period / holiday }
           }
         }.reject(&:empty?)
       end
 
-      def work_periods(week)
+      def business_periods(week)
         schedule.intervals.map { |interval| interval.to_time_segment(week) }
       end
 

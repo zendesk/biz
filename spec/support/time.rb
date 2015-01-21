@@ -54,7 +54,7 @@ module Biz
 
       def schedule(args = {})
         Biz::Schedule.new do |config|
-          config.work_hours = args.fetch(:work_hours,
+          config.business_hours = args.fetch(:business_hours,
             mon: {'09:00' => '17:00'},
             tue: {'10:00' => '16:00'},
             wed: {'09:00' => '17:00'},

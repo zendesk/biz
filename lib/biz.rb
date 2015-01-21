@@ -24,7 +24,7 @@ module Biz
       periods
       time
       within
-      working?
+      business_hours?
     ] => :schedule
 
     private

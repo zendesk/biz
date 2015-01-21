@@ -5,7 +5,7 @@ require 'biz'
 require 'irb'
 
 TEST_SCHEDULE = Biz::Schedule.new do |config|
-  config.work_hours = {
+  config.business_hours = {
     mon: {'09:00' => '12:00', '13:00' => '17:00'},
     tue: {'09:00' => '12:00', '13:00' => '17:00'},
     wed: {'09:00' => '12:00', '13:00' => '17:00'},

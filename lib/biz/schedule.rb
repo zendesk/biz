@@ -28,7 +28,7 @@ module Biz
       )
     end
 
-    def working?(time)
+    def business_hours?(time)
       Calculation::Active.new(periods, time).active?
     end
 

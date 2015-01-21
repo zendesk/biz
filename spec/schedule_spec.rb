@@ -1,5 +1,5 @@
 RSpec.describe Biz::Schedule do
-  let(:work_hours) {
+  let(:business_hours) {
     {
       mon: {'09:00' => '17:00'},
       tue: {'10:00' => '16:00'},
@@ -13,9 +13,9 @@ RSpec.describe Biz::Schedule do
   let(:time_zone) { 'Etc/UTC' }
   let(:config)    {
     proc do |c|
-      c.work_hours = work_hours
-      c.holidays   = holidays
-      c.time_zone  = time_zone
+      c.business_hours = business_hours
+      c.holidays       = holidays
+      c.time_zone      = time_zone
     end
   }
 
@@ -65,12 +65,12 @@ RSpec.describe Biz::Schedule do
     end
   end
 
-  describe '#working?' do
+  describe '#business_hours?' do
     context 'when the time is not in business hours' do
       let(:time) { Time.utc(2006, 1, 2, 8) }
 
       it 'returns false' do
-        expect(schedule.working?(time)).to eq false
+        expect(schedule.business_hours?(time)).to eq false
       end
     end
 
@@ -78,7 +78,7 @@ RSpec.describe Biz::Schedule do
       let(:time) { Time.utc(2006, 1, 2, 10) }
 
       it 'returns true' do
-        expect(schedule.working?(time)).to eq true
+        expect(schedule.business_hours?(time)).to eq true
       end
     end
   end

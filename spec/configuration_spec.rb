@@ -1,5 +1,5 @@
 RSpec.describe Biz::Configuration do
-  let(:work_hours) {
+  let(:business_hours) {
     {
       mon: {'09:00' => '17:00'},
       tue: {'10:00' => '16:00'},
@@ -14,9 +14,9 @@ RSpec.describe Biz::Configuration do
 
   subject(:configuration) {
     Biz::Configuration.new do |config|
-      config.work_hours = work_hours
-      config.holidays   = holidays
-      config.time_zone  = time_zone
+      config.business_hours = business_hours
+      config.holidays       = holidays
+      config.time_zone      = time_zone
     end
   }
 
@@ -57,7 +57,7 @@ RSpec.describe Biz::Configuration do
     end
 
     context 'when the weekdays are configured out of order' do
-      let(:work_hours) {
+      let(:business_hours) {
         {
           tue: {'10:00' => '16:00'},
           mon: {'09:00' => '17:00'}
