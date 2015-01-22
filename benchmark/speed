@@ -1,0 +1,278 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+
+require 'benchmark/ips'
+
+require 'biz'
+require 'business_time'
+require 'working_hours/module'
+
+def benchmark(description)
+  puts "Benchmark: #{description}"
+end
+
+holidays = [
+  Date.new(2015, 1, 1),
+  *(Date.new(2015, 3, 22)..Date.new(2015, 3, 28)),
+  Date.new(2015, 12, 25)
+]
+
+Biz.configure do |config|
+  config.business_hours = {
+    mon: {'09:00' => '17:00'},
+    tue: {'09:00' => '17:00'},
+    wed: {'09:00' => '17:00'},
+    thu: {'09:00' => '17:00'},
+    fri: {'09:00' => '17:00'},
+    sat: {'10:00' => '14:00'}
+  }
+
+  config.holidays = holidays
+
+  config.time_zone = 'Etc/UTC'
+end
+
+BusinessTime::Config.tap do |config|
+  config.work_hours = {
+    mon: ['09:00', '17:00'],
+    tue: ['09:00', '17:00'],
+    wed: ['09:00', '17:00'],
+    thu: ['09:00', '17:00'],
+    fri: ['09:00', '17:00'],
+    sat: ['10:00', '14:00']
+  }
+
+  holidays.each do |holiday| config.holidays << holiday end
+end
+
+WorkingHours::Config.tap do |config|
+  config.working_hours = {
+    mon: {'09:00' => '17:00'},
+    tue: {'09:00' => '17:00'},
+    wed: {'09:00' => '17:00'},
+    thu: {'09:00' => '17:00'},
+    fri: {'09:00' => '17:00'},
+    sat: {'10:00' => '14:00'}
+  }
+
+  config.holidays = holidays
+
+  config.time_zone = 'UTC'
+end
+
+benchmark 'Return time one business hour after origin'
+Benchmark.ips do |bm|
+  origin = Time.utc(2006, 1, 2, 9, 30)
+
+  bm.report 'biz' do
+    Biz.time(1, :hour).after(origin)
+  end
+
+  bm.report 'business_time' do
+    1.business_hour.after(origin)
+  end
+
+  bm.report 'working_hours' do
+    WorkingHours::Duration.new(1, :hours).since(origin)
+  end
+
+  bm.compare!
+end
+
+benchmark 'Return time 100 business hours after origin'
+Benchmark.ips do |bm|
+  origin = Time.utc(2006, 1, 2, 9, 30)
+
+  bm.report 'biz' do
+    Biz.time(100, :hour).after(origin)
+  end
+
+  bm.report 'business_time' do
+    100.business_hour.after(origin)
+  end
+
+  bm.report 'working_hours' do
+    WorkingHours::Duration.new(100, :hours).since(origin)
+  end
+
+  bm.compare!
+end
+
+benchmark 'Return time 10,000 business hours after origin'
+Benchmark.ips do |bm|
+  origin = Time.utc(2006, 1, 2, 9, 30)
+
+  bm.report 'biz' do
+    Biz.time(10_000, :hour).after(origin)
+  end
+
+  bm.report 'business_time' do
+    10_000.business_hour.after(origin)
+  end
+
+  bm.report 'working_hours' do
+    WorkingHours::Duration.new(10_000, :hours).since(origin)
+  end
+
+  bm.compare!
+end
+
+benchmark 'Return time one business hour before origin'
+Benchmark.ips do |bm|
+  origin = Time.utc(2006, 1, 2, 9, 30)
+
+  bm.report 'biz' do
+    Biz.time(1, :hour).before(origin)
+  end
+
+  bm.report 'business_time' do
+    1.business_hour.before(origin)
+  end
+
+  bm.report 'working_hours' do
+    WorkingHours::Duration.new(1, :hours).until(origin)
+  end
+
+  bm.compare!
+end
+
+benchmark 'Return time 100 business hours before origin'
+Benchmark.ips do |bm|
+  origin = Time.utc(2006, 1, 2, 9, 30)
+
+  bm.report 'biz' do
+    Biz.time(100, :hour).before(origin)
+  end
+
+  bm.report 'business_time' do
+    100.business_hour.before(origin)
+  end
+
+  bm.report 'working_hours' do
+    WorkingHours::Duration.new(100, :hours).until(origin)
+  end
+
+  bm.compare!
+end
+
+benchmark 'Return time 10,000 business hours before origin'
+Benchmark.ips do |bm|
+  origin = Time.utc(2006, 1, 2, 9, 30)
+
+  bm.report 'biz' do
+    Biz.time(10_000, :hour).before(origin)
+  end
+
+  bm.report 'business_time' do
+    10_000.business_hour.before(origin)
+  end
+
+  bm.report 'working_hours' do
+    WorkingHours::Duration.new(10_000, :hours).until(origin)
+  end
+
+  bm.compare!
+end
+
+benchmark 'Return amount of business time between two times one hour apart'
+Benchmark.ips do |bm|
+  origin   = Time.utc(2006, 1, 2, 9)
+  terminus = Time.utc(2006, 1, 2, 10)
+
+  bm.report 'biz' do
+    Biz.within(origin, terminus).in_seconds
+  end
+
+  bm.report 'business_time' do
+    origin.business_time_until(terminus).to_i
+  end
+
+  bm.report 'working_hours' do
+    WorkingHours.working_time_between(origin, terminus).to_i
+  end
+
+  bm.compare!
+end
+
+benchmark 'Return amount of business time between two times one week apart'
+Benchmark.ips do |bm|
+  origin   = Time.utc(2006, 1, 2, 9)
+  terminus = Time.utc(2006, 1, 9, 9)
+
+  bm.report 'biz' do
+    Biz.within(origin, terminus).in_seconds
+  end
+
+  bm.report 'business_time' do
+    origin.business_time_until(terminus).to_i
+  end
+
+  bm.report 'working_hours' do
+    WorkingHours.working_time_between(origin, terminus).to_i
+  end
+
+  bm.compare!
+end
+
+benchmark 'Return amount of business time between two times one year apart'
+Benchmark.ips do |bm|
+  origin   = Time.utc(2006, 1, 2, 9)
+  terminus = Time.utc(2006, 7, 2, 9)
+
+  bm.report 'biz' do
+    Biz.within(origin, terminus).in_seconds
+  end
+
+  bm.report 'business_time' do
+    origin.business_time_until(terminus).to_i
+  end
+
+  bm.report 'working_hours' do
+    WorkingHours.working_time_between(origin, terminus).to_i
+  end
+
+  bm.compare!
+end
+
+benchmark 'Check if an in-business-hours time is in business hours'
+Benchmark.ips do |bm|
+  time = Time.utc(2006, 1, 4, 12)
+
+  bm.report 'biz' do
+    Biz.business_hours?(time)
+  end
+
+  bm.report 'business_time' do
+    Time.workday?(time) &&
+      !Time.before_business_hours?(time) &&
+      !Time.after_business_hours?(time)
+  end
+
+  bm.report 'working_hours' do
+    WorkingHours.in_working_hours?(time)
+  end
+
+  bm.compare!
+end
+
+benchmark 'Check if an out-of-business-hours time is in business hours'
+Benchmark.ips do |bm|
+  time = Time.utc(2006, 1, 4, 6)
+
+  bm.report 'biz' do
+    Biz.business_hours?(time)
+  end
+
+  bm.report 'business_time' do
+    Time.workday?(time) &&
+      !Time.before_business_hours?(time) &&
+      !Time.after_business_hours?(time)
+  end
+
+  bm.report 'working_hours' do
+    WorkingHours.in_working_hours?(time)
+  end
+
+  bm.compare!
+end

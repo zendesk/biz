@@ -3,7 +3,12 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'bump', '~> 0.1', require: false
+  gem 'benchmark-ips', '~> 2.0', require: false
+  gem 'bump',          '~> 0.1', require: false
+  gem 'private_gem',   '~> 1.0', require: false
+
+  gem 'business_time', require: false
+  gem 'working_hours', require: false
 end
 
 group :test do
