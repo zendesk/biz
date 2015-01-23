@@ -32,7 +32,7 @@ RSpec.describe Biz::WeekTime::Abstract do
   end
 
   describe '.from_time' do
-    let(:time) { Time.new(2006, 1, 9, 9, 30) }
+    let(:time) { Time.utc(2006, 1, 9, 9, 30) }
 
     it 'creates the proper week time' do
       expect(week_time_class.from_time(time)).to(

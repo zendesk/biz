@@ -11,7 +11,7 @@ module Biz
       @time_zone = time_zone
     end
 
-    def contain?(time)
+    def contains?(time)
       date == Time.new(time_zone).local(time).to_date
     end
 

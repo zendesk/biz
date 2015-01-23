@@ -17,7 +17,7 @@ module Biz
       [start_time, end_time]
     end
 
-    def contain?(time)
+    def contains?(time)
       (start_time...end_time).cover?(
         WeekTime.from_time(Time.new(time_zone).local(time))
       )

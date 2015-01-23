@@ -53,12 +53,12 @@ RSpec.describe Biz::TimeSegment do
     end
   end
 
-  describe '#contain?' do
+  describe '#contains?' do
     context 'when the time is before the start time' do
       let(:time) { start_time - 1 }
 
       it 'returns false' do
-        expect(time_segment.contain?(time)).to eq false
+        expect(time_segment.contains?(time)).to eq false
       end
     end
 
@@ -66,7 +66,7 @@ RSpec.describe Biz::TimeSegment do
       let(:time) { start_time }
 
       it 'returns true' do
-        expect(time_segment.contain?(time)).to eq true
+        expect(time_segment.contains?(time)).to eq true
       end
     end
 
@@ -74,7 +74,7 @@ RSpec.describe Biz::TimeSegment do
       let(:time) { start_time + 1 }
 
       it 'returns true' do
-        expect(time_segment.contain?(time)).to eq true
+        expect(time_segment.contains?(time)).to eq true
       end
     end
 
@@ -82,7 +82,7 @@ RSpec.describe Biz::TimeSegment do
       let(:time) { end_time }
 
       it 'returns true' do
-        expect(time_segment.contain?(time)).to eq true
+        expect(time_segment.contains?(time)).to eq true
       end
     end
 
@@ -90,7 +90,7 @@ RSpec.describe Biz::TimeSegment do
       let(:time) { end_time + 1 }
 
       it 'returns false' do
-        expect(time_segment.contain?(time)).to eq false
+        expect(time_segment.contains?(time)).to eq false
       end
     end
   end

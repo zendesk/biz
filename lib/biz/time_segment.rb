@@ -31,7 +31,7 @@ module Biz
       start_time >= end_time
     end
 
-    def contain?(time)
+    def contains?(time)
       (start_time..end_time).cover?(time)
     end
 

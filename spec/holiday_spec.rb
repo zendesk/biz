@@ -4,12 +4,12 @@ RSpec.describe Biz::Holiday do
 
   subject(:holiday) { described_class.new(date, time_zone) }
 
-  describe '#contain?' do
+  describe '#contains?' do
     context 'when the time is before the holiday' do
       let(:time) { in_zone('America/New_York') { Time.utc(2010, 7, 15, 2) } }
 
       it 'returns false' do
-        expect(holiday.contain?(time)).to eq false
+        expect(holiday.contains?(time)).to eq false
       end
     end
 
@@ -17,7 +17,7 @@ RSpec.describe Biz::Holiday do
       let(:time) { in_zone('America/New_York') { Time.utc(2010, 7, 15, 3) } }
 
       it 'returns true' do
-        expect(holiday.contain?(time)).to eq true
+        expect(holiday.contains?(time)).to eq true
       end
     end
 
@@ -25,7 +25,7 @@ RSpec.describe Biz::Holiday do
       let(:time) { in_zone('America/New_York') { Time.utc(2010, 7, 15, 15) } }
 
       it 'returns true' do
-        expect(holiday.contain?(time)).to eq true
+        expect(holiday.contains?(time)).to eq true
       end
     end
 
@@ -33,7 +33,7 @@ RSpec.describe Biz::Holiday do
       let(:time) { in_zone('America/New_York') { Time.utc(2010, 7, 16, 3) } }
 
       it 'returns false' do
-        expect(holiday.contain?(time)).to eq false
+        expect(holiday.contains?(time)).to eq false
       end
     end
 
@@ -41,7 +41,7 @@ RSpec.describe Biz::Holiday do
       let(:time) { in_zone('America/New_York') { Time.utc(2010, 7, 16, 4) } }
 
       it 'returns false' do
-        expect(holiday.contain?(time)).to eq false
+        expect(holiday.contains?(time)).to eq false
       end
     end
   end

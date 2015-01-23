@@ -11,8 +11,8 @@ module Biz
       end
 
       def active?
-        schedule.intervals.any? { |interval| interval.contain?(time) } &&
-          schedule.holidays.none? { |holiday| holiday.contain?(time) }
+        schedule.intervals.any? { |interval| interval.contains?(time) } &&
+          schedule.holidays.none? { |holiday| holiday.contains?(time) }
       end
 
     end

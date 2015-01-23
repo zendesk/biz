@@ -5,12 +5,12 @@ RSpec.describe Biz::Interval do
 
   subject(:interval) { described_class.new(start_time, end_time, time_zone) }
 
-  describe '#contain?' do
+  describe '#contains?' do
     context 'when the time is before the interval' do
       let(:time) { in_zone('America/New_York') { Time.utc(2006, 1, 2, 11) } }
 
       it 'returns false' do
-        expect(interval.contain?(time)).to eq false
+        expect(interval.contains?(time)).to eq false
       end
     end
 
@@ -18,7 +18,7 @@ RSpec.describe Biz::Interval do
       let(:time) { in_zone('America/New_York') { Time.utc(2006, 1, 2, 12) } }
 
       it 'returns true' do
-        expect(interval.contain?(time)).to eq true
+        expect(interval.contains?(time)).to eq true
       end
     end
 
@@ -26,7 +26,7 @@ RSpec.describe Biz::Interval do
       let(:time) { in_zone('America/New_York') { Time.utc(2006, 1, 2, 15) } }
 
       it 'returns true' do
-        expect(interval.contain?(time)).to eq true
+        expect(interval.contains?(time)).to eq true
       end
     end
 
@@ -34,7 +34,7 @@ RSpec.describe Biz::Interval do
       let(:time) { in_zone('America/New_York') { Time.utc(2006, 1, 2, 20) } }
 
       it 'returns false' do
-        expect(interval.contain?(time)).to eq false
+        expect(interval.contains?(time)).to eq false
       end
     end
 
@@ -42,7 +42,7 @@ RSpec.describe Biz::Interval do
       let(:time) { in_zone('America/New_York') { Time.utc(2006, 1, 2, 21) } }
 
       it 'returns false' do
-        expect(interval.contain?(time)).to eq false
+        expect(interval.contains?(time)).to eq false
       end
     end
   end
