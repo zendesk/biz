@@ -3,6 +3,16 @@ RSpec.describe Biz::Time do
 
   subject(:time) { described_class.new(time_zone) }
 
+  describe '#local' do
+    let(:provided_time) {
+      in_zone('America/New_York') { Time.utc(2006, 1, 1, 12, 30, 15) }
+    }
+
+    it 'converts the time to the equivalent in the specified time zone' do
+      expect(time.local(provided_time)).to eq Time.utc(2006, 1, 1, 9, 30, 15)
+    end
+  end
+
   describe '#on_date' do
     context 'when a normal time is targeted' do
       let(:date)     { Date.new(2006, 1, 4) }

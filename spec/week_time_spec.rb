@@ -1,4 +1,14 @@
 RSpec.describe Biz::WeekTime do
+  describe '.from_time' do
+    let(:time) { Time.utc(2006, 1, 9, 9, 30) }
+
+    it 'creates the proper week time' do
+      expect(described_class.from_time(time)).to(
+        eq week_minute(wday: 1, hour: 9, min: 30)
+      )
+    end
+  end
+
   describe '.start' do
     let(:week_time) {
       described_class.start(Biz::DayOfWeek::MONDAY.start_minute)

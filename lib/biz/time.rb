@@ -22,6 +22,10 @@ module Biz
       @time_zone = time_zone
     end
 
+    def local(time)
+      time_zone.utc_to_local(time.utc)
+    end
+
     def on_date(date, day_time)
       time_zone.local_to_utc(
         ::Time.utc(

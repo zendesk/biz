@@ -5,6 +5,48 @@ RSpec.describe Biz::Interval do
 
   subject(:interval) { described_class.new(start_time, end_time, time_zone) }
 
+  describe '#contain?' do
+    context 'when the time is before the interval' do
+      let(:time) { in_zone('America/New_York') { Time.utc(2006, 1, 2, 11) } }
+
+      it 'returns false' do
+        expect(interval.contain?(time)).to eq false
+      end
+    end
+
+    context 'when the time is at the beginning of the interval' do
+      let(:time) { in_zone('America/New_York') { Time.utc(2006, 1, 2, 12) } }
+
+      it 'returns true' do
+        expect(interval.contain?(time)).to eq true
+      end
+    end
+
+    context 'when the time is contained by the interval' do
+      let(:time) { in_zone('America/New_York') { Time.utc(2006, 1, 2, 15) } }
+
+      it 'returns true' do
+        expect(interval.contain?(time)).to eq true
+      end
+    end
+
+    context 'when the time is at the end of the interval' do
+      let(:time) { in_zone('America/New_York') { Time.utc(2006, 1, 2, 20) } }
+
+      it 'returns false' do
+        expect(interval.contain?(time)).to eq false
+      end
+    end
+
+    context 'when the time is after the interval' do
+      let(:time) { in_zone('America/New_York') { Time.utc(2006, 1, 2, 21) } }
+
+      it 'returns false' do
+        expect(interval.contain?(time)).to eq false
+      end
+    end
+  end
+
   describe '#endpoints' do
     it 'returns the interval endpoints' do
       expect(interval.endpoints).to eq [start_time, end_time]

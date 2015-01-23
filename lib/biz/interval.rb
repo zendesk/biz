@@ -17,6 +17,12 @@ module Biz
       [start_time, end_time]
     end
 
+    def contain?(time)
+      (start_time...end_time).cover?(
+        WeekTime.from_time(Time.new(time_zone).local(time))
+      )
+    end
+
     def to_time_segment(week)
       TimeSegment.new(
         *endpoints.map { |endpoint|

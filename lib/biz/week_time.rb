@@ -2,6 +2,10 @@ module Biz
   module WeekTime
     class << self
 
+      def from_time(time)
+        Start.from_time(time)
+      end
+
       def start(week_minute)
         Start.new(week_minute)
       end

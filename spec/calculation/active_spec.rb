@@ -1,36 +1,42 @@
 RSpec.describe Biz::Calculation::Active do
-  subject(:calculation) { described_class.new(schedule.periods, time) }
+  subject(:calculation) {
+    described_class.new(schedule(holidays: [Date.new(2006, 1, 4)]), time)
+  }
 
   describe '#active?' do
-    context 'when the time is not outside all intervals' do
-      let(:time) { Time.utc(2006, 1, 1, 9) }
+    context 'when the time is not contained by an interval' do
+      context 'and not on a holiday' do
+        let(:time) { Time.utc(2006, 1, 1, 6) }
 
-      it 'returns false' do
-        expect(calculation.active?).to eq false
+        it 'returns false' do
+          expect(calculation.active?).to eq false
+        end
       end
-    end
 
-    context 'when the time is at the beginning of an interval' do
-      let(:time) { Time.utc(2006, 1, 2, 9) }
+      context 'and on a holiday' do
+        let(:time) { Time.utc(2006, 1, 4, 6) }
 
-      it 'returns true' do
-        expect(calculation.active?).to eq true
-      end
-    end
-
-    context 'when the time is at the end of an interval' do
-      let(:time) { Time.utc(2006, 1, 2, 17) }
-
-      it 'returns true' do
-        expect(calculation.active?).to eq true
+        it 'returns false' do
+          expect(calculation.active?).to eq false
+        end
       end
     end
 
     context 'when the time is contained by an interval' do
-      let(:time) { Time.utc(2006, 1, 2, 12) }
+      context 'and not on a holiday' do
+        let(:time) { Time.utc(2006, 1, 2, 12) }
 
-      it 'returns true' do
-        expect(calculation.active?).to eq true
+        it 'returns true' do
+          expect(calculation.active?).to eq true
+        end
+      end
+
+      context 'and on a holiday' do
+        let(:time) { Time.utc(2006, 1, 4, 12) }
+
+        it 'returns false' do
+          expect(calculation.active?).to eq false
+        end
       end
     end
   end

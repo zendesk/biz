@@ -18,18 +18,15 @@ module Biz
     end
 
     def time(scalar, unit)
-      Calculation::ForDuration.new(periods, Duration.with_unit(scalar, unit))
+      Calculation::ForDuration.new(self, Duration.with_unit(scalar, unit))
     end
 
     def within(origin, terminus)
-      Calculation::DurationWithin.new(
-        periods,
-        TimeSegment.new(origin, terminus)
-      )
+      Calculation::DurationWithin.new(self, TimeSegment.new(origin, terminus))
     end
 
     def business_hours?(time)
-      Calculation::Active.new(periods, time).active?
+      Calculation::Active.new(self, time).active?
     end
 
     protected

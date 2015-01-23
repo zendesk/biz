@@ -2,19 +2,17 @@ module Biz
   module Calculation
     class Active
 
-      attr_reader :active_periods,
+      attr_reader :schedule,
                   :time
 
-      def initialize(active_periods, time)
-        @active_periods = active_periods
-        @time           = time
+      def initialize(schedule, time)
+        @schedule = schedule
+        @time     = time
       end
 
       def active?
-        [
-          active_periods.before(time),
-          active_periods.after(time)
-        ].map(&:first).any? { |active_period| active_period.contain?(time) }
+        schedule.intervals.any? { |interval| interval.contain?(time) } &&
+          schedule.holidays.none? { |holiday| holiday.contain?(time) }
       end
 
     end
