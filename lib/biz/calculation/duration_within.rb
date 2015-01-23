@@ -6,7 +6,7 @@ module Biz
         super(
           schedule.periods.after(calculation_period.start_time)
             .timeline.forward
-            .until(calculation_period.end_time).to_a
+            .until(calculation_period.end_time)
             .map(&:duration)
             .reduce(Duration.new(0), :+)
         )

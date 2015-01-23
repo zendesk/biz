@@ -12,7 +12,7 @@ module Biz
         TimeSegment.before(origin)
       end
 
-      def business_periods(week)
+      def intervals
         super.reverse
       end
 

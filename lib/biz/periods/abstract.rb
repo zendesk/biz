@@ -23,19 +23,19 @@ module Biz
           business_periods(week)
         }.map { |business_period|
           business_period & boundary
-        }.flat_map { |business_period|
-          holiday_periods.inject([business_period]) { |periods, holiday|
-            periods.flat_map { |period| period / holiday }
+        }.reject(&:empty?).reject { |business_period|
+          schedule.holidays.any? { |holiday|
+            holiday.contains?(business_period.start_time)
           }
-        }.reject(&:empty?)
+        }
       end
 
       def business_periods(week)
-        schedule.intervals.map { |interval| interval.to_time_segment(week) }
+        intervals.lazy.map { |interval| interval.to_time_segment(week) }
       end
 
-      def holiday_periods
-        schedule.holidays.map(&:to_time_segment)
+      def intervals
+        schedule.intervals
       end
 
     end
