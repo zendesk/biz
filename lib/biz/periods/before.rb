@@ -10,6 +10,10 @@ module Biz
         )
       end
 
+      def relevant?(period)
+        origin > period.start_time
+      end
+
       def boundary
         TimeSegment.before(origin)
       end

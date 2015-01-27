@@ -11,6 +11,10 @@ module Biz
         )
       end
 
+      def relevant?(period)
+        origin < period.end_time
+      end
+
       def boundary
         TimeSegment.after(origin)
       end

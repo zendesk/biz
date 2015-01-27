@@ -25,9 +25,11 @@ module Biz
       def periods
         weeks.lazy.flat_map { |week|
           business_periods(week)
+        }.select { |business_period|
+          relevant?(business_period)
         }.map { |business_period|
           business_period & boundary
-        }.reject(&:empty?).reject { |business_period|
+        }.reject { |business_period|
           schedule.holidays.any? { |holiday|
             holiday.contains?(business_period.start_time)
           }
