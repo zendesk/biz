@@ -5,7 +5,10 @@ module Biz
       private
 
       def weeks
-        Week.since_epoch(origin)..Week.since_epoch(Time::HEAT_DEATH)
+        Range.new(
+          Week.since_epoch(Time.new(time_zone).local(origin)),
+          Week.since_epoch(Time::HEAT_DEATH)
+        )
       end
 
       def boundary

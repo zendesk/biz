@@ -1,9 +1,28 @@
 RSpec.describe Biz::Periods::After do
-  let(:holidays) { [Date.new(2006, 1, 16), Date.new(2006, 1, 18)] }
-  let(:origin)   { Time.utc(2006, 1, 1) }
+  let(:business_hours) {
+    {
+      mon: {'09:00' => '17:00'},
+      tue: {'10:00' => '16:00'},
+      wed: {'09:00' => '17:00'},
+      thu: {'10:00' => '16:00'},
+      fri: {'09:00' => '17:00'},
+      sat: {'11:00' => '14:30'}
+    }
+  }
+
+  let(:holidays)  { [Date.new(2006, 1, 16), Date.new(2006, 1, 18)] }
+  let(:time_zone) { 'Etc/UTC' }
+  let(:origin)    { Time.utc(2006, 1, 1) }
 
   subject(:periods) {
-    described_class.new(schedule(holidays: holidays), origin)
+    described_class.new(
+      schedule(
+        business_hours: business_hours,
+        holidays:       holidays,
+        time_zone:      time_zone
+      ),
+      origin
+    )
   }
 
   context 'when one week of periods is requested' do
@@ -151,6 +170,24 @@ RSpec.describe Biz::Periods::After do
           Time.utc(2006, 1, 19, 16)
         )
       ]
+    end
+  end
+
+  context 'when the origin is near the beginning of the week' do
+    let(:business_hours) { {sat: {'06:00' => '18:00'}} }
+    let(:time_zone)      { 'America/Los_Angeles' }
+
+    let(:origin) {
+      in_zone('America/Los_Angeles') { Time.utc(2006, 1, 7, 17) }
+    }
+
+    it 'includes the relevant interval from the prior week' do
+      expect(periods.first).to eq(
+        Biz::TimeSegment.new(
+          in_zone('America/Los_Angeles') { Time.utc(2006, 1, 7, 17) },
+          in_zone('America/Los_Angeles') { Time.utc(2006, 1, 7, 18) }
+        )
+      )
     end
   end
 

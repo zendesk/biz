@@ -2,6 +2,8 @@ module Biz
   class Periods
     class Abstract < Enumerator::Lazy
 
+      extend Forwardable
+
       attr_reader :schedule,
                   :origin
 
@@ -11,6 +13,8 @@ module Biz
 
         super(periods) do |yielder, period| yielder << period end
       end
+
+      delegate time_zone: :schedule
 
       def timeline
         Timeline.new(self)
