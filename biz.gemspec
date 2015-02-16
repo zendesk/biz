@@ -11,11 +11,11 @@ Gem::Specification.new do |gem|
   gem.license     = 'Copyright Zendesk. All Rights Reserved.'
   gem.files       = Dir['lib/**/*', 'README.md']
 
-  gem.add_runtime_dependency 'abstract_type', '~> 0.0'
-  gem.add_runtime_dependency 'equalizer',     '~> 0.0'
-  gem.add_runtime_dependency 'memoizable',    '~> 0.0'
-  gem.add_runtime_dependency 'tzinfo'
+  gem.add_runtime_dependency     'abstract_type', '~> 0.0.0'
+  gem.add_runtime_dependency     'equalizer',     '~> 0.0.0'
+  gem.add_runtime_dependency     'memoizable',    '~> 0.4.0'
+  gem.add_runtime_dependency     'tzinfo',        '~> 1.0'
 
-  gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'rspec', '~> 3.0'
+  gem.add_development_dependency 'rake',          '~> 10.0'
+  gem.add_development_dependency 'rspec',         '~> 3.0'
 end
