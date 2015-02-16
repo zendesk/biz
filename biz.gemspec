@@ -5,13 +5,11 @@ Gem::Specification.new do |gem|
   gem.version     = Biz::VERSION
   gem.authors     = ['Craig Little', 'Alex Stone']
   gem.email       = %w[clittle@zendesk.com astone@zendesk.com]
-  gem.summary     = %[Time calculations with business hours]
-  gem.description = %[A gem for manipulating time with business hours.]
+  gem.summary     = %[Business hours calculations]
+  gem.description = %[Time calculations using business hours.]
   gem.homepage    = 'https://github.com/zendesk/biz'
-
-  gem.files = Dir['lib/**/*', 'README.md']
-
-  gem.license = 'Copyright Zendesk. All Rights Reserved.'
+  gem.license     = 'Copyright Zendesk. All Rights Reserved.'
+  gem.files       = Dir['lib/**/*', 'README.md']
 
   gem.add_runtime_dependency 'abstract_type', '~> 0.0'
   gem.add_runtime_dependency 'equalizer',     '~> 0.0'

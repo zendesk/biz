@@ -1,23 +1,22 @@
-# Biz
+# biz
 [![Build Status](https://magnum.travis-ci.com/zendesk/biz.svg?token=FPvAz1WHPkjgRp2szEGq&branch=master)](https://magnum.travis-ci.com/zendesk/biz)
 [![Code Climate](https://codeclimate.com/repos/54ac74216956802dc40027d6/badges/591180c7fa5da2a8aa3d/gpa.svg)](https://codeclimate.com/repos/54ac74216956802dc40027d6/feed)
 [![Test Coverage](https://codeclimate.com/repos/54ac74216956802dc40027d6/badges/591180c7fa5da2a8aa3d/coverage.svg)](https://codeclimate.com/repos/54ac74216956802dc40027d6/feed)
 
-A gem for manipulating time with business hours.
+Time calculations using business hours.
 
 ## Features
 
 * Second-level precision on all calculations.
 * Accurate handling of Daylight Saving Time.
-* Support for business-hours intervals spanning any period of the day, including
-  the entirety.
+* Support for intervals spanning any period of the day, including the entirety.
 * Support for interday intervals and holidays.
 * Thread-safe.
 
-## Anti-features
+## Anti-Features
 
 * No dependency on ActiveSupport.
-* No monkey patching.
+* No monkey patching by default.
 
 ## Installation
 
