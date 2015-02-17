@@ -46,7 +46,29 @@ module Biz
     memoize :intervals,
             :holidays
 
-    Raw = Struct.new(:business_hours, :holidays, :time_zone)
+    Raw = Struct.new(:business_hours, :holidays, :time_zone) do
+      module Default
+
+        BUSINESS_HOURS = {
+          mon: {'09:00' => '17:00'},
+          tue: {'09:00' => '17:00'},
+          wed: {'09:00' => '17:00'},
+          thu: {'09:00' => '17:00'},
+          fri: {'09:00' => '17:00'}
+        }
+        HOLIDAYS       = []
+        TIME_ZONE      = 'Etc/UTC'
+
+      end
+
+      def initialize(*)
+        super
+
+        self.business_hours ||= Default::BUSINESS_HOURS
+        self.holidays       ||= Default::HOLIDAYS
+        self.time_zone      ||= Default::TIME_ZONE
+      end
+    end
 
   end
 end
