@@ -74,6 +74,25 @@ Biz.within(Time.utc(2015, 3, 7), Time.utc(2015, 3, 14)).in_seconds
 Biz.business_hours?(Time.utc(2015, 1, 10, 9))
 ```
 
+## Core Extensions
+
+Optional extensions to core classes (`Date`, `Fixnum`, and `Time`) are available
+for additional expressiveness:
+
+```ruby
+require 'biz/core_ext'
+
+75.business_seconds.after(Time.utc(2015, 3, 5, 12, 30))
+
+30.business_minutes.before(Time.utc(2015, 1, 1, 11, 45))
+
+5.business_hours.after(Time.utc(2015, 4, 7, 8, 20))
+
+Time.utc(2015, 8, 20, 9, 30).business_hours?
+
+Date.new(2015, 12, 10).business_day?
+```
+
 ## Contributing
 
 Pull requests are welcome, but consider asking for a feature or bug fix first
