@@ -1,7 +1,7 @@
 # biz
-[![Build Status](https://magnum.travis-ci.com/zendesk/biz.svg?token=FPvAz1WHPkjgRp2szEGq&branch=master)](https://magnum.travis-ci.com/zendesk/biz)
-[![Code Climate](https://codeclimate.com/repos/54ac74216956802dc40027d6/badges/591180c7fa5da2a8aa3d/gpa.svg)](https://codeclimate.com/repos/54ac74216956802dc40027d6/feed)
-[![Test Coverage](https://codeclimate.com/repos/54ac74216956802dc40027d6/badges/591180c7fa5da2a8aa3d/coverage.svg)](https://codeclimate.com/repos/54ac74216956802dc40027d6/feed)
+[![Build Status](https://travis-ci.org/zendesk/biz.svg)](https://travis-ci.org/zendesk/biz)
+[![Code Climate](https://codeclimate.com/github/zendesk/biz/badges/gpa.svg)](https://codeclimate.com/github/zendesk/biz)
+[![Test Coverage](https://codeclimate.com/github/zendesk/biz/badges/coverage.svg)](https://codeclimate.com/github/zendesk/biz)
 
 Time calculations using business hours.
 
