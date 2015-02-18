@@ -85,7 +85,7 @@ Benchmark.ips do |bm|
   origin = Time.utc(2006, 1, 2, 9, 30)
 
   bm.report 'biz' do
-    Biz.time(100, :hour).after(origin)
+    Biz.time(100, :hours).after(origin)
   end
 
   bm.report 'business_time' do
@@ -104,7 +104,7 @@ Benchmark.ips do |bm|
   origin = Time.utc(2006, 1, 2, 9, 30)
 
   bm.report 'biz' do
-    Biz.time(10_000, :hour).after(origin)
+    Biz.time(10_000, :hours).after(origin)
   end
 
   bm.report 'business_time' do
@@ -142,7 +142,7 @@ Benchmark.ips do |bm|
   origin = Time.utc(2006, 1, 2, 9, 30)
 
   bm.report 'biz' do
-    Biz.time(100, :hour).before(origin)
+    Biz.time(100, :hours).before(origin)
   end
 
   bm.report 'business_time' do
@@ -161,7 +161,7 @@ Benchmark.ips do |bm|
   origin = Time.utc(2006, 1, 2, 9, 30)
 
   bm.report 'biz' do
-    Biz.time(10_000, :hour).before(origin)
+    Biz.time(10_000, :hours).before(origin)
   end
 
   bm.report 'business_time' do
