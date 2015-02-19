@@ -63,6 +63,9 @@ Biz::Schedule.new do |config|
 end
 ```
 
+Note that times must be specified in 24-hour clock format and time zones
+must be [IANA identifiers](http://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+
 ## Usage
 
 ```ruby
@@ -77,6 +80,40 @@ Biz.within(Time.utc(2015, 3, 7), Time.utc(2015, 3, 14)).in_seconds
 
 # Determine if a time is in business hours
 Biz.business_hours?(Time.utc(2015, 1, 10, 9))
+```
+
+Note that all returned times are in UTC.
+
+By dropping down a level, you can get access to the underlying time segments,
+which you can use to do your own custom calculations or just get a better idea
+of what's happening under the hood:
+
+```ruby
+Biz.periods
+  .after(Time.utc(2015, 1, 10, 10))
+  .timeline.forward
+  .until(Time.utc(2015, 1, 17, 10)).to_a
+
+#=> [#<Biz::TimeSegment start_time=2015-01-10 18:00:00 UTC end_time=2015-01-10 22:00:00 UTC>,
+#  #<Biz::TimeSegment start_time=2015-01-12 17:00:00 UTC end_time=2015-01-13 01:00:00 UTC>,
+#  #<Biz::TimeSegment start_time=2015-01-13 08:00:00 UTC end_time=2015-01-14 08:00:00 UTC>,
+#  #<Biz::TimeSegment start_time=2015-01-14 17:00:00 UTC end_time=2015-01-15 01:00:00 UTC>,
+#  #<Biz::TimeSegment start_time=2015-01-15 17:00:00 UTC end_time=2015-01-15 20:00:00 UTC>,
+#  #<Biz::TimeSegment start_time=2015-01-15 21:00:00 UTC end_time=2015-01-16 01:00:00 UTC>]
+
+Biz.periods
+  .before(Time.utc(2015, 5, 5, 12, 34, 57))
+  .timeline.backward
+  .for(Biz::Duration.minutes(3_598)).to_a
+
+#=> [#<Biz::TimeSegment start_time=2015-05-05 07:00:00 UTC end_time=2015-05-05 12:34:57 UTC>,
+#  #<Biz::TimeSegment start_time=2015-05-04 16:00:00 UTC end_time=2015-05-05 00:00:00 UTC>,
+#  #<Biz::TimeSegment start_time=2015-05-02 17:00:00 UTC end_time=2015-05-02 21:00:00 UTC>,
+#  #<Biz::TimeSegment start_time=2015-04-30 20:00:00 UTC end_time=2015-05-01 00:00:00 UTC>,
+#  #<Biz::TimeSegment start_time=2015-04-30 16:00:00 UTC end_time=2015-04-30 19:00:00 UTC>,
+#  #<Biz::TimeSegment start_time=2015-04-29 16:00:00 UTC end_time=2015-04-30 00:00:00 UTC>,
+#  #<Biz::TimeSegment start_time=2015-04-28 07:00:00 UTC end_time=2015-04-29 07:00:00 UTC>,
+#  #<Biz::TimeSegment start_time=2015-04-27 20:36:57 UTC end_time=2015-04-28 00:00:00 UTC>]
 ```
 
 ## Core Extensions
