@@ -1,5 +1,7 @@
 RSpec.describe Biz::Calculation::DurationWithin do
-  subject(:calculation) { described_class.new(schedule, calculation_period) }
+  subject(:calculation) {
+    described_class.new(schedule.periods, calculation_period)
+  }
 
   context 'when the calculation start time is after the end time' do
     let(:calculation_period) {
