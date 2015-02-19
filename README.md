@@ -9,10 +9,13 @@ Time calculations using business hours.
 
 ## Features
 
+* Support for:
+  - Intervals spanning the entire day.
+  - Interday intervals and holidays.
+  - Multiple intervals per day.
+  - Multiple schedule configurations.
 * Second-level precision on all calculations.
 * Accurate handling of Daylight Saving Time.
-* Support for intervals spanning any period of the day, including the entirety.
-* Support for interday intervals and holidays.
 * Thread-safe.
 
 ## Anti-Features
