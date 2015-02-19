@@ -116,6 +116,11 @@ To open a console with the gem and sample schedule loaded:
 
     script/console
 
+## Alternatives
+
+* [`business_time`](https://github.com/bokmann/business_time)
+* [`working_hours`](https://github.com/Intrepidd/working_hours)
+
 ## Copyright and license
 
 Copyright 2015 Zendesk
