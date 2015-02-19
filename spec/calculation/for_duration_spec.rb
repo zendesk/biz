@@ -1,5 +1,5 @@
 RSpec.describe Biz::Calculation::ForDuration do
-  subject(:calculation) { described_class.new(schedule, duration) }
+  subject(:calculation) { described_class.new(schedule.periods, duration) }
 
   context 'when initializing' do
     context 'with a positive duration' do

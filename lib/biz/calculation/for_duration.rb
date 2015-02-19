@@ -2,27 +2,27 @@ module Biz
   module Calculation
     class ForDuration
 
-      attr_reader :schedule,
+      attr_reader :periods,
                   :duration
 
-      def initialize(schedule, duration)
+      def initialize(periods, duration)
         unless duration.positive?
           fail ArgumentError, 'Duration adjustment must be positive.'
         end
 
-        @schedule = schedule
+        @periods  = periods
         @duration = duration
       end
 
       def before(time)
-        schedule.periods.before(time)
+        periods.before(time)
           .timeline.backward
           .for(duration).to_a
           .last.start_time
       end
 
       def after(time)
-        schedule.periods.after(time)
+        periods.after(time)
           .timeline.forward
           .for(duration).to_a
           .last.end_time
