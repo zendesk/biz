@@ -1,6 +1,6 @@
 # biz
 [![Gem Version](https://badge.fury.io/rb/biz.svg)](http://badge.fury.io/rb/biz)
-[![Build Status](https://travis-ci.org/zendesk/biz.svg)](https://travis-ci.org/zendesk/biz.svg?branch=master)
+[![Build Status](https://travis-ci.org/zendesk/biz.svg?branch=master)](https://travis-ci.org/zendesk/biz)
 [![Code Climate](https://codeclimate.com/github/zendesk/biz/badges/gpa.svg)](https://codeclimate.com/github/zendesk/biz)
 [![Test Coverage](https://codeclimate.com/github/zendesk/biz/badges/coverage.svg)](https://codeclimate.com/github/zendesk/biz)
 [![Dependency Status](https://gemnasium.com/zendesk/biz.svg)](https://gemnasium.com/zendesk/biz)
