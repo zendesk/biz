@@ -1,5 +1,5 @@
 RSpec.describe Biz::Periods::Before do
-  let(:business_hours) {
+  let(:hours) {
     {
       mon: {'09:00' => '17:00'},
       tue: {'10:00' => '16:00'},
@@ -16,11 +16,7 @@ RSpec.describe Biz::Periods::Before do
 
   subject(:periods) {
     described_class.new(
-      schedule(
-        business_hours: business_hours,
-        holidays:       holidays,
-        time_zone:      time_zone
-      ),
+      schedule(hours: hours, holidays: holidays, time_zone: time_zone),
       origin
     )
   }
@@ -174,12 +170,10 @@ RSpec.describe Biz::Periods::Before do
   end
 
   context 'when the origin is near the end of the week' do
-    let(:business_hours) { {sun: {'06:00' => '18:00'}} }
-    let(:time_zone)      { 'Asia/Brunei' }
+    let(:hours)     { {sun: {'06:00' => '18:00'}} }
+    let(:time_zone) { 'Asia/Brunei' }
 
-    let(:origin) {
-      in_zone('Asia/Brunei') { Time.utc(2006, 1, 8, 7) }
-    }
+    let(:origin) { in_zone('Asia/Brunei') { Time.utc(2006, 1, 8, 7) } }
 
     it 'includes the relevant interval from the prior week' do
       expect(periods.first).to eq(

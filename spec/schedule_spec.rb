@@ -1,5 +1,5 @@
 RSpec.describe Biz::Schedule do
-  let(:business_hours) {
+  let(:hours) {
     {
       mon: {'09:00' => '17:00'},
       tue: {'10:00' => '16:00'},
@@ -13,9 +13,9 @@ RSpec.describe Biz::Schedule do
   let(:time_zone) { 'Etc/UTC' }
   let(:config)    {
     proc do |c|
-      c.business_hours = business_hours
-      c.holidays       = holidays
-      c.time_zone      = time_zone
+      c.hours     = hours
+      c.holidays  = holidays
+      c.time_zone = time_zone
     end
   }
 

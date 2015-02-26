@@ -7,9 +7,9 @@ RSpec.describe Biz::CoreExt::Fixnum do
 
   before do
     Biz.configure do |config|
-      config.business_hours  = {mon: {'09:00' => '17:00'}}
-      config.holidays        = []
-      config.time_zone       = 'Etc/UTC'
+      config.hours     = {mon: {'09:00' => '17:00'}}
+      config.holidays  = []
+      config.time_zone = 'Etc/UTC'
     end
   end
 

@@ -41,7 +41,7 @@ Or install it yourself as:
 
 ```ruby
 Biz.configure do |config|
-  config.business_hours = {
+  config.hours = {
     mon: {'09:00' => '17:00'},
     tue: {'00:00' => '24:00'},
     wed: {'09:00' => '17:00'},

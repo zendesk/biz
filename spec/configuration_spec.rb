@@ -1,5 +1,5 @@
 RSpec.describe Biz::Configuration do
-  let(:business_hours) {
+  let(:hours) {
     {
       mon: {'09:00' => '17:00'},
       tue: {'10:00' => '16:00'},
@@ -14,9 +14,9 @@ RSpec.describe Biz::Configuration do
 
   subject(:configuration) {
     Biz::Configuration.new do |config|
-      config.business_hours = business_hours
-      config.holidays       = holidays
-      config.time_zone      = time_zone
+      config.hours     = hours
+      config.holidays  = holidays
+      config.time_zone = time_zone
     end
   }
 
@@ -39,6 +39,16 @@ RSpec.describe Biz::Configuration do
             )
           }
         )
+      end
+    end
+
+    context 'when configured using #business_hours=' do
+      subject(:configuration) {
+        Biz::Configuration.new do |config| config.business_hours = hours end
+      }
+
+      it 'returns the proper number of intervals' do
+        expect(configuration.intervals.count).to eq 6
       end
     end
 
@@ -78,12 +88,7 @@ RSpec.describe Biz::Configuration do
     end
 
     context 'when the weekdays are configured out of order' do
-      let(:business_hours) {
-        {
-          tue: {'10:00' => '16:00'},
-          mon: {'09:00' => '17:00'}
-        }
-      }
+      let(:hours) { {mon: {'09:00' => '17:00'}, tue: {'10:00' => '16:00'}} }
 
       it 'returns the intervals in order' do
         expect(configuration.intervals).to eq [
@@ -106,8 +111,8 @@ RSpec.describe Biz::Configuration do
     context 'when left unconfigured' do
       subject(:configuration) {
         Biz::Configuration.new do |config|
-          config.business_hours = business_hours
-          config.time_zone      = time_zone
+          config.hours     = hours
+          config.time_zone = time_zone
         end
       }
 
@@ -134,8 +139,8 @@ RSpec.describe Biz::Configuration do
     context 'when left unconfigured' do
       subject(:configuration) {
         Biz::Configuration.new do |config|
-          config.business_hours = business_hours
-          config.holidays       = holidays
+          config.hours    = hours
+          config.holidays = holidays
         end
       }
 

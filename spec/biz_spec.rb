@@ -2,9 +2,9 @@ RSpec.describe Biz do
   context 'when configured' do
     before do
       described_class.configure do |config|
-        config.business_hours = {sun: {'11:00' => '12:00'}}
-        config.holidays       = [Date.new(2015, 12, 25)]
-        config.time_zone      = 'Africa/Abidjan'
+        config.hours     = {sun: {'11:00' => '12:00'}}
+        config.holidays  = [Date.new(2015, 12, 25)]
+        config.time_zone = 'Africa/Abidjan'
       end
     end
 
