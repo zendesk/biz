@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.summary     = %[Business hours calculations]
   gem.description = %[Time calculations using business hours.]
   gem.homepage    = 'https://github.com/zendesk/biz'
-  gem.license     = 'Copyright Zendesk. All Rights Reserved.'
+  gem.license     = 'Apache 2.0'
   gem.files       = Dir['lib/**/*', 'README.md']
 
   gem.add_runtime_dependency     'abstract_type', '~> 0.0.0'
