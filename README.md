@@ -79,7 +79,7 @@ Biz.time(2, :hours).after(Time.utc(2015, 12, 25, 9, 30))
 Biz.within(Time.utc(2015, 3, 7), Time.utc(2015, 3, 14)).in_seconds
 
 # Determine if a time is in business hours
-Biz.business_hours?(Time.utc(2015, 1, 10, 9))
+Biz.in_hours?(Time.utc(2015, 1, 10, 9))
 ```
 
 Note that all returned times are in UTC.

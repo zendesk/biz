@@ -240,7 +240,7 @@ Benchmark.ips do |bm|
   time = Time.utc(2006, 1, 4, 12)
 
   bm.report 'biz' do
-    Biz.business_hours?(time)
+    Biz.in_hours?(time)
   end
 
   bm.report 'business_time' do
@@ -261,7 +261,7 @@ Benchmark.ips do |bm|
   time = Time.utc(2006, 1, 4, 6)
 
   bm.report 'biz' do
-    Biz.business_hours?(time)
+    Biz.in_hours?(time)
   end
 
   bm.report 'business_time' do

@@ -65,6 +65,24 @@ RSpec.describe Biz::Schedule do
     end
   end
 
+  describe '#in_hours?' do
+    context 'when the time is not in business hours' do
+      let(:time) { Time.utc(2006, 1, 2, 8) }
+
+      it 'returns false' do
+        expect(schedule.in_hours?(time)).to eq false
+      end
+    end
+
+    context 'when the time is in business hours' do
+      let(:time) { Time.utc(2006, 1, 2, 10) }
+
+      it 'returns true' do
+        expect(schedule.in_hours?(time)).to eq true
+      end
+    end
+  end
+
   describe '#business_hours?' do
     context 'when the time is not in business hours' do
       let(:time) { Time.utc(2006, 1, 2, 8) }

@@ -73,6 +73,14 @@ RSpec.describe Biz do
       end
     end
 
+    describe '.in_hours?' do
+      it 'delegates to the top-level schedule' do
+        expect(described_class.in_hours?(Time.utc(2006, 1, 1, 11))).to eq(
+          true
+        )
+      end
+    end
+
     describe '.business_hours?' do
       it 'delegates to the top-level schedule' do
         expect(described_class.business_hours?(Time.utc(2006, 1, 1, 11))).to eq(
