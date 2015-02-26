@@ -9,11 +9,4 @@ end
 
 RuboCop::RakeTask.new
 
-desc 'Push the latest commit and all tags'
-task :push do
-  sh 'git push && git push --tags'
-end
-
-Rake::Task[:release].enhance do Rake::Task[:push].invoke end
-
 task default: %i[spec rubocop]
