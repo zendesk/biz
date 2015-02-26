@@ -3,7 +3,7 @@ module Biz
     module Time
 
       def business_hours?
-        Biz.business_hours?(self)
+        Biz.in_hours?(self)
       end
 
     end

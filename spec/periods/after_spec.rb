@@ -1,5 +1,5 @@
 RSpec.describe Biz::Periods::After do
-  let(:business_hours) {
+  let(:hours) {
     {
       mon: {'09:00' => '17:00'},
       tue: {'10:00' => '16:00'},
@@ -16,11 +16,7 @@ RSpec.describe Biz::Periods::After do
 
   subject(:periods) {
     described_class.new(
-      schedule(
-        business_hours: business_hours,
-        holidays:       holidays,
-        time_zone:      time_zone
-      ),
+      schedule(hours: hours, holidays: holidays, time_zone: time_zone),
       origin
     )
   }
@@ -174,8 +170,8 @@ RSpec.describe Biz::Periods::After do
   end
 
   context 'when the origin is near the beginning of the week' do
-    let(:business_hours) { {sat: {'06:00' => '18:00'}} }
-    let(:time_zone)      { 'America/Los_Angeles' }
+    let(:hours)     { {sat: {'06:00' => '18:00'}} }
+    let(:time_zone) { 'America/Los_Angeles' }
 
     let(:origin) {
       in_zone('America/Los_Angeles') { Time.utc(2006, 1, 7, 17) }

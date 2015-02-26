@@ -24,6 +24,7 @@ module Biz
       periods
       time
       within
+      in_hours?
       business_hours?
     ] => :schedule
 

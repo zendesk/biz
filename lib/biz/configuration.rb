@@ -8,7 +8,7 @@ module Biz
     end
 
     def intervals
-      raw.business_hours.flat_map { |weekday, hours|
+      raw.hours.flat_map { |weekday, hours|
         weekday_intervals(weekday, hours)
       }.sort_by(&:start_time)
     end
@@ -46,28 +46,30 @@ module Biz
     memoize :intervals,
             :holidays
 
-    Raw = Struct.new(:business_hours, :holidays, :time_zone) do
+    Raw = Struct.new(:hours, :holidays, :time_zone) do
       module Default
 
-        BUSINESS_HOURS = {
+        HOURS = {
           mon: {'09:00' => '17:00'},
           tue: {'09:00' => '17:00'},
           wed: {'09:00' => '17:00'},
           thu: {'09:00' => '17:00'},
           fri: {'09:00' => '17:00'}
         }
-        HOLIDAYS       = []
-        TIME_ZONE      = 'Etc/UTC'
+        HOLIDAYS  = []
+        TIME_ZONE = 'Etc/UTC'
 
       end
 
       def initialize(*)
         super
 
-        self.business_hours ||= Default::BUSINESS_HOURS
-        self.holidays       ||= Default::HOLIDAYS
-        self.time_zone      ||= Default::TIME_ZONE
+        self.hours     ||= Default::HOURS
+        self.holidays  ||= Default::HOLIDAYS
+        self.time_zone ||= Default::TIME_ZONE
       end
+
+      alias_method :business_hours=, :hours=
     end
 
   end

@@ -2,9 +2,9 @@ RSpec.describe Biz do
   context 'when configured' do
     before do
       described_class.configure do |config|
-        config.business_hours = {sun: {'11:00' => '12:00'}}
-        config.holidays       = [Date.new(2015, 12, 25)]
-        config.time_zone      = 'Africa/Abidjan'
+        config.hours     = {sun: {'11:00' => '12:00'}}
+        config.holidays  = [Date.new(2015, 12, 25)]
+        config.time_zone = 'Africa/Abidjan'
       end
     end
 
@@ -70,6 +70,14 @@ RSpec.describe Biz do
             Time.utc(2006, 1, 8, 11, 30)
           )
         ).to eq Biz::Duration.hour(1)
+      end
+    end
+
+    describe '.in_hours?' do
+      it 'delegates to the top-level schedule' do
+        expect(described_class.in_hours?(Time.utc(2006, 1, 1, 11))).to eq(
+          true
+        )
       end
     end
 
