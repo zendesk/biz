@@ -1,7 +1,7 @@
 module Biz
   class Duration
 
-    UNITS = Set.new(%i[second seconds minute minutes hour hours day days])
+    UNITS = Set.new(%i[second seconds minute minutes hour hours])
 
     include Equalizer.new(:seconds)
     include Comparable
@@ -36,12 +36,6 @@ module Biz
 
       alias_method :hour, :hours
 
-      def days(days)
-        new(days * Time::DAY)
-      end
-
-      alias_method :day, :days
-
     end
 
     attr_reader :seconds
@@ -62,10 +56,6 @@ module Biz
 
     def in_hours
       seconds / Time::HOUR
-    end
-
-    def in_days
-      seconds / Time::DAY
     end
 
     def +(other)

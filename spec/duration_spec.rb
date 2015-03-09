@@ -32,8 +32,8 @@ RSpec.describe Biz::Duration do
   describe '#with_unit' do
     context 'when called with a supported unit' do
       it 'returns the proper duration' do
-        expect(described_class.with_unit(1, :day)).to eq(
-          described_class.days(1)
+        expect(described_class.with_unit(1, :hour)).to eq(
+          described_class.hours(1)
         )
       end
     end
@@ -95,22 +95,6 @@ RSpec.describe Biz::Duration do
     end
   end
 
-  describe '.days' do
-    it 'returns the proper duration' do
-      expect(described_class.days(1)).to eq(
-        described_class.new(in_seconds(days: 1))
-      )
-    end
-  end
-
-  describe '.day' do
-    it 'returns the proper duration' do
-      expect(described_class.day(1)).to eq(
-        described_class.new(in_seconds(days: 1))
-      )
-    end
-  end
-
   describe '#in_seconds' do
     it 'returns the number of seconds' do
       expect(duration.in_seconds).to eq(
@@ -128,12 +112,6 @@ RSpec.describe Biz::Duration do
   describe '#in_hours' do
     it 'returns the number of whole hours' do
       expect(duration.in_hours).to eq 2 * 24 + 5
-    end
-  end
-
-  describe '#in_days' do
-    it 'returns the number of whole days' do
-      expect(duration.in_days).to eq 2
     end
   end
 

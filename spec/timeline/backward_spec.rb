@@ -104,7 +104,7 @@ RSpec.describe Biz::Timeline::Backward do
     end
 
     context 'when the duration is contained by the first period' do
-      let(:duration) { Biz::Duration.days(15) }
+      let(:duration) { Biz::Duration.seconds(in_seconds(days: 15)) }
 
       it 'returns part of the first period' do
         expect(timeline.for(duration).to_a).to eq [
@@ -114,7 +114,7 @@ RSpec.describe Biz::Timeline::Backward do
     end
 
     context 'when the duration is the length of the first period' do
-      let(:duration) { Biz::Duration.days(31) }
+      let(:duration) { Biz::Duration.seconds(in_seconds(days: 31)) }
 
       it 'returns the first period' do
         expect(timeline.for(duration).to_a).to eq [
@@ -124,7 +124,7 @@ RSpec.describe Biz::Timeline::Backward do
     end
 
     context 'when the duration is contained by a set of full periods' do
-      let(:duration) { Biz::Duration.days(62) }
+      let(:duration) { Biz::Duration.seconds(in_seconds(days: 62)) }
 
       it 'returns the proper periods' do
         expect(timeline.for(duration).to_a).to eq [
@@ -135,7 +135,7 @@ RSpec.describe Biz::Timeline::Backward do
     end
 
     context 'when the duration ends in the middle of a period' do
-      let(:duration) { Biz::Duration.days(46) }
+      let(:duration) { Biz::Duration.seconds(in_seconds(days: 46)) }
 
       it 'returns the proper periods' do
         expect(timeline.for(duration).to_a).to eq [
