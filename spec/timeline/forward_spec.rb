@@ -1,6 +1,12 @@
 RSpec.describe Biz::Timeline::Forward do
   subject(:timeline) { described_class.new(forward_periods) }
 
+  describe '#forward' do
+    it 'returns itself' do
+      expect(timeline.forward).to eq timeline
+    end
+  end
+
   describe '#until' do
     context 'when the terminus has second precision' do
       let(:terminus) { Time.utc(2006, 1, 1, 0, 1) }

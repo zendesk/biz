@@ -2,6 +2,10 @@ module Biz
   class Timeline
     class Forward < Abstract
 
+      def forward
+        self
+      end
+
       private
 
       def occurred?(period, time)
