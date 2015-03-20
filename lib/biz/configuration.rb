@@ -21,6 +21,10 @@ module Biz
       TZInfo::TimezoneProxy.new(raw.time_zone)
     end
 
+    def weekdays
+      raw.hours.keys.to_set
+    end
+
     protected
 
     attr_reader :raw
@@ -44,7 +48,8 @@ module Biz
     end
 
     memoize :intervals,
-            :holidays
+            :holidays,
+            :weekdays
 
     Raw = Struct.new(:hours, :holidays, :time_zone) do
       module Default

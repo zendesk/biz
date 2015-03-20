@@ -161,4 +161,10 @@ RSpec.describe Biz::Configuration do
       )
     end
   end
+
+  describe '#weekdays' do
+    it 'returns the active weekdays for the configured schedule' do
+      expect(configuration.weekdays).to eq Set.new(%i[mon tue wed thu fri sat])
+    end
+  end
 end

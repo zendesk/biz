@@ -54,6 +54,16 @@ RSpec.describe Biz do
       end
     end
 
+    %i[date dates].each do |method|
+      describe ".#{method}" do
+        it 'delegates to the top-level schedule' do
+          expect(described_class.dates.after(Date.new(2006, 1, 1)).first).to eq(
+            Date.new(2006, 1, 8)
+          )
+        end
+      end
+    end
+
     describe '.time' do
       it 'delegates to the top-level schedule' do
         expect(

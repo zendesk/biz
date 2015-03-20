@@ -11,11 +11,18 @@ module Biz
       intervals
       holidays
       time_zone
+      weekdays
     ] => :configuration
 
     def periods
       Periods.new(self)
     end
+
+    def dates
+      Dates.new(self)
+    end
+
+    alias_method :date, :dates
 
     def time(scalar, unit)
       Calculation::ForDuration.new(

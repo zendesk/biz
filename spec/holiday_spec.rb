@@ -56,4 +56,10 @@ RSpec.describe Biz::Holiday do
       )
     end
   end
+
+  describe '#to_date' do
+    it 'returns the appropriate date' do
+      expect(holiday.to_date).to eq Date.new(2010, 7, 15)
+    end
+  end
 end

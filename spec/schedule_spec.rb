@@ -49,8 +49,14 @@ RSpec.describe Biz::Schedule do
     end
   end
 
-    it 'configures the periods to use the schedule' do
-      expect(schedule.periods.schedule).to be schedule
+  describe '#dates' do
+    let(:hours) { {mon: {'09:00' => '17:00'}, fri: {'09:00' => '17:00'}} }
+
+    it 'returns dates for the schedule' do
+      expect(schedule.dates.after(Date.new(2006, 1, 1)).take(2).to_a).to eq [
+        Date.new(2006, 1, 2),
+        Date.new(2006, 1, 6)
+      ]
     end
   end
 
