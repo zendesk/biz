@@ -13,8 +13,8 @@ module Biz
 
     extend Forwardable
 
-    def configure(&block)
-      Thread.current[:biz_schedule] = Schedule.new(&block)
+    def configure(&config)
+      Thread.current[:biz_schedule] = Schedule.new(&config)
     end
 
     delegate %i[
