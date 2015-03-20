@@ -188,12 +188,19 @@ RSpec.describe Biz::Periods::After do
   end
 
   describe '#timeline' do
-    it 'returns a timeline' do
-      expect(periods.timeline).to be_a Biz::Timeline
-    end
+    let(:origin) { Time.utc(2006, 1, 1) }
 
-    it 'configures the timeline to use its periods' do
-      expect(periods.timeline.periods).to be periods
+    it 'creates a timeline using its periods' do
+      expect(periods.timeline.until(Time.utc(2006, 1, 4)).to_a).to eq [
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 2, 9),
+          Time.utc(2006, 1, 2, 17)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 3, 10),
+          Time.utc(2006, 1, 3, 16)
+        )
+      ]
     end
   end
 end

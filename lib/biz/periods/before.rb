@@ -2,6 +2,10 @@ module Biz
   class Periods
     class Before < Abstract
 
+      def timeline
+        super.backward
+      end
+
       private
 
       def weeks

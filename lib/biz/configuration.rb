@@ -4,7 +4,7 @@ module Biz
     include Memoizable
 
     def initialize
-      @raw = Raw.new.tap do |raw| yield raw end
+      @raw = Raw.new.tap do |raw| yield raw if block_given? end
     end
 
     def intervals
@@ -19,6 +19,10 @@ module Biz
 
     def time_zone
       TZInfo::TimezoneProxy.new(raw.time_zone)
+    end
+
+    def weekdays
+      raw.hours.keys.to_set
     end
 
     protected
@@ -44,7 +48,8 @@ module Biz
     end
 
     memoize :intervals,
-            :holidays
+            :holidays,
+            :weekdays
 
     Raw = Struct.new(:hours, :holidays, :time_zone) do
       module Default

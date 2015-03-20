@@ -20,6 +20,12 @@ RSpec.describe Biz::Configuration do
     end
   }
 
+  context 'when initialized without a block' do
+    it 'does not blow up' do
+      expect { described_class.new }.not_to raise_error
+    end
+  end
+
   describe '#intervals' do
     context 'when left unconfigured' do
       subject(:configuration) {
@@ -153,6 +159,12 @@ RSpec.describe Biz::Configuration do
       expect(configuration.time_zone).to eq(
         TZInfo::Timezone.get('America/New_York')
       )
+    end
+  end
+
+  describe '#weekdays' do
+    it 'returns the active weekdays for the configured schedule' do
+      expect(configuration.weekdays).to eq Set.new(%i[mon tue wed thu fri sat])
     end
   end
 end

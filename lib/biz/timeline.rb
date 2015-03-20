@@ -1,8 +1,6 @@
 module Biz
   class Timeline
 
-    attr_reader :periods
-
     def initialize(periods)
       @periods = periods
     end
@@ -14,6 +12,10 @@ module Biz
     def backward
       Backward.new(periods)
     end
+
+    protected
+
+    attr_reader :periods
 
   end
 end

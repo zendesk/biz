@@ -22,5 +22,7 @@ module Biz
       )
     end
 
+    alias_method :to_date, :date
+
   end
 end

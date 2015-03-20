@@ -5,6 +5,9 @@ AllCops:
     - 'bin/**/*'
     - 'vendor/**/*'
 
+Metrics/AbcSize:
+  Enabled: false
+
 Metrics/LineLength:
   Exclude:
     - 'Gemfile'
@@ -31,6 +34,9 @@ Style/EmptyLinesAroundClassBody:
   Enabled: false
 
 Style/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Style/Lambda:
   Enabled: false
 
 Style/MultilineBlockChain:

@@ -2,8 +2,6 @@ module Biz
   class Timeline
     class Abstract
 
-      attr_reader :periods
-
       def initialize(periods)
         @periods = periods.lazy
       end
@@ -35,6 +33,10 @@ module Biz
           break unless remaining.positive?
         end
       end
+
+      protected
+
+      attr_reader :periods
 
     end
   end

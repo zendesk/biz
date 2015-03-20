@@ -4,9 +4,6 @@ module Biz
 
       extend Forwardable
 
-      attr_reader :schedule,
-                  :origin
-
       def initialize(schedule, origin)
         @schedule = schedule
         @origin   = origin
@@ -19,6 +16,11 @@ module Biz
       def timeline
         Timeline.new(self)
       end
+
+      protected
+
+      attr_reader :schedule,
+                  :origin
 
       private
 

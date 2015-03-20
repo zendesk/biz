@@ -1,22 +1,12 @@
 module Biz
   class Duration
 
-    UNITS = Set.new(%i[second seconds minute minutes hour hours])
-
     include Equalizer.new(:seconds)
     include Comparable
 
     extend Forwardable
 
     class << self
-
-      def with_unit(scalar, unit)
-        unless UNITS.include?(unit)
-          fail ArgumentError, 'The unit is not supported.'
-        end
-
-        public_send(unit, scalar)
-      end
 
       def seconds(seconds)
         new(seconds)

@@ -2,10 +2,9 @@ module Biz
   module Calculation
     class DurationWithin < SimpleDelegator
 
-      def initialize(periods, calculation_period)
+      def initialize(schedule, calculation_period)
         super(
-          periods.after(calculation_period.start_time)
-            .timeline.forward
+          schedule.periods.after(calculation_period.start_time).timeline
             .until(calculation_period.end_time)
             .map(&:duration)
             .reduce(Duration.new(0), :+)

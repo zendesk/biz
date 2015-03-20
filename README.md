@@ -76,6 +76,9 @@ Biz.time(30, :minutes).before(Time.utc(2015, 1, 1, 11, 45))
 # Find the time an amount of business time *after* a specified starting time
 Biz.time(2, :hours).after(Time.utc(2015, 12, 25, 9, 30))
 
+# Calculations can be performed in seconds, minutes, hours, or days
+Biz.time(1, :day).after(Time.utc(2015, 1, 8, 10))
+
 # Find the amount of business time between two times
 Biz.within(Time.utc(2015, 3, 7), Time.utc(2015, 3, 14)).in_seconds
 
@@ -90,9 +93,7 @@ which you can use to do your own custom calculations or just get a better idea
 of what's happening under the hood:
 
 ```ruby
-Biz.periods
-  .after(Time.utc(2015, 1, 10, 10))
-  .timeline.forward
+Biz.periods.after(Time.utc(2015, 1, 10, 10)).timeline
   .until(Time.utc(2015, 1, 17, 10)).to_a
 
 #=> [#<Biz::TimeSegment start_time=2015-01-10 18:00:00 UTC end_time=2015-01-10 22:00:00 UTC>,
@@ -103,8 +104,7 @@ Biz.periods
 #  #<Biz::TimeSegment start_time=2015-01-15 21:00:00 UTC end_time=2015-01-16 01:00:00 UTC>]
 
 Biz.periods
-  .before(Time.utc(2015, 5, 5, 12, 34, 57))
-  .timeline.backward
+  .before(Time.utc(2015, 5, 5, 12, 34, 57)).timeline
   .for(Biz::Duration.minutes(3_598)).to_a
 
 #=> [#<Biz::TimeSegment start_time=2015-05-05 07:00:00 UTC end_time=2015-05-05 12:34:57 UTC>,

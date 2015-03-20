@@ -40,12 +40,23 @@ RSpec.describe Biz::Schedule do
   end
 
   describe '#periods' do
-    it 'returns a set of periods' do
-      expect(schedule.periods).to be_a Biz::Periods
-    end
+    let(:hours) { {mon: {'01:00' => '02:00'}} }
 
-    it 'configures the periods to use the schedule' do
-      expect(schedule.periods.schedule).to be schedule
+    it 'returns periods for the schedule' do
+      expect(schedule.periods.after(Time.utc(2006, 1, 1)).first).to eq(
+        Biz::TimeSegment.new(Time.utc(2006, 1, 2, 1), Time.utc(2006, 1, 2, 2))
+      )
+    end
+  end
+
+  describe '#dates' do
+    let(:hours) { {mon: {'09:00' => '17:00'}, fri: {'09:00' => '17:00'}} }
+
+    it 'returns dates for the schedule' do
+      expect(schedule.dates.after(Date.new(2006, 1, 1)).take(2).to_a).to eq [
+        Date.new(2006, 1, 2),
+        Date.new(2006, 1, 6)
+      ]
     end
   end
 
@@ -98,6 +109,16 @@ RSpec.describe Biz::Schedule do
       it 'returns true' do
         expect(schedule.business_hours?(time)).to eq true
       end
+    end
+  end
+
+  describe '#in_zone' do
+    let(:time_zone) { 'America/Los_Angeles' }
+
+    it 'returns a time object with its time zone' do
+      expect(schedule.in_zone.local(Time.utc(2006, 1, 1, 10))).to eq(
+        Time.utc(2006, 1, 1, 2)
+      )
     end
   end
 end
