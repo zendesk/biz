@@ -20,6 +20,12 @@ RSpec.describe Biz::Configuration do
     end
   }
 
+  context 'when initialized without a block' do
+    it 'does not blow up' do
+      expect { described_class.new }.not_to raise_error
+    end
+  end
+
   describe '#intervals' do
     context 'when left unconfigured' do
       subject(:configuration) {
