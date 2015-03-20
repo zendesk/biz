@@ -40,9 +40,14 @@ RSpec.describe Biz::Schedule do
   end
 
   describe '#periods' do
-    it 'returns a set of periods' do
-      expect(schedule.periods).to be_a Biz::Periods
+    let(:hours) { {mon: {'01:00' => '02:00'}} }
+
+    it 'returns periods for the schedule' do
+      expect(schedule.periods.after(Time.utc(2006, 1, 1)).first).to eq(
+        Biz::TimeSegment.new(Time.utc(2006, 1, 2, 1), Time.utc(2006, 1, 2, 2))
+      )
     end
+  end
 
     it 'configures the periods to use the schedule' do
       expect(schedule.periods.schedule).to be schedule

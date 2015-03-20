@@ -1,8 +1,6 @@
 module Biz
   class Periods
 
-    attr_reader :schedule
-
     def initialize(schedule)
       @schedule = schedule
     end
@@ -14,6 +12,10 @@ module Biz
     def before(origin)
       Before.new(schedule, origin)
     end
+
+    protected
+
+    attr_reader :schedule
 
   end
 end
