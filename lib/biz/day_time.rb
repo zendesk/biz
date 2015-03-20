@@ -8,33 +8,37 @@ module Biz
 
     extend Forwardable
 
-    def self.from_hour(hour)
-      new(hour * Time::MINUTES_IN_HOUR)
-    end
-
-    def self.from_timestamp(timestamp)
-      timestamp.match(TIMESTAMP_PATTERN) { |match|
-        new(match[:hour].to_i * Time::MINUTES_IN_HOUR + match[:minute].to_i)
-      }
-    end
-
-    def self.midnight
-      MIDNIGHT
-    end
-
-    def self.noon
-      NOON
-    end
-
-    def self.endnight
-      ENDNIGHT
-    end
-
     class << self
+
+      def from_time(time)
+        new(time.hour * Time::MINUTES_IN_HOUR + time.min)
+      end
+
+      def from_hour(hour)
+        new(hour * Time::MINUTES_IN_HOUR)
+      end
+
+      def from_timestamp(timestamp)
+        timestamp.match(TIMESTAMP_PATTERN) { |match|
+          new(match[:hour].to_i * Time::MINUTES_IN_HOUR + match[:minute].to_i)
+        }
+      end
+
+      def midnight
+        MIDNIGHT
+      end
 
       alias_method :am, :midnight
 
+      def noon
+        NOON
+      end
+
       alias_method :pm, :noon
+
+      def endnight
+        ENDNIGHT
+      end
 
     end
 

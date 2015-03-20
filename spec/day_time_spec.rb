@@ -27,6 +27,16 @@ RSpec.describe Biz::DayTime do
     end
   end
 
+  describe '.from_time' do
+    let(:time) { Time.utc(2006, 1, 1, 9, 38) }
+
+    it 'creates a day time from the given time' do
+      expect(described_class.from_time(time).day_minute).to eq(
+        day_minute(hour: 9, min: 38)
+      )
+    end
+  end
+
   describe '.from_hour' do
     it 'creates a day time from the given hour' do
       expect(described_class.from_hour(9).day_minute).to eq day_minute(hour: 9)

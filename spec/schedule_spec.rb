@@ -111,4 +111,14 @@ RSpec.describe Biz::Schedule do
       end
     end
   end
+
+  describe '#in_zone' do
+    let(:time_zone) { 'America/Los_Angeles' }
+
+    it 'returns a time object with its time zone' do
+      expect(schedule.in_zone.local(Time.utc(2006, 1, 1, 10))).to eq(
+        Time.utc(2006, 1, 1, 2)
+      )
+    end
+  end
 end

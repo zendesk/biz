@@ -189,7 +189,7 @@ RSpec.describe Biz::Periods::Before do
     let(:origin) { Time.utc(2006, 1, 4) }
 
     it 'creates a timeline using its periods' do
-      expect(periods.timeline.backward.until(Time.utc(2006, 1, 1)).to_a).to eq [
+      expect(periods.timeline.until(Time.utc(2006, 1, 1)).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 3, 10),
           Time.utc(2006, 1, 3, 16)

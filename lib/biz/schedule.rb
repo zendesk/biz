@@ -25,17 +25,11 @@ module Biz
     alias_method :date, :dates
 
     def time(scalar, unit)
-      Calculation::ForDuration.new(
-        periods,
-        Duration.with_unit(scalar, unit)
-      )
+      Calculation::ForDuration.with_unit(self, scalar, unit)
     end
 
     def within(origin, terminus)
-      Calculation::DurationWithin.new(
-        periods,
-        TimeSegment.new(origin, terminus)
-      )
+      Calculation::DurationWithin.new(self, TimeSegment.new(origin, terminus))
     end
 
     def in_hours?(time)
@@ -43,6 +37,10 @@ module Biz
     end
 
     alias_method :business_hours?, :in_hours?
+
+    def in_zone
+      Time.new(time_zone)
+    end
 
     protected
 

@@ -29,24 +29,6 @@ RSpec.describe Biz::Duration do
     end
   end
 
-  describe '#with_unit' do
-    context 'when called with a supported unit' do
-      it 'returns the proper duration' do
-        expect(described_class.with_unit(1, :hour)).to eq(
-          described_class.hours(1)
-        )
-      end
-    end
-
-    context 'when called with an unsupported unit' do
-      it 'fails hard' do
-        expect { described_class.with_unit(1, :parsec) }.to raise_error(
-          ArgumentError
-        )
-      end
-    end
-  end
-
   describe '.seconds' do
     it 'returns the proper duration' do
       expect(described_class.seconds(60)).to eq(
