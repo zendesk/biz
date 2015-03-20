@@ -7,7 +7,7 @@ module Biz
         @time     = time
       end
 
-      def active?
+      def result
         schedule.intervals.any? { |interval| interval.contains?(time) } &&
           schedule.holidays.none? { |holiday| holiday.contains?(time) }
       end

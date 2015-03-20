@@ -32,7 +32,7 @@ module Biz
     end
 
     def in_hours?(time)
-      Calculation::Active.new(self, time).active?
+      Calculation::Active.new(self, time).result
     end
 
     alias_method :business_hours?, :in_hours?
