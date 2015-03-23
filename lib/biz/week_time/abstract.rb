@@ -35,6 +35,7 @@ module Biz
       delegate %i[
         hour
         minute
+        second
         day_minute
         timestamp
       ] => :day_time

@@ -115,6 +115,16 @@ RSpec.describe Biz::Calculation::ForDuration do
             expect(calculation.before(time)).to eq Time.utc(2006, 1, 3, 16)
           end
         end
+
+        context 'when the time has second precision' do
+          let(:time) { Time.utc(2006, 1, 9, 12, 30, 52) }
+
+          it 'retains second precision' do
+            expect(calculation.before(time)).to eq(
+              Time.utc(2006, 1, 6, 12, 30, 52)
+            )
+          end
+        end
       end
 
       describe '#after' do
@@ -139,6 +149,16 @@ RSpec.describe Biz::Calculation::ForDuration do
 
           it 'returns the next time after the advanced time' do
             expect(calculation.after(time)).to eq Time.utc(2006, 1, 6, 9)
+          end
+        end
+
+        context 'when the time has second precision' do
+          let(:time) { Time.utc(2006, 1, 6, 12, 30, 52) }
+
+          it 'retains second precision' do
+            expect(calculation.after(time)).to eq(
+              Time.utc(2006, 1, 9, 12, 30, 52)
+            )
           end
         end
       end

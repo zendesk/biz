@@ -9,7 +9,7 @@ module Biz
       end
 
       def day_time
-        DayTime.new(day_of_week.day_minute(week_minute))
+        DayTime.from_minute(day_of_week.day_minute(week_minute))
       end
 
       memoize :day_of_week,
