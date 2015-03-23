@@ -131,6 +131,8 @@ require 'biz/core_ext'
 
 5.business_hours.after(Time.utc(2015, 4, 7, 8, 20))
 
+3.business_days.before(Time.utc(2015, 5, 9, 4, 12))
+
 Time.utc(2015, 8, 20, 9, 30).business_hours?
 
 Date.new(2015, 12, 10).business_day?
