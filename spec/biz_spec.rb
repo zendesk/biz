@@ -33,6 +33,24 @@ RSpec.describe Biz do
           ]
         )
       end
+
+      it 'day calculation is aware of the seconds' do
+        described_class.configure do |config|
+          config.hours = {
+            mon: {'08:00' => '16:00'},
+            tue: {'08:00' => '16:00'},
+            wed: {'08:00' => '16:00'},
+            thu: {'08:00' => '16:00'},
+            fri: {'08:00' => '16:00'},
+          }
+
+          config.time_zone = 'UTC'
+        end
+
+        expect(Biz.time(1, :days).after(Time.utc(2015, 12, 25, 12, 10, 9))).to(
+          eq(Time.utc(2015, 12, 28, 12, 10, 9))
+        )
+      end
     end
 
     describe '.time_zone' do
