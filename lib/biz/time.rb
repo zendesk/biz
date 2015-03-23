@@ -33,12 +33,13 @@ module Biz
           date.month,
           date.mday,
           day_time.hour,
-          day_time.minute
+          day_time.minute,
+          day_time.second
         ),
         true
       )
     rescue TZInfo::PeriodNotFound
-      on_date(date, DayTime.new(day_time.day_minute + MINUTES_IN_HOUR))
+      on_date(date, DayTime.new(day_time.day_second + HOUR))
     end
 
     def during_week(week, week_time)

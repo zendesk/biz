@@ -41,6 +41,10 @@ module Biz
         args.fetch(:hour) * Biz::Time::MINUTES_IN_HOUR + args.fetch(:min, 0)
       end
 
+      def day_second(args = {})
+        day_minute(args) * Biz::Time::MINUTE + args.fetch(:sec, 0)
+      end
+
       def day_since_epoch(args = {})
         args.fetch(:week) * Biz::Time::DAYS_IN_WEEK + args.fetch(:wday)
       end

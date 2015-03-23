@@ -1,8 +1,12 @@
 module Biz
   class DayTime
 
-    TIMESTAMP_FORMAT  = '%02d:%02d'
-    TIMESTAMP_PATTERN = /(?<hour>\d{2}):(?<minute>\d{2})/
+    module Timestamp
+
+      FORMAT  = '%02d:%02d'
+      PATTERN = /\A(?<hour>\d{2}):(?<minute>\d{2})(:?(?<second>\d{2}))?\Z/
+
+    end
 
     include Comparable
 
@@ -11,16 +15,24 @@ module Biz
     class << self
 
       def from_time(time)
-        new(time.hour * Time::MINUTES_IN_HOUR + time.min)
+        new(time.hour * Time::HOUR + time.min * Time::MINUTE + time.sec)
+      end
+
+      def from_minute(minute)
+        new(minute * Time::MINUTE)
       end
 
       def from_hour(hour)
-        new(hour * Time::MINUTES_IN_HOUR)
+        new(hour * Time::HOUR)
       end
 
       def from_timestamp(timestamp)
-        timestamp.match(TIMESTAMP_PATTERN) { |match|
-          new(match[:hour].to_i * Time::MINUTES_IN_HOUR + match[:minute].to_i)
+        timestamp.match(Timestamp::PATTERN) { |match|
+          new(
+            match[:hour].to_i * Time::HOUR +
+              match[:minute].to_i * Time::MINUTE +
+              match[:second].to_i
+          )
         }
       end
 
@@ -42,29 +54,37 @@ module Biz
 
     end
 
-    attr_reader :day_minute
+    attr_reader :day_second
 
     delegate strftime: :day_time
 
     delegate %i[
       to_i
       to_int
-    ] => :day_minute
+    ] => :day_second
 
-    def initialize(day_minute)
-      @day_minute = Integer(day_minute)
+    def initialize(day_second)
+      @day_second = Integer(day_second)
     end
 
     def hour
-      day_minute / Time::MINUTES_IN_HOUR
+      day_second / Time::HOUR
     end
 
     def minute
-      day_minute % Time::MINUTES_IN_HOUR
+      day_second % Time::HOUR / Time::MINUTE
+    end
+
+    def second
+      day_second % Time::MINUTE
+    end
+
+    def day_minute
+      hour * Time::MINUTES_IN_HOUR + minute
     end
 
     def timestamp
-      format(TIMESTAMP_FORMAT, hour, minute)
+      format(Timestamp::FORMAT, hour, minute)
     end
 
     def coerce(other)
@@ -76,7 +96,7 @@ module Biz
     def <=>(other)
       return nil unless other.respond_to?(:to_i)
 
-      day_minute <=> other.to_i
+      day_second <=> other.to_i
     end
 
     private
@@ -87,7 +107,8 @@ module Biz
         Date::EPOCH.month,
         Date::EPOCH.mday,
         hour,
-        minute
+        minute,
+        second
       )
     end
 

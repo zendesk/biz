@@ -16,18 +16,18 @@ RSpec.describe Biz::Time do
   describe '#on_date' do
     context 'when a normal time is targeted' do
       let(:date)     { Date.new(2006, 1, 4) }
-      let(:day_time) { Biz::DayTime.new(day_minute(hour: 12, min: 30)) }
+      let(:day_time) { Biz::DayTime.new(day_second(hour: 12, min: 30, sec: 9)) }
 
       it 'returns the corresponding UTC time' do
         expect(time.on_date(date, day_time)).to eq(
-          time_zone.local_to_utc(Time.utc(2006, 1, 4, 12, 30))
+          time_zone.local_to_utc(Time.utc(2006, 1, 4, 12, 30, 9))
         )
       end
     end
 
     context 'when a non-existent (spring-forward) time is targeted' do
       let(:date)     { Date.new(2014, 3, 9) }
-      let(:day_time) { Biz::DayTime.new(day_minute(hour: 2, min: 30)) }
+      let(:day_time) { Biz::DayTime.new(day_second(hour: 2, min: 30)) }
 
       it 'returns the corresponding time an hour later' do
         expect(time.on_date(date, day_time)).to eq(
@@ -38,7 +38,7 @@ RSpec.describe Biz::Time do
 
     context 'when an ambiguous time is targeted' do
       let(:date)     { Date.new(2014, 11, 2) }
-      let(:day_time) { Biz::DayTime.new(day_minute(hour: 1, min: 30)) }
+      let(:day_time) { Biz::DayTime.new(day_second(hour: 1, min: 30)) }
 
       it 'returns the DST occurrence of the time' do
         expect(time.on_date(date, day_time)).to eq(
