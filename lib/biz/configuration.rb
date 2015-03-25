@@ -53,7 +53,6 @@ module Biz
 
     Raw = Struct.new(:hours, :holidays, :time_zone) do
       module Default
-
         HOURS = {
           mon: {'09:00' => '17:00'},
           tue: {'09:00' => '17:00'},
@@ -63,7 +62,6 @@ module Biz
         }
         HOLIDAYS  = []
         TIME_ZONE = 'Etc/UTC'
-
       end
 
       def initialize(*)

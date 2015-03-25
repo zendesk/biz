@@ -1,4 +1,4 @@
-RSpec.describe Biz::Periods do
+RSpec.describe Biz::Periods::Proxy do
   subject(:periods) { described_class.new(schedule) }
 
   describe '#after' do
