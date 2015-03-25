@@ -1,7 +1,6 @@
 module Biz
   module SpecSupport
     module Time
-
       def in_zone(zone)
         TZInfo::Timezone.get(zone).local_to_utc(yield)
       end
@@ -92,7 +91,6 @@ module Biz
           end
         end
       end
-
     end
   end
 end

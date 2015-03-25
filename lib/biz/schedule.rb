@@ -15,7 +15,7 @@ module Biz
     ] => :configuration
 
     def periods
-      Periods.new(self)
+      Periods::Proxy.new(self)
     end
 
     def dates

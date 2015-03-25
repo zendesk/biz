@@ -1,5 +1,5 @@
 module Biz
-  class Periods
+  module Periods
     class Abstract < Enumerator::Lazy
 
       extend Forwardable
@@ -14,7 +14,7 @@ module Biz
       delegate time_zone: :schedule
 
       def timeline
-        Timeline.new(self)
+        Timeline::Proxy.new(self)
       end
 
       protected

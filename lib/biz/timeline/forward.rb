@@ -1,5 +1,5 @@
 module Biz
-  class Timeline
+  module Timeline
     class Forward < Abstract
 
       def forward

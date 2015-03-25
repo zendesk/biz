@@ -1,4 +1,4 @@
-RSpec.describe Biz::Timeline do
+RSpec.describe Biz::Timeline::Proxy do
   subject(:timeline) { described_class.new(periods) }
 
   describe '#forward' do

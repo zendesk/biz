@@ -1,5 +1,5 @@
 module Biz
-  class Periods
+  module Periods
     class Before < Abstract
 
       def timeline

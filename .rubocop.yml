@@ -35,10 +35,10 @@ Style/Documentation:
   Enabled: false
 
 Style/EmptyLinesAroundClassBody:
-  Enabled: false
+  EnforcedStyle: empty_lines
 
 Style/EmptyLinesAroundModuleBody:
-  Enabled: false
+  EnforcedStyle: no_empty_lines
 
 Style/Lambda:
   Enabled: false
