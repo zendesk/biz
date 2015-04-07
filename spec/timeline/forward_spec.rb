@@ -62,8 +62,7 @@ RSpec.describe Biz::Timeline::Forward do
       it 'returns the proper periods' do
         expect(timeline.until(terminus).to_a).to eq [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
-          Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007, 1, 15)
-          )
+          Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007, 1, 15))
         ]
       end
     end
