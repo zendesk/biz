@@ -25,10 +25,13 @@ Style/AlignParameters:
 Style/AndOr:
   EnforcedStyle: conditionals
 
-Style/Blocks:
+Style/BlockDelimiters:
   Enabled: false
 
 Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/ClosingParenthesisIndentation:
   Enabled: false
 
 Style/Documentation:
@@ -51,6 +54,11 @@ Style/PercentLiteralDelimiters:
     '%i': '[]'
     '%w': '[]'
     '%W': '[]'
+
+Style/SpaceAroundOperators:
+  MultiSpaceAllowedForOperators:
+    - '='
+    - '||='
 
 Style/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
