@@ -54,10 +54,36 @@ RSpec.describe Biz::Time do
       Biz::WeekTime.build(week_minute(wday: 0, hour: 1, min: 5))
     }
 
-    let(:target_time) { time_zone.local_to_utc(Time.local(2006, 1, 8, 1, 5)) }
-
     it 'returns the target time' do
-      expect(time.during_week(week, week_time)).to eq target_time
+      expect(time.during_week(week, week_time)).to eq(
+        time_zone.local_to_utc(Time.utc(2006, 1, 8, 1, 5))
+      )
+    end
+  end
+
+  context 'when a non-existent (spring-forward) time is targeted' do
+    let(:week)      { Biz::Week.new(427) }
+    let(:week_time) {
+      Biz::WeekTime.build(week_minute(wday: 0, hour: 2, min: 30))
+    }
+
+    it 'returns the target time an hour later' do
+      expect(time.during_week(week, week_time)).to eq(
+        time_zone.local_to_utc(Time.utc(2014, 3, 9, 3, 30))
+      )
+    end
+  end
+
+  context 'when an ambiguous time is targeted' do
+    let(:week)      { Biz::Week.new(461) }
+    let(:week_time) {
+      Biz::WeekTime.build(week_minute(wday: 0, hour: 1, min: 30))
+    }
+
+    it 'returns the DST occurrence of the target time' do
+      expect(time.during_week(week, week_time)).to eq(
+        time_zone.local_to_utc(Time.utc(2014, 11, 2, 1, 30), true)
+      )
     end
   end
 end

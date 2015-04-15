@@ -37,6 +37,7 @@ module Biz
         minute
         second
         day_minute
+        day_second
         timestamp
       ] => :day_time
 
