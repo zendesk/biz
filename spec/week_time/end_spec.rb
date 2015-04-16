@@ -63,6 +63,12 @@ RSpec.describe Biz::WeekTime::End do
     end
   end
 
+  describe '#day_second' do
+    it 'returns the corresponding day second' do
+      expect(week_time.day_second).to eq day_second(hour: 9, min: 30)
+    end
+  end
+
   describe '#hour' do
     it 'returns the corresponding hour' do
       expect(week_time.hour).to eq 9
