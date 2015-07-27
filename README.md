@@ -84,6 +84,9 @@ Biz.within(Time.utc(2015, 3, 7), Time.utc(2015, 3, 14)).in_seconds
 
 # Determine if a time is in business hours
 Biz.in_hours?(Time.utc(2015, 1, 10, 9))
+
+# Determine if a time is on a holiday
+Biz.on_holiday?(Time.utc(2014, 1, 1))
 ```
 
 Note that all returned times are in UTC.
@@ -134,6 +137,8 @@ require 'biz/core_ext'
 3.business_days.before(Time.utc(2015, 5, 9, 4, 12))
 
 Time.utc(2015, 8, 20, 9, 30).business_hours?
+
+Time.utc(2014, 1, 1, 12).on_holiday?
 
 Date.new(2015, 12, 10).business_day?
 ```

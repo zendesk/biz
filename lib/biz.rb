@@ -29,6 +29,7 @@ module Biz
       within
       in_hours?
       business_hours?
+      on_holiday?
     ] => :schedule
 
     private

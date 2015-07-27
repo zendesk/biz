@@ -6,7 +6,7 @@ RSpec.describe Biz::CoreExt::Time do
   before do
     Biz.configure do |config|
       config.hours     = {mon: {'09:00' => '17:00'}}
-      config.holidays  = []
+      config.holidays  = [Date.new(2006, 1, 1)]
       config.time_zone = 'Etc/UTC'
     end
   end
@@ -27,6 +27,24 @@ RSpec.describe Biz::CoreExt::Time do
 
       it 'returns false' do
         expect(time.business_hours?).to eq false
+      end
+    end
+  end
+
+  describe '#on_holiday?' do
+    context 'when the time is on a holiday' do
+      let(:time) { time_class.utc(2006, 1, 1, 12) }
+
+      it 'returns true' do
+        expect(time.on_holiday?).to eq true
+      end
+    end
+
+    context 'when the time is not on a holiday' do
+      let(:time) { time_class.utc(2006, 1, 2, 12) }
+
+      it 'returns false' do
+        expect(time.on_holiday?).to eq false
       end
     end
   end

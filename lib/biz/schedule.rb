@@ -36,6 +36,10 @@ module Biz
       Calculation::Active.new(self, time).result
     end
 
+    def on_holiday?(time)
+      Calculation::OnHoliday.new(self, time).result
+    end
+
     alias_method :business_hours?, :in_hours?
 
     def in_zone
