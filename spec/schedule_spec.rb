@@ -112,6 +112,24 @@ RSpec.describe Biz::Schedule do
     end
   end
 
+  describe '#on_holiday?' do
+    context 'when the time is on a holiday' do
+      let(:time) { Time.utc(2006, 12, 25, 12) }
+
+      it 'returns true' do
+        expect(schedule.on_holiday?(time)).to eq true
+      end
+    end
+
+    context 'when the time is not on a holiday' do
+      let(:time) { Time.utc(2006, 12, 26, 12) }
+
+      it 'returns false' do
+        expect(schedule.on_holiday?(time)).to eq false
+      end
+    end
+  end
+
   describe '#in_zone' do
     let(:time_zone) { 'America/Los_Angeles' }
 

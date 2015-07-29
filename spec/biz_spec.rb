@@ -98,6 +98,14 @@ RSpec.describe Biz do
         )
       end
     end
+
+    describe '.on_holiday?' do
+      it 'delegates to the top-level schedule' do
+        expect(described_class.on_holiday?(Time.utc(2015, 12, 25, 12))).to eq(
+          true
+        )
+      end
+    end
   end
 
   context 'when not configured' do
