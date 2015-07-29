@@ -112,7 +112,7 @@ RSpec.describe Biz do
     before { Thread.current[:biz_schedule] = nil }
 
     it 'fails hard' do
-      expect { described_class.intervals }.to raise_error
+      expect { described_class.intervals }.to raise_error RuntimeError
     end
   end
 end
