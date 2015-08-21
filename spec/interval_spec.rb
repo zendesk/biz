@@ -69,7 +69,7 @@ RSpec.describe Biz::Interval do
       let(:start_time) {
         Biz::WeekTime.start(Biz::DayOfWeek::MONDAY.start_minute)
       }
-      let(:end_time)   {
+      let(:end_time) {
         Biz::WeekTime.end(Biz::DayOfWeek::MONDAY.end_minute)
       }
 

@@ -4,7 +4,7 @@ module Biz
     MINUTE = 60
     HOUR   = 60 * MINUTE
     DAY    = 24 * HOUR
-    WEEK   =  7 * DAY
+    WEEK   = 7 * DAY
 
     MINUTES_IN_HOUR = 60
     HOURS_IN_DAY    = 24
