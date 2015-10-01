@@ -5,6 +5,8 @@ module Biz
 
     def initialize
       @raw = Raw.new.tap do |raw| yield raw if block_given? end
+
+      Validation.perform(raw)
     end
 
     def intervals
