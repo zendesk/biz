@@ -26,6 +26,18 @@ RSpec.describe Biz::Configuration do
     end
   end
 
+  context 'when initialized with an invalid configuration' do
+    it 'raises a configuration error' do
+      expect {
+        Biz::Configuration.new do |config|
+          config.hours     = {}
+          config.holidays  = holidays
+          config.time_zone = time_zone
+        end
+      }.to raise_error Biz::Error::Configuration
+    end
+  end
+
   describe '#intervals' do
     context 'when left unconfigured' do
       subject(:configuration) {
