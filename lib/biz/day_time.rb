@@ -62,7 +62,7 @@ module Biz
     ] => :day_second
 
     def initialize(day_second)
-      @day_second = Integer(day_second)
+      @day_second = clamp(Integer(day_second), 0, 86_400)
     end
 
     def hour
@@ -95,6 +95,10 @@ module Biz
       return nil unless other.respond_to?(:to_i)
 
       day_second <=> other.to_i
+    end
+
+    def clamp(value, min, max)
+      [[value, max].min, min].max
     end
 
     private

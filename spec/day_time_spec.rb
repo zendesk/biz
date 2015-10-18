@@ -20,6 +20,12 @@ RSpec.describe Biz::DayTime do
       end
     end
 
+    context 'with an integer outside valid range' do
+      it 'clamps value' do
+        expect(described_class.new(90_000).day_second).to eq 86_400
+      end
+    end
+
     context 'with a non-integer value' do
       it 'fails hard' do
         expect { described_class.new([]) }.to raise_error TypeError

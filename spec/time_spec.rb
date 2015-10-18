@@ -36,6 +36,17 @@ RSpec.describe Biz::Time do
       end
     end
 
+    context 'when the time an hour later is invalid' do
+      let(:date)     { Date.new(2014, 3, 9) }
+      let(:day_time) { Biz::DayTime.new(day_second(hour: 25, min: 0)) }
+
+      it 'gets clamped to a valid value' do
+        expect(time.on_date(date, day_time)).to eq(
+          time_zone.local_to_utc(Time.utc(2014, 3, 10, 0, 0))
+        )
+      end
+    end
+
     context 'when an ambiguous time is targeted' do
       let(:date)     { Date.new(2014, 11, 2) }
       let(:day_time) { Biz::DayTime.new(day_second(hour: 1, min: 30)) }
