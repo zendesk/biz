@@ -76,6 +76,28 @@ RSpec.describe Biz::Schedule do
     end
   end
 
+  describe 'ZD#1290963' do
+    let(:hours) {
+      {
+        sun: {'00:00' => '24:00'},
+        mon: {'00:00' => '24:00'},
+        tue: {'00:00' => '24:00'},
+        wed: {'00:00' => '24:00'},
+        thu: {'00:00' => '24:00'},
+        fri: {'00:00' => '24:00'},
+        sat: {'00:00' => '24:00'}
+      }
+    }
+
+    let(:time_zone) { 'America/Sao_Paulo' }
+
+    it 'should be ok' do
+      expect(
+        schedule.within(Time.utc(2015, 2, 3, 16), Time.utc(2015, 10, 18, 1))
+      ).to eq Biz::Duration.hours(6153)
+    end
+  end
+
   describe '#in_hours?' do
     context 'when the time is not in business hours' do
       let(:time) { Time.utc(2006, 1, 2, 8) }

@@ -12,6 +12,7 @@ module Biz
 
     MINUTES_IN_DAY  = MINUTES_IN_HOUR * HOURS_IN_DAY
     MINUTES_IN_WEEK = MINUTES_IN_DAY * DAYS_IN_WEEK
+    SECONDS_IN_DAY  = MINUTES_IN_DAY * 60
 
     BIG_BANG   = ::Time.new(-10**100)
     HEAT_DEATH = ::Time.new(10**100)
@@ -39,7 +40,12 @@ module Biz
         true
       )
     rescue TZInfo::PeriodNotFound
-      on_date(date, DayTime.new(day_time.day_second + HOUR))
+      next_day_second = day_time.day_second + HOUR
+      if next_day_second > SECONDS_IN_DAY
+        on_date(date + 1, DayTime.new(next_day_second % SECONDS_IN_DAY))
+      else
+        on_date(date, DayTime.new(next_day_second))
+      end
     end
 
     def during_week(week, week_time)
