@@ -36,6 +36,18 @@ RSpec.describe Biz::Time do
       end
     end
 
+    context 'when a non-existent (spring-forward) endnight time is targeted' do
+      let(:time_zone) { TZInfo::Timezone.get('America/Sao_Paulo') }
+      let(:date)      { Date.new(2015, 10, 17) }
+      let(:day_time)  { Biz::DayTime.new(day_second(hour: 24)) }
+
+      it 'returns the corresponding time an hour later' do
+        expect(time.on_date(date, day_time)).to eq(
+          time_zone.local_to_utc(Time.new(2015, 10, 18, 1))
+        )
+      end
+    end
+
     context 'when an ambiguous time is targeted' do
       let(:date)     { Date.new(2014, 11, 2) }
       let(:day_time) { Biz::DayTime.new(day_second(hour: 1, min: 30)) }

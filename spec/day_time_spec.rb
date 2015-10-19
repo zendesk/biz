@@ -137,6 +137,50 @@ RSpec.describe Biz::DayTime do
     end
   end
 
+  describe '#for_dst' do
+    context 'when the day time is midnight' do
+      let(:day_time) { Biz::DayTime.midnight }
+
+      it 'returns a day time one hour later' do
+        expect(day_time.for_dst).to eq described_class.new(day_second(hour: 1))
+      end
+    end
+
+    context 'when the day time is noon' do
+      let(:day_time) { Biz::DayTime.noon }
+
+      it 'returns a day time one hour later' do
+        expect(day_time.for_dst).to eq described_class.new(day_second(hour: 13))
+      end
+    end
+
+    context 'when the day time is one hour before endnight' do
+      let(:day_time) { Biz::DayTime.new(day_second(hour: 23)) }
+
+      it 'returns a midnight day time' do
+        expect(day_time.for_dst).to eq described_class.midnight
+      end
+    end
+
+    context 'when the day time is less than one hour before endnight' do
+      let(:day_time) { Biz::DayTime.new(day_second(hour: 23, min: 40)) }
+
+      it 'returns a day time just after midnight' do
+        expect(day_time.for_dst).to eq(
+          described_class.new(day_second(hour: 0, min: 40))
+        )
+      end
+    end
+
+    context 'when the day time is endnight' do
+      let(:day_time) { Biz::DayTime.endnight }
+
+      it 'returns a day time one hour after midnight' do
+        expect(day_time.for_dst).to eq described_class.new(day_second(hour: 1))
+      end
+    end
+  end
+
   describe '#timestamp' do
     context 'when the hour and minute are single-digit values' do
       subject(:day_time) { described_class.new(day_second(hour: 4, min: 3)) }

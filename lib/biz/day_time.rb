@@ -81,6 +81,12 @@ module Biz
       hour * Time::MINUTES_IN_HOUR + minute
     end
 
+    def for_dst
+      self.class.new(
+        (day_second + Time::HOUR) % Time::DAY
+      )
+    end
+
     def timestamp
       format(Timestamp::FORMAT, hour, minute)
     end
