@@ -60,6 +60,7 @@ Style/PercentLiteralDelimiters:
 
 Style/SpaceAroundOperators:
   MultiSpaceAllowedForOperators:
+    - '*'
     - '='
     - '||='
 
