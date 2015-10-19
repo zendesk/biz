@@ -9,7 +9,7 @@ module Biz
 
     def self.for_dst(date, day_time)
       date +
-        (day_time.day_second + Time::HOUR) / Time::DAY
+        (day_time.day_second + Time::SECONDS_IN_HOUR) / Time::SECONDS_IN_DAY
     end
 
   end

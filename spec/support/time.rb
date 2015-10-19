@@ -41,7 +41,7 @@ module Biz
       end
 
       def day_second(args = {})
-        day_minute(args) * Biz::Time::MINUTE + args.fetch(:sec, 0)
+        day_minute(args) * Biz::Time::SECONDS_IN_MINUTE + args.fetch(:sec, 0)
       end
 
       def day_since_epoch(args = {})
@@ -49,9 +49,9 @@ module Biz
       end
 
       def in_seconds(args = {})
-        args.fetch(:days, 0) * Biz::Time::DAY +
-          args.fetch(:hours, 0) * Biz::Time::HOUR +
-          args.fetch(:minutes, 0) * Biz::Time::MINUTE +
+        args.fetch(:days, 0) * Biz::Time::SECONDS_IN_DAY +
+          args.fetch(:hours, 0) * Biz::Time::SECONDS_IN_HOUR +
+          args.fetch(:minutes, 0) * Biz::Time::SECONDS_IN_MINUTE +
           args.fetch(:seconds, 0)
       end
 
