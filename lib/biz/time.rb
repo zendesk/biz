@@ -28,7 +28,7 @@ module Biz
 
     def on_date(date, day_time)
       time_zone.local_to_utc(
-        ::Time.utc(
+        ::Time.new(
           date.year,
           date.month,
           date.mday,
