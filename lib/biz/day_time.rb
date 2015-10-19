@@ -1,6 +1,8 @@
 module Biz
   class DayTime
 
+    VALID_SECONDS = 0..Time::SECONDS_IN_DAY
+
     module Timestamp
       FORMAT  = '%02d:%02d'
       PATTERN = /\A(?<hour>\d{2}):(?<minute>\d{2})(:?(?<second>\d{2}))?\Z/
@@ -67,6 +69,10 @@ module Biz
 
     def initialize(day_second)
       @day_second = Integer(day_second)
+
+      unless VALID_SECONDS.cover?(@day_second)
+        fail ArgumentError, 'Invalid number of seconds for a day.'
+      end
     end
 
     def hour
