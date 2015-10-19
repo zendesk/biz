@@ -58,7 +58,7 @@ module Biz
 
     attr_reader :day_second
 
-    delegate strftime: :day_time
+    delegate strftime: :format_time
 
     delegate %i[
       to_i
@@ -109,7 +109,7 @@ module Biz
 
     private
 
-    def day_time
+    def format_time
       ::Time.new(
         Date::EPOCH.year,
         Date::EPOCH.month,
