@@ -57,6 +57,14 @@ RSpec.describe Biz::WeekTime::Start do
     end
   end
 
+  describe '#day_time' do
+    it 'returns the corresponding day time' do
+      expect(week_time.day_time).to eq(
+        Biz::DayTime.new(day_second(hour: 9, min: 30))
+      )
+    end
+  end
+
   describe '#day_minute' do
     it 'returns the corresponding day minute' do
       expect(week_time.day_minute).to eq day_minute(hour: 9, min: 30)
@@ -97,6 +105,12 @@ RSpec.describe Biz::WeekTime::Start do
     subject(:week_time) {
       described_class.new(Biz::DayOfWeek::TUESDAY.start_minute)
     }
+
+    describe '#day_time' do
+      it 'returns the midnight day time' do
+        expect(week_time.day_time).to eq Biz::DayTime.new(0)
+      end
+    end
 
     describe '#day_minute' do
       it 'returns zero' do

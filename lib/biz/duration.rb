@@ -15,13 +15,13 @@ module Biz
       alias_method :second, :seconds
 
       def minutes(minutes)
-        new(minutes * Time::MINUTE)
+        new(minutes * Time::SECONDS_IN_MINUTE)
       end
 
       alias_method :minute, :minutes
 
       def hours(hours)
-        new(hours * Time::HOUR)
+        new(hours * Time::SECONDS_IN_HOUR)
       end
 
       alias_method :hour, :hours
@@ -41,11 +41,11 @@ module Biz
     end
 
     def in_minutes
-      seconds / Time::MINUTE
+      seconds / Time::SECONDS_IN_MINUTE
     end
 
     def in_hours
-      seconds / Time::HOUR
+      seconds / Time::SECONDS_IN_HOUR
     end
 
     def +(other)

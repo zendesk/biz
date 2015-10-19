@@ -1,18 +1,17 @@
 module Biz
   class Time
 
-    MINUTE = 60
-    HOUR   = 60 * MINUTE
-    DAY    = 24 * HOUR
-    WEEK   = 7 * DAY
+    SECONDS_IN_MINUTE = 60
+    MINUTES_IN_HOUR   = 60
+    HOURS_IN_DAY      = 24
+    DAYS_IN_WEEK      = 7
 
-    MINUTES_IN_HOUR = 60
-    HOURS_IN_DAY    = 24
-    DAYS_IN_WEEK    = 7
+    SECONDS_IN_HOUR = SECONDS_IN_MINUTE * MINUTES_IN_HOUR
+    SECONDS_IN_DAY  = SECONDS_IN_HOUR   * HOURS_IN_DAY
+    SECONDS_IN_WEEK = SECONDS_IN_DAY    * DAYS_IN_WEEK
 
     MINUTES_IN_DAY  = MINUTES_IN_HOUR * HOURS_IN_DAY
-    MINUTES_IN_WEEK = MINUTES_IN_DAY * DAYS_IN_WEEK
-    SECONDS_IN_DAY  = MINUTES_IN_DAY * 60
+    MINUTES_IN_WEEK = MINUTES_IN_DAY  * DAYS_IN_WEEK
 
     BIG_BANG   = ::Time.new(-10**100)
     HEAT_DEATH = ::Time.new(10**100)
@@ -29,7 +28,7 @@ module Biz
 
     def on_date(date, day_time)
       time_zone.local_to_utc(
-        ::Time.utc(
+        ::Time.new(
           date.year,
           date.month,
           date.mday,
@@ -40,16 +39,11 @@ module Biz
         true
       )
     rescue TZInfo::PeriodNotFound
-      next_day_second = day_time.day_second + HOUR
-      if next_day_second > SECONDS_IN_DAY
-        on_date(date + 1, DayTime.new(next_day_second % SECONDS_IN_DAY))
-      else
-        on_date(date, DayTime.new(next_day_second))
-      end
+      on_date(Date.for_dst(date, day_time), day_time.for_dst)
     end
 
     def during_week(week, week_time)
-      on_date(week.start_date + week_time.wday, week_time)
+      on_date(week.start_date + week_time.wday, week_time.day_time)
     end
 
   end

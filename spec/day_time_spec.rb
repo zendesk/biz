@@ -1,5 +1,7 @@
 RSpec.describe Biz::DayTime do
-  subject(:day_time) { described_class.new((9 * 60 + 53) * 60 + 27) }
+  subject(:day_time) {
+    described_class.new(day_second(hour: 9, min: 53, sec: 27))
+  }
 
   context 'when initializing' do
     context 'with an integer' do
@@ -23,6 +25,34 @@ RSpec.describe Biz::DayTime do
     context 'with a non-integer value' do
       it 'fails hard' do
         expect { described_class.new([]) }.to raise_error TypeError
+      end
+    end
+
+    context 'when the value is negative' do
+      it 'fails hard' do
+        expect { described_class.new(-1) }.to raise_error ArgumentError
+      end
+    end
+
+    context 'when the value is zero' do
+      it 'is successful' do
+        expect(described_class.new(0).day_second).to eq 0
+      end
+    end
+
+    context 'when the value is the number of seconds in a day' do
+      it 'is successful' do
+        expect(described_class.new(Biz::Time::SECONDS_IN_DAY).day_second).to eq(
+          Biz::Time::SECONDS_IN_DAY
+        )
+      end
+    end
+
+    context 'when the value is more than the number of seconds in a day' do
+      it 'fails hard' do
+        expect {
+          described_class.new(Biz::Time::SECONDS_IN_DAY + 1)
+        }.to raise_error ArgumentError
       end
     end
   end
@@ -134,6 +164,50 @@ RSpec.describe Biz::DayTime do
   describe '#day_minute' do
     it 'returns the number of minutes into the day' do
       expect(day_time.day_minute).to eq 593
+    end
+  end
+
+  describe '#for_dst' do
+    context 'when the day time is midnight' do
+      let(:day_time) { Biz::DayTime.midnight }
+
+      it 'returns a day time one hour later' do
+        expect(day_time.for_dst).to eq described_class.new(day_second(hour: 1))
+      end
+    end
+
+    context 'when the day time is noon' do
+      let(:day_time) { Biz::DayTime.noon }
+
+      it 'returns a day time one hour later' do
+        expect(day_time.for_dst).to eq described_class.new(day_second(hour: 13))
+      end
+    end
+
+    context 'when the day time is one hour before endnight' do
+      let(:day_time) { Biz::DayTime.new(day_second(hour: 23)) }
+
+      it 'returns a midnight day time' do
+        expect(day_time.for_dst).to eq described_class.midnight
+      end
+    end
+
+    context 'when the day time is less than one hour before endnight' do
+      let(:day_time) { Biz::DayTime.new(day_second(hour: 23, min: 40)) }
+
+      it 'returns a day time just after midnight' do
+        expect(day_time.for_dst).to eq(
+          described_class.new(day_second(hour: 0, min: 40))
+        )
+      end
+    end
+
+    context 'when the day time is endnight' do
+      let(:day_time) { Biz::DayTime.endnight }
+
+      it 'returns a day time one hour after midnight' do
+        expect(day_time.for_dst).to eq described_class.new(day_second(hour: 1))
+      end
     end
   end
 
