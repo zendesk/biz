@@ -49,6 +49,8 @@ module Biz
         to_int
       ] => :week_minute
 
+      abstract_method :day_time
+
       protected
 
       def <=>(other)
@@ -69,8 +71,7 @@ module Biz
         )
       end
 
-      abstract_method :day_of_week,
-                      :day_time
+      abstract_method :day_of_week
 
     end
   end

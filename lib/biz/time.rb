@@ -43,7 +43,7 @@ module Biz
     end
 
     def during_week(week, week_time)
-      on_date(week.start_date + week_time.wday, week_time)
+      on_date(week.start_date + week_time.wday, week_time.day_time)
     end
 
   end
