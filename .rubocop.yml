@@ -15,24 +15,14 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Max: 25
 
-Style/AlignHash:
-  EnforcedHashRocketStyle: table
-  EnforcedColonStyle: table
-
-Style/AlignParameters:
-  Enabled: false
-
 Style/AndOr:
   EnforcedStyle: conditionals
 
 Style/BlockDelimiters:
-  Enabled: false
-
-Style/ClassAndModuleChildren:
-  Enabled: false
-
-Style/ClosingParenthesisIndentation:
-  Enabled: false
+  EnforcedStyle: semantic
+  IgnoredMethods:
+    - after
+    - before
 
 Style/Documentation:
   Enabled: false
@@ -45,12 +35,6 @@ Style/EmptyLinesAroundModuleBody:
 
 Style/GuardClause:
   MinBodyLength: 2
-
-Style/Lambda:
-  Enabled: false
-
-Style/MultilineBlockChain:
-  Enabled: false
 
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
