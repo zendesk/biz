@@ -9,13 +9,13 @@ module Biz
       def until(terminus)
         return enum_for(:until, terminus) unless block_given?
 
-        periods.map { |period|
-          period & comparison_period(period, terminus)
-        }.each do |period|
-          yield period unless period.empty?
+        periods
+          .map { |period| period & comparison_period(period, terminus) }
+          .each do |period|
+            yield period unless period.empty?
 
-          break if occurred?(period, terminus)
-        end
+            break if occurred?(period, terminus)
+          end
       end
 
       def for(duration)
@@ -23,15 +23,15 @@ module Biz
 
         remaining = duration
 
-        periods.map { |period|
-          period & duration_period(period, remaining)
-        }.each do |period|
-          yield period unless period.empty?
+        periods
+          .map { |period| period & duration_period(period, remaining) }
+          .each do |period|
+            yield period unless period.empty?
 
-          remaining -= period.duration
+            remaining -= period.duration
 
-          break unless remaining.positive?
-        end
+            break unless remaining.positive?
+          end
       end
 
       protected

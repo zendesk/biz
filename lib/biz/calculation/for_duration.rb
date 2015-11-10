@@ -39,7 +39,8 @@ module Biz
 
       [
         *%i[second seconds minute minutes hour hours].map { |unit|
-          const_set(unit.to_s.capitalize,
+          const_set(
+            unit.to_s.capitalize,
             Class.new(self) do
               def before(time)
                 timeline(:before, time).last.start_time
@@ -63,7 +64,8 @@ module Biz
           )
         },
         *%i[day days].map { |unit|
-          const_set(unit.to_s.capitalize,
+          const_set(
+            unit.to_s.capitalize,
             Class.new(self) do
               def before(time)
                 periods(:before, time).first.end_time
