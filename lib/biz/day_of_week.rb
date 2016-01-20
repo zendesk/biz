@@ -1,7 +1,7 @@
 module Biz
   class DayOfWeek
 
-    SYMBOLS = [:sun, :mon, :tue, :wed, :thu, :fri, :sat]
+    SYMBOLS = %i[sun mon tue wed thu fri sat].freeze
 
     def self.from_time(time)
       DAYS.fetch(time.wday)
@@ -21,7 +21,7 @@ module Biz
 
     class << self
 
-      alias_method :from_date, :from_time
+      alias from_date from_time
 
     end
 
@@ -67,7 +67,7 @@ module Biz
       THURSDAY  = new(4),
       FRIDAY    = new(5),
       SATURDAY  = new(6)
-    ]
+    ].freeze
 
     WEEKDAYS = [
       MONDAY,
@@ -75,7 +75,7 @@ module Biz
       WEDNESDAY,
       THURSDAY,
       FRIDAY
-    ]
+    ].freeze
 
   end
 end

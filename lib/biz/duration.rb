@@ -12,19 +12,19 @@ module Biz
         new(seconds)
       end
 
-      alias_method :second, :seconds
+      alias second seconds
 
       def minutes(minutes)
         new(minutes * Time::SECONDS_IN_MINUTE)
       end
 
-      alias_method :minute, :minutes
+      alias minute minutes
 
       def hours(hours)
         new(hours * Time::SECONDS_IN_HOUR)
       end
 
-      alias_method :hour, :hours
+      alias hour hours
 
     end
 

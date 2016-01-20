@@ -4,7 +4,7 @@ module Biz
     VALID_SECONDS = 0..Time::SECONDS_IN_DAY
 
     module Timestamp
-      FORMAT  = '%02d:%02d'
+      FORMAT  = '%02d:%02d'.freeze
       PATTERN = /\A(?<hour>\d{2}):(?<minute>\d{2})(:?(?<second>\d{2}))?\Z/
     end
 
@@ -44,13 +44,13 @@ module Biz
         MIDNIGHT
       end
 
-      alias_method :am, :midnight
+      alias am midnight
 
       def noon
         NOON
       end
 
-      alias_method :pm, :noon
+      alias pm noon
 
       def endnight
         ENDNIGHT

@@ -43,10 +43,7 @@ Style/PercentLiteralDelimiters:
     '%W': '[]'
 
 Style/SpaceAroundOperators:
-  MultiSpaceAllowedForOperators:
-    - '*'
-    - '='
-    - '||='
+  AllowForAlignment: true
 
 Style/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space

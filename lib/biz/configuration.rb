@@ -61,9 +61,10 @@ module Biz
           wed: {'09:00' => '17:00'},
           thu: {'09:00' => '17:00'},
           fri: {'09:00' => '17:00'}
-        }
-        HOLIDAYS  = []
-        TIME_ZONE = 'Etc/UTC'
+        }.freeze
+
+        HOLIDAYS  = [].freeze
+        TIME_ZONE = 'Etc/UTC'.freeze
       end
 
       def initialize(*)

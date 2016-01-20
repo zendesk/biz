@@ -15,7 +15,7 @@ module Biz
 
     class << self
 
-      alias_method :since_epoch, :from_time
+      alias since_epoch from_time
 
     end
 

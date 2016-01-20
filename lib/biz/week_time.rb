@@ -14,7 +14,7 @@ module Biz
         End.new(week_minute)
       end
 
-      alias_method :build, :start
+      alias build start
 
     end
   end
