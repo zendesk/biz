@@ -37,14 +37,16 @@ module Biz
 
     end
 
-    RULES = Set.new([
-      Rule.new('Hours must be hash-like.') { |raw|
-        raw.hours.respond_to?(:to_h)
-      },
-      Rule.new('Hours must be provided.') { |raw|
-        raw.hours.to_h.any?
-      }
-    ])
+    RULES = Set.new(
+      [
+        Rule.new('Hours must be hash-like.') { |raw|
+          raw.hours.respond_to?(:to_h)
+        },
+        Rule.new('Hours must be provided.') { |raw|
+          raw.hours.to_h.any?
+        }
+      ]
+    )
 
   end
 end

@@ -22,7 +22,7 @@ module Biz
       Dates.new(self)
     end
 
-    alias_method :date, :dates
+    alias date dates
 
     def time(scalar, unit)
       Calculation::ForDuration.with_unit(self, scalar, unit)
@@ -40,7 +40,7 @@ module Biz
       Calculation::OnHoliday.new(self, time).result
     end
 
-    alias_method :business_hours?, :in_hours?
+    alias business_hours? in_hours?
 
     def in_zone
       Time.new(time_zone)
