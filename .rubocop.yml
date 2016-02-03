@@ -33,6 +33,9 @@ Style/EmptyLinesAroundClassBody:
 Style/EmptyLinesAroundModuleBody:
   EnforcedStyle: no_empty_lines
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 Style/GuardClause:
   MinBodyLength: 2
 
