@@ -13,7 +13,7 @@ RSpec.describe Biz::CoreExt::Fixnum do
     end
   end
 
-  after { Thread.current[:biz_schedule] = nil }
+  after do Thread.current[:biz_schedule] = nil end
 
   describe '#business_second' do
     it 'performs a for-duration calculation for the given number of seconds' do

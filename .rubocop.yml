@@ -1,28 +1,11 @@
-AllCops:
-  Include:
-    - 'Rakefile'
-  Exclude:
-    - 'bin/**/*'
-    - 'vendor/**/*'
-
-Metrics/AbcSize:
-  Max: 25
-
-Metrics/LineLength:
-  Exclude:
-    - 'Gemfile'
-
 Metrics/MethodLength:
-  Max: 25
+  Max: 20
 
 Style/AndOr:
   EnforcedStyle: conditionals
 
 Style/BlockDelimiters:
   EnforcedStyle: semantic
-  IgnoredMethods:
-    - after
-    - before
 
 Style/Documentation:
   Enabled: false
@@ -30,20 +13,14 @@ Style/Documentation:
 Style/EmptyLinesAroundClassBody:
   EnforcedStyle: empty_lines
 
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
-Style/GuardClause:
-  MinBodyLength: 2
-
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%i': '[]'
     '%w': '[]'
     '%W': '[]'
 
-Style/SpaceAroundOperators:
-  AllowForAlignment: true
+Style/SignalException:
+  EnforcedStyle: semantic
 
 Style/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space

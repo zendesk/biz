@@ -11,7 +11,7 @@ RSpec.describe Biz::CoreExt::Time do
     end
   end
 
-  after { Thread.current[:biz_schedule] = nil }
+  after do Thread.current[:biz_schedule] = nil end
 
   describe '#business_hours?' do
     context 'when the time is within a business period' do
