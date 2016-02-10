@@ -11,7 +11,7 @@ RSpec.describe Biz::CoreExt::Date do
     end
   end
 
-  after { Thread.current[:biz_schedule] = nil }
+  after do Thread.current[:biz_schedule] = nil end
 
   describe '#business_day?' do
     context 'when the date contains at least one business period' do
