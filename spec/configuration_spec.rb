@@ -48,7 +48,7 @@ RSpec.describe Biz::Configuration do
       }
 
       it 'returns the default set of intervals' do
-        expect(configuration.intervals).to eq(
+        expect(configuration.intervals).to eq_intervals(
           Biz::DayOfWeek::WEEKDAYS.map { |weekday|
             Biz::Interval.new(
               Biz::WeekTime.start(week_minute(wday: weekday.wday, hour: 9)),
@@ -71,7 +71,7 @@ RSpec.describe Biz::Configuration do
     end
 
     it 'returns the proper intervals' do
-      expect(configuration.intervals).to eq [
+      expect(configuration.intervals).to eq_intervals [
         Biz::Interval.new(
           Biz::WeekTime.start(week_minute(wday: 1, hour: 9)),
           Biz::WeekTime.end(week_minute(wday: 1, hour: 17)),
@@ -109,7 +109,7 @@ RSpec.describe Biz::Configuration do
       let(:hours) { {mon: {'09:00' => '17:00'}, tue: {'10:00' => '16:00'}} }
 
       it 'returns the intervals in order' do
-        expect(configuration.intervals).to eq [
+        expect(configuration.intervals).to eq_intervals [
           Biz::Interval.new(
             Biz::WeekTime.start(week_minute(wday: 1, hour: 9)),
             Biz::WeekTime.end(week_minute(wday: 1, hour: 17)),
@@ -140,7 +140,7 @@ RSpec.describe Biz::Configuration do
     end
 
     it 'returns the proper holidays' do
-      expect(configuration.holidays).to eq [
+      expect(configuration.holidays).to eq_holidays [
         Biz::Holiday.new(
           Date.new(2006, 1, 1),
           TZInfo::Timezone.get('America/New_York')

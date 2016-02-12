@@ -57,7 +57,7 @@ RSpec.describe Biz::Interval do
     let(:week) { Biz::Week.new(4) }
 
     it 'returns the appropriate time segment for the given week' do
-      expect(interval.to_time_segment(week)).to eq(
+      expect(interval.to_time_segment(week)).to eq_time_segment(
         Biz::TimeSegment.new(
           in_zone('America/Los_Angeles') { Time.utc(2006, 1, 30, 9) },
           in_zone('America/Los_Angeles') { Time.utc(2006, 1, 30, 17) }
@@ -74,7 +74,7 @@ RSpec.describe Biz::Interval do
       }
 
       it 'returns the appropriate time segment' do
-        expect(interval.to_time_segment(week)).to eq(
+        expect(interval.to_time_segment(week)).to eq_time_segment(
           Biz::TimeSegment.new(
             in_zone('America/Los_Angeles') { Time.utc(2006, 1, 30) },
             in_zone('America/Los_Angeles') { Time.utc(2006, 1, 31) }
@@ -88,7 +88,7 @@ RSpec.describe Biz::Interval do
       let(:end_time)   { Biz::WeekTime.end(Biz::Time::MINUTES_IN_WEEK) }
 
       it 'returns the appropriate time segment' do
-        expect(interval.to_time_segment(week)).to eq(
+        expect(interval.to_time_segment(week)).to eq_time_segment(
           Biz::TimeSegment.new(
             in_zone('America/Los_Angeles') { Time.utc(2006, 1, 29) },
             in_zone('America/Los_Angeles') { Time.utc(2006, 2, 5) }

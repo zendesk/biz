@@ -1,8 +1,6 @@
 module Biz
   class TimeSegment
 
-    include Equalizer.new(:start_time, :end_time)
-
     def self.before(time)
       new(Time::BIG_BANG, time)
     end

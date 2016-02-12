@@ -5,7 +5,6 @@ require 'set'
 
 require 'abstract_type'
 require 'clavius'
-require 'equalizer'
 require 'memoizable'
 require 'tzinfo'
 

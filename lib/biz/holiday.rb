@@ -1,8 +1,6 @@
 module Biz
   class Holiday
 
-    include Equalizer.new(:date, :time_zone)
-
     attr_reader :date,
                 :time_zone
 

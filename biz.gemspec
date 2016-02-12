@@ -15,7 +15,6 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'abstract_type', '~> 0.0.0'
   gem.add_runtime_dependency 'clavius',       '~> 1.0'
-  gem.add_runtime_dependency 'equalizer',     '~> 0.0.0'
   gem.add_runtime_dependency 'memoizable',    '~> 0.4.0'
   gem.add_runtime_dependency 'tzinfo'
 
