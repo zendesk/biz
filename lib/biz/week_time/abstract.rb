@@ -2,7 +2,6 @@ module Biz
   module WeekTime
     class Abstract
 
-      include AbstractType
       include Comparable
       include Memoizable
 
@@ -49,8 +48,6 @@ module Biz
         to_int
       ] => :week_minute
 
-      abstract_method :day_time
-
       protected
 
       def <=>(other)
@@ -70,8 +67,6 @@ module Biz
           minute
         )
       end
-
-      abstract_method :day_of_week
 
     end
   end

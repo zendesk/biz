@@ -3,7 +3,6 @@ require 'delegate'
 require 'forwardable'
 require 'set'
 
-require 'abstract_type'
 require 'clavius'
 require 'memoizable'
 require 'tzinfo'
