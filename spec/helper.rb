@@ -14,4 +14,4 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 end
 
-require 'support/time'
+require 'support'
