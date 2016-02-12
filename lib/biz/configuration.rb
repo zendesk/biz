@@ -1,8 +1,6 @@
 module Biz
   class Configuration
 
-    include Memoizable
-
     def initialize
       @raw = Raw.new.tap do |raw| yield raw if block_given? end
 
@@ -10,21 +8,27 @@ module Biz
     end
 
     def intervals
-      raw.hours.flat_map { |weekday, hours|
-        weekday_intervals(weekday, hours)
-      }.sort_by(&:start_time)
+      @intervals ||= begin
+        raw
+          .hours
+          .flat_map { |weekday, hours| weekday_intervals(weekday, hours) }
+          .sort_by(&:start_time)
+          .freeze
+      end
     end
 
     def holidays
-      raw.holidays.map { |date| Holiday.new(date, time_zone) }
+      @holidays ||= begin
+        raw.holidays.map { |date| Holiday.new(date, time_zone) }.freeze
+      end
     end
 
     def time_zone
-      TZInfo::TimezoneProxy.new(raw.time_zone)
+      @time_zone ||= TZInfo::TimezoneProxy.new(raw.time_zone)
     end
 
     def weekdays
-      raw.hours.keys.to_set
+      @weekdays ||= raw.hours.keys.to_set.freeze
     end
 
     protected
@@ -48,10 +52,6 @@ module Biz
         )
       }
     end
-
-    memoize :intervals,
-            :holidays,
-            :weekdays
 
     Raw = Struct.new(:hours, :holidays, :time_zone) do
       module Default

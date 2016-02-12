@@ -4,7 +4,6 @@ require 'forwardable'
 require 'set'
 
 require 'clavius'
-require 'memoizable'
 require 'tzinfo'
 
 module Biz

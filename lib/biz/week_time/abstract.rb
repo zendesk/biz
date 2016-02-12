@@ -3,7 +3,6 @@ module Biz
     class Abstract
 
       include Comparable
-      include Memoizable
 
       extend Forwardable
 
