@@ -13,6 +13,9 @@ Style/Documentation:
 Style/EmptyLinesAroundClassBody:
   EnforcedStyle: empty_lines
 
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%i': '[]'
