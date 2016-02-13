@@ -1,8 +1,6 @@
 module Biz
   class Interval
 
-    include Equalizer.new(:start_time, :end_time, :time_zone)
-
     attr_reader :start_time,
                 :end_time,
                 :time_zone

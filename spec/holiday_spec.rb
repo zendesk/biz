@@ -48,7 +48,7 @@ RSpec.describe Biz::Holiday do
 
   describe '#to_time_segment' do
     it 'returns the appropriate time segment' do
-      expect(holiday.to_time_segment).to eq(
+      expect(holiday.to_time_segment).to eq_time_segment(
         Biz::TimeSegment.new(
           in_zone('America/Los_Angeles') { Time.utc(2010, 7, 15) },
           in_zone('America/Los_Angeles') { Time.utc(2010, 7, 16) }

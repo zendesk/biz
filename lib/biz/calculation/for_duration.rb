@@ -4,8 +4,6 @@ module Biz
 
       UNITS = Set.new(%i[second seconds minute minutes hour hours day days])
 
-      include AbstractType
-
       def self.with_unit(schedule, scalar, unit)
         unless UNITS.include?(unit)
           fail ArgumentError, 'The unit is not supported.'
@@ -22,9 +20,6 @@ module Biz
         @schedule = schedule
         @scalar   = scalar
       end
-
-      abstract_method :before,
-                      :after
 
       protected
 

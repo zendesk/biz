@@ -3,10 +3,7 @@ require 'delegate'
 require 'forwardable'
 require 'set'
 
-require 'abstract_type'
 require 'clavius'
-require 'equalizer'
-require 'memoizable'
 require 'tzinfo'
 
 module Biz

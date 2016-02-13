@@ -1,7 +1,6 @@
 module Biz
   class Duration
 
-    include Equalizer.new(:seconds)
     include Comparable
 
     extend Forwardable

@@ -23,13 +23,17 @@ RSpec.describe Biz::Schedule do
 
   describe '#intervals' do
     it 'delegates to the configuration' do
-      expect(schedule.intervals).to eq Biz::Configuration.new(&config).intervals
+      expect(schedule.intervals).to eq_intervals(
+        Biz::Configuration.new(&config).intervals
+      )
     end
   end
 
   describe '#holidays' do
     it 'delegates to the configuration' do
-      expect(schedule.holidays).to eq Biz::Configuration.new(&config).holidays
+      expect(schedule.holidays).to eq_holidays(
+        Biz::Configuration.new(&config).holidays
+      )
     end
   end
 
@@ -43,7 +47,9 @@ RSpec.describe Biz::Schedule do
     let(:hours) { {mon: {'01:00' => '02:00'}} }
 
     it 'returns periods for the schedule' do
-      expect(schedule.periods.after(Time.utc(2006, 1, 1)).first).to eq(
+      expect(
+        schedule.periods.after(Time.utc(2006, 1, 1)).first
+      ).to eq_time_segment(
         Biz::TimeSegment.new(Time.utc(2006, 1, 2, 1), Time.utc(2006, 1, 2, 2))
       )
     end

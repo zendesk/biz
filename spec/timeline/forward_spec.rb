@@ -12,7 +12,7 @@ RSpec.describe Biz::Timeline::Forward do
       let(:terminus) { Time.utc(2006, 1, 1, 0, 1) }
 
       it 'returns a period with second precision' do
-        expect(timeline.until(terminus).to_a).to eq [
+        expect(timeline.until(terminus).to_a).to eq_time_segments [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 1, 1, 0, 1))
         ]
       end
@@ -30,7 +30,7 @@ RSpec.describe Biz::Timeline::Forward do
       let(:terminus) { Time.utc(2007, 3) }
 
       it 'returns the proper periods' do
-        expect(timeline.until(terminus).to_a).to eq [
+        expect(timeline.until(terminus).to_a).to eq_time_segments [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
           Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007, 2))
         ]
@@ -41,7 +41,7 @@ RSpec.describe Biz::Timeline::Forward do
       let(:terminus) { Time.utc(2008) }
 
       it 'returns the proper periods' do
-        expect(timeline.until(terminus).to_a).to eq [
+        expect(timeline.until(terminus).to_a).to eq_time_segments [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
           Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007, 2))
         ]
@@ -60,7 +60,7 @@ RSpec.describe Biz::Timeline::Forward do
       let(:terminus) { Time.utc(2007, 1, 15) }
 
       it 'returns the proper periods' do
-        expect(timeline.until(terminus).to_a).to eq [
+        expect(timeline.until(terminus).to_a).to eq_time_segments [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
           Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007, 1, 15))
         ]
@@ -71,7 +71,7 @@ RSpec.describe Biz::Timeline::Forward do
       let(:terminus) { Time.utc(2007, 2) }
 
       it 'returns the proper periods' do
-        expect(timeline.until(terminus).to_a).to eq [
+        expect(timeline.until(terminus).to_a).to eq_time_segments [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
           Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007, 2))
         ]
@@ -84,7 +84,7 @@ RSpec.describe Biz::Timeline::Forward do
       let(:duration) { Biz::Duration.seconds(2) }
 
       it 'returns a period with second precision' do
-        expect(timeline.for(duration).to_a).to eq [
+        expect(timeline.for(duration).to_a).to eq_time_segments [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 1, 1, 0, 0, 2))
         ]
       end
@@ -110,7 +110,7 @@ RSpec.describe Biz::Timeline::Forward do
       let(:duration) { Biz::Duration.seconds(in_seconds(days: 15)) }
 
       it 'returns part of the first period' do
-        expect(timeline.for(duration).to_a).to eq [
+        expect(timeline.for(duration).to_a).to eq_time_segments [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 1, 16))
         ]
       end
@@ -120,7 +120,7 @@ RSpec.describe Biz::Timeline::Forward do
       let(:duration) { Biz::Duration.seconds(in_seconds(days: 31)) }
 
       it 'returns the first period' do
-        expect(timeline.for(duration).to_a).to eq [
+        expect(timeline.for(duration).to_a).to eq_time_segments [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2))
         ]
       end
@@ -130,7 +130,7 @@ RSpec.describe Biz::Timeline::Forward do
       let(:duration) { Biz::Duration.seconds(in_seconds(days: 62)) }
 
       it 'returns the proper periods' do
-        expect(timeline.for(duration).to_a).to eq [
+        expect(timeline.for(duration).to_a).to eq_time_segments [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
           Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007, 2))
         ]
@@ -141,7 +141,7 @@ RSpec.describe Biz::Timeline::Forward do
       let(:duration) { Biz::Duration.seconds(in_seconds(days: 46)) }
 
       it 'returns the proper periods' do
-        expect(timeline.for(duration).to_a).to eq [
+        expect(timeline.for(duration).to_a).to eq_time_segments [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
           Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007, 1, 16))
         ]
