@@ -138,4 +138,38 @@ RSpec.describe Biz::DayOfWeek do
       expect(day.symbol).to eq :mon
     end
   end
+
+  context 'when performing comparison' do
+    context 'and the compared object is an earlier day of the week' do
+      let(:other) { described_class.new(0) }
+
+      it 'compares as expected' do
+        expect(day > other).to eq true
+      end
+    end
+
+    context 'and the compared object is the same day of the week' do
+      let(:other) { described_class.new(1) }
+
+      it 'compares as expected' do
+        expect(day == other).to eq true
+      end
+    end
+
+    context 'and the other object is a later day of the week' do
+      let(:other) { described_class.new(2) }
+
+      it 'compares as expected' do
+        expect(day < other).to eq true
+      end
+    end
+
+    context 'and the compared object is not a day of the week' do
+      let(:other) { 1 }
+
+      it 'is not comparable' do
+        expect { day < other }.to raise_error ArgumentError
+      end
+    end
+  end
 end
