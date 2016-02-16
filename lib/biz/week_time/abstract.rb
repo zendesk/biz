@@ -44,9 +44,9 @@ module Biz
       ] => :week_minute
 
       def <=>(other)
-        return nil unless other.respond_to?(:to_i)
+        return unless other.is_a?(WeekTime::Abstract)
 
-        week_minute <=> other.to_i
+        week_minute <=> other.week_minute
       end
 
       private

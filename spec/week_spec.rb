@@ -31,7 +31,7 @@ RSpec.describe Biz::Week do
     let(:epoch_time) { Date.new(2006, 1, 10) }
 
     it 'creates the proper week' do
-      expect(described_class.from_date(epoch_time)).to eq 1
+      expect(described_class.from_date(epoch_time)).to eq described_class.new(1)
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe Biz::Week do
     let(:epoch_time) { Time.new(2006, 1, 10) }
 
     it 'creates the proper week' do
-      expect(described_class.from_time(epoch_time)).to eq 1
+      expect(described_class.from_time(epoch_time)).to eq described_class.new(1)
     end
   end
 
@@ -47,7 +47,9 @@ RSpec.describe Biz::Week do
     let(:epoch_time) { Time.new(2006, 1, 10) }
 
     it 'creates the proper week' do
-      expect(described_class.since_epoch(epoch_time)).to eq 1
+      expect(described_class.since_epoch(epoch_time)).to eq(
+        described_class.new(1)
+      )
     end
   end
 
@@ -100,42 +102,36 @@ RSpec.describe Biz::Week do
     end
   end
 
-  describe '#<=>' do
-    context 'when the other object is an earlier week' do
+  context 'when performing comparison' do
+    context 'and the compared object is an earlier week' do
       let(:other) { described_class.new(1) }
 
-      it 'returns 1' do
-        expect(week <=> other).to eq 1
+      it 'compares as expected' do
+        expect(week > other).to eq true
       end
     end
 
-    context 'when the other object is the same week' do
+    context 'and the compared object is the same week' do
       let(:other) { described_class.new(2) }
 
-      it 'returns 0' do
-        expect(week <=> other).to eq 0
+      it 'compares as expected' do
+        expect(week == other).to eq true
       end
     end
 
-    context 'when the other object is a later week' do
+    context 'and the other object is a later week' do
       let(:other) { described_class.new(3) }
 
-      it 'returns -1' do
-        expect(week <=> other).to eq(-1)
-      end
-    end
-  end
-
-  context 'when performing comparison' do
-    context 'and the compared object does not respond to #to_i' do
-      it 'raises an argument error' do
-        expect { week < Object.new }.to raise_error ArgumentError
-      end
-    end
-
-    context 'and the compared object responds to #to_i' do
       it 'compares as expected' do
-        expect(week > 1).to eq true
+        expect(week < other).to eq true
+      end
+    end
+
+    context 'and the compared object is not a week' do
+      let(:other) { 1 }
+
+      it 'is not comparable' do
+        expect { week < other }.to raise_error ArgumentError
       end
     end
   end

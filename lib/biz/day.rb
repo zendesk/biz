@@ -36,9 +36,9 @@ module Biz
     end
 
     def <=>(other)
-      return nil unless other.respond_to?(:to_i)
+      return unless other.is_a?(self.class)
 
-      day <=> other.to_i
+      day <=> other.day
     end
 
   end

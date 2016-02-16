@@ -35,8 +35,8 @@ RSpec.describe Biz::WeekTime::Abstract do
     let(:time) { Time.utc(2006, 1, 9, 9, 30) }
 
     it 'creates the proper week time' do
-      expect(week_time_class.from_time(time)).to(
-        eq week_minute(wday: 1, hour: 9, min: 30)
+      expect(week_time_class.from_time(time)).to eq(
+        week_time_class.new(week_minute(wday: 1, hour: 9, min: 30))
       )
     end
   end
@@ -53,48 +53,52 @@ RSpec.describe Biz::WeekTime::Abstract do
     end
   end
 
-  describe '#<=>' do
-    context 'when the other object is an earlier week time' do
+  context 'when performing comparison' do
+    context 'and the compared object is an earlier week time' do
       let(:other) {
         week_time_class.new(week_minute(wday: 0, hour: 9, min: 29))
       }
 
-      it 'returns 1' do
-        expect(week_time <=> other).to eq 1
+      it 'compares as expected' do
+        expect(week_time > other).to eq true
       end
     end
 
-    context 'when the other object is the same week time' do
+    context 'and the compared object is the same week time' do
       let(:other) {
         week_time_class.new(week_minute(wday: 0, hour: 9, min: 30))
       }
 
-      it 'returns 0' do
-        expect(week_time <=> other).to eq 0
+      it 'compares as expected' do
+        expect(week_time == other).to eq true
       end
     end
 
-    context 'when the other object is a later week time' do
+    context 'and the other object is a later week time' do
       let(:other) {
         week_time_class.new(week_minute(wday: 0, hour: 9, min: 31))
       }
 
-      it 'returns -1' do
-        expect(week_time <=> other).to eq(-1)
-      end
-    end
-  end
-
-  context 'when performing comparison' do
-    context 'and the compared object does not respond to #to_i' do
-      it 'raises an argument error' do
-        expect { week_time < Object.new }.to raise_error ArgumentError
-      end
-    end
-
-    context 'and the compared object responds to #to_i' do
       it 'compares as expected' do
-        expect(week_time > 100).to eq true
+        expect(week_time < other).to eq true
+      end
+    end
+
+    context 'and the other object is a week-time-like object' do
+      let(:other) {
+        Class.new(described_class).new(week_minute(wday: 0, hour: 9, min: 30))
+      }
+
+      it 'compares as expected' do
+        expect(week_time == other).to eq true
+      end
+    end
+
+    context 'and the compared object is not a week time' do
+      let(:other) { 1 }
+
+      it 'is not comparable' do
+        expect { week_time < other }.to raise_error ArgumentError
       end
     end
   end

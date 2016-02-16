@@ -52,9 +52,9 @@ module Biz
     end
 
     def <=>(other)
-      return nil unless other.respond_to?(:to_i)
+      return unless other.is_a?(self.class)
 
-      week <=> other.to_i
+      week <=> other.week
     end
 
   end

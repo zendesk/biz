@@ -62,21 +62,23 @@ RSpec.describe Biz::DayTime do
 
     it 'creates a day time from the given time' do
       expect(described_class.from_time(time)).to eq(
-        day_second(hour: 9, min: 38, sec: 47)
+        described_class.new(day_second(hour: 9, min: 38, sec: 47))
       )
     end
   end
 
   describe '.from_hour' do
     it 'creates a day time from the given hour' do
-      expect(described_class.from_hour(9)).to eq day_second(hour: 9)
+      expect(described_class.from_hour(9)).to eq(
+        described_class.new(day_second(hour: 9))
+      )
     end
   end
 
   describe '.from_minute' do
     it 'creates a day time from the given from' do
       expect(described_class.from_minute(day_minute(hour: 9, min: 10))).to eq(
-        day_second(hour: 9, min: 10)
+        described_class.new(day_second(hour: 9, min: 10))
       )
     end
   end
@@ -96,7 +98,7 @@ RSpec.describe Biz::DayTime do
 
         it 'returns the appropriate day time' do
           expect(described_class.from_timestamp(timestamp)).to eq(
-            day_second(hour: 21, min: 43)
+            described_class.new(day_second(hour: 21, min: 43))
           )
         end
       end
@@ -106,7 +108,7 @@ RSpec.describe Biz::DayTime do
 
         it 'returns the appropriate day time' do
           expect(described_class.from_timestamp(timestamp)).to eq(
-            day_second(hour: 10, min: 55, sec: 23)
+            described_class.new(day_second(hour: 10, min: 55, sec: 23))
           )
         end
       end
@@ -115,31 +117,41 @@ RSpec.describe Biz::DayTime do
 
   describe '.midnight' do
     it 'creates a day time that represents midnight' do
-      expect(described_class.midnight).to eq day_second(hour: 0)
+      expect(described_class.midnight).to eq(
+        described_class.new(day_second(hour: 0))
+      )
     end
   end
 
   describe '.noon' do
     it 'creates a day time that represents noon' do
-      expect(described_class.noon).to eq day_second(hour: 12)
+      expect(described_class.noon).to eq(
+        described_class.new(day_second(hour: 12))
+      )
     end
   end
 
   describe '.endnight' do
     it 'creates a day time that represents the end-of-day midnight' do
-      expect(described_class.endnight).to eq day_second(hour: 24)
+      expect(described_class.endnight).to eq(
+        described_class.new(day_second(hour: 24))
+      )
     end
   end
 
   describe '.am' do
     it 'creates a day time that represents an a.m. time (midnight)' do
-      expect(described_class.midnight).to eq day_second(hour: 0)
+      expect(described_class.midnight).to eq(
+        described_class.new(day_second(hour: 0))
+      )
     end
   end
 
   describe '.pm' do
     it 'creates a day time that represents a p.m. time (noon)' do
-      expect(described_class.noon).to eq day_second(hour: 12)
+      expect(described_class.noon).to eq(
+        described_class.new(day_second(hour: 12))
+      )
     end
   end
 
@@ -247,42 +259,36 @@ RSpec.describe Biz::DayTime do
     end
   end
 
-  describe '#<=>' do
-    context 'when the other object is an earlier day time' do
+  context 'when performing comparison' do
+    context 'and the compared object is an earlier day time' do
       let(:other) { described_class.new(day_second(hour: 9, min: 53, sec: 26)) }
 
-      it 'returns 1' do
-        expect(day_time <=> other).to eq 1
+      it 'compares as expected' do
+        expect(day_time > other).to eq true
       end
     end
 
-    context 'when the other object is the same day time' do
+    context 'and the compared object is the same day time' do
       let(:other) { described_class.new(day_second(hour: 9, min: 53, sec: 27)) }
 
-      it 'returns 0' do
-        expect(day_time <=> other).to eq 0
+      it 'compares as expected' do
+        expect(day_time == other).to eq true
       end
     end
 
-    context 'when the other object is a later day time' do
+    context 'and the other object is a later day time' do
       let(:other) { described_class.new(day_second(hour: 9, min: 53, sec: 28)) }
 
-      it 'returns -1' do
-        expect(day_time <=> other).to eq(-1)
-      end
-    end
-  end
-
-  context 'when performing comparison' do
-    context 'and the compared object does not respond to #to_i' do
-      it 'raises an argument error' do
-        expect { day_time < Object.new }.to raise_error ArgumentError
-      end
-    end
-
-    context 'and the compared object responds to #to_i' do
       it 'compares as expected' do
-        expect(day_time > 100).to eq true
+        expect(day_time < other).to eq true
+      end
+    end
+
+    context 'and the compared object is not a day time' do
+      let(:other) { 1 }
+
+      it 'is not comparable' do
+        expect { day_time < other }.to raise_error ArgumentError
       end
     end
   end

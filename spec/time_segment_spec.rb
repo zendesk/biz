@@ -22,7 +22,9 @@ RSpec.describe Biz::TimeSegment do
 
   describe '#duration' do
     it 'returns the duration of the time segment in seconds' do
-      expect(time_segment.duration).to eq((end_time - start_time).to_i)
+      expect(time_segment.duration).to eq(
+        Biz::Duration.new(end_time - start_time)
+      )
     end
   end
 
