@@ -100,6 +100,32 @@ RSpec.describe Biz::Week do
     end
   end
 
+  describe '#<=>' do
+    context 'when the other object is an earlier week' do
+      let(:other) { described_class.new(1) }
+
+      it 'returns 1' do
+        expect(week <=> other).to eq 1
+      end
+    end
+
+    context 'when the other object is the same week' do
+      let(:other) { described_class.new(2) }
+
+      it 'returns 0' do
+        expect(week <=> other).to eq 0
+      end
+    end
+
+    context 'when the other object is a later week' do
+      let(:other) { described_class.new(3) }
+
+      it 'returns -1' do
+        expect(week <=> other).to eq(-1)
+      end
+    end
+  end
+
   context 'when performing comparison' do
     context 'and the compared object does not respond to #to_i' do
       it 'raises an argument error' do

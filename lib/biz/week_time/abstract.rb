@@ -43,8 +43,6 @@ module Biz
         to_int
       ] => :week_minute
 
-      protected
-
       def <=>(other)
         return nil unless other.respond_to?(:to_i)
 

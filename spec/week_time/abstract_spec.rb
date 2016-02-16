@@ -53,6 +53,38 @@ RSpec.describe Biz::WeekTime::Abstract do
     end
   end
 
+  describe '#<=>' do
+    context 'when the other object is an earlier week time' do
+      let(:other) {
+        week_time_class.new(week_minute(wday: 0, hour: 9, min: 29))
+      }
+
+      it 'returns 1' do
+        expect(week_time <=> other).to eq 1
+      end
+    end
+
+    context 'when the other object is the same week time' do
+      let(:other) {
+        week_time_class.new(week_minute(wday: 0, hour: 9, min: 30))
+      }
+
+      it 'returns 0' do
+        expect(week_time <=> other).to eq 0
+      end
+    end
+
+    context 'when the other object is a later week time' do
+      let(:other) {
+        week_time_class.new(week_minute(wday: 0, hour: 9, min: 31))
+      }
+
+      it 'returns -1' do
+        expect(week_time <=> other).to eq(-1)
+      end
+    end
+  end
+
   context 'when performing comparison' do
     context 'and the compared object does not respond to #to_i' do
       it 'raises an argument error' do

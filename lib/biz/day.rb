@@ -35,8 +35,6 @@ module Biz
       Date.from_day(day)
     end
 
-    protected
-
     def <=>(other)
       return nil unless other.respond_to?(:to_i)
 

@@ -101,8 +101,6 @@ module Biz
       format(Timestamp::FORMAT, hour, minute)
     end
 
-    protected
-
     def <=>(other)
       return nil unless other.respond_to?(:to_i)
 

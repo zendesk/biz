@@ -51,8 +51,6 @@ module Biz
       self.class.new(week + other.week)
     end
 
-    protected
-
     def <=>(other)
       return nil unless other.respond_to?(:to_i)
 

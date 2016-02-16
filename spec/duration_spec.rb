@@ -167,6 +167,44 @@ RSpec.describe Biz::Duration do
     end
   end
 
+  describe '#<=>' do
+    context 'when the other object is a shorter duration' do
+      let(:other) {
+        described_class.new(
+          in_seconds(days: 2, hours: 5, minutes: 9, seconds: 29)
+        )
+      }
+
+      it 'returns 1' do
+        expect(duration <=> other).to eq 1
+      end
+    end
+
+    context 'when the other object is the same duration' do
+      let(:other) {
+        described_class.new(
+          in_seconds(days: 2, hours: 5, minutes: 9, seconds: 30)
+        )
+      }
+
+      it 'returns 0' do
+        expect(duration <=> other).to eq 0
+      end
+    end
+
+    context 'when the other object is a longer duration' do
+      let(:other) {
+        described_class.new(
+          in_seconds(days: 2, hours: 5, minutes: 9, seconds: 31)
+        )
+      }
+
+      it 'returns -1' do
+        expect(duration <=> other).to eq(-1)
+      end
+    end
+  end
+
   context 'when performing comparison' do
     context 'and the compared object does not respond to #to_i' do
       it 'raises an argument error' do

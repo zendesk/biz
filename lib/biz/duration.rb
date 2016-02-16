@@ -63,8 +63,6 @@ module Biz
       self.class.new(seconds.abs)
     end
 
-    protected
-
     def <=>(other)
       return nil unless other.respond_to?(:to_i)
 

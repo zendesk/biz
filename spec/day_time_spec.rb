@@ -247,6 +247,32 @@ RSpec.describe Biz::DayTime do
     end
   end
 
+  describe '#<=>' do
+    context 'when the other object is an earlier day time' do
+      let(:other) { described_class.new(day_second(hour: 9, min: 53, sec: 26)) }
+
+      it 'returns 1' do
+        expect(day_time <=> other).to eq 1
+      end
+    end
+
+    context 'when the other object is the same day time' do
+      let(:other) { described_class.new(day_second(hour: 9, min: 53, sec: 27)) }
+
+      it 'returns 0' do
+        expect(day_time <=> other).to eq 0
+      end
+    end
+
+    context 'when the other object is a later day time' do
+      let(:other) { described_class.new(day_second(hour: 9, min: 53, sec: 28)) }
+
+      it 'returns -1' do
+        expect(day_time <=> other).to eq(-1)
+      end
+    end
+  end
+
   context 'when performing comparison' do
     context 'and the compared object does not respond to #to_i' do
       it 'raises an argument error' do

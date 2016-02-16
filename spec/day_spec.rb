@@ -75,6 +75,32 @@ RSpec.describe Biz::Day do
     end
   end
 
+  describe '#<=>' do
+    context 'when the other object is an earlier day' do
+      let(:other) { described_class.new(8) }
+
+      it 'returns 1' do
+        expect(day <=> other).to eq 1
+      end
+    end
+
+    context 'when the other object is the same day' do
+      let(:other) { described_class.new(9) }
+
+      it 'returns 0' do
+        expect(day <=> other).to eq 0
+      end
+    end
+
+    context 'when the other object is a later day' do
+      let(:other) { described_class.new(10) }
+
+      it 'returns -1' do
+        expect(day <=> other).to eq(-1)
+      end
+    end
+  end
+
   context 'when performing comparison' do
     context 'and the compared object does not respond to #to_i' do
       it 'raises an argument error' do
