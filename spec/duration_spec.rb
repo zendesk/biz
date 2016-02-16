@@ -179,11 +179,5 @@ RSpec.describe Biz::Duration do
         expect(duration > 1).to eq true
       end
     end
-
-    context 'and the comparing object is an integer' do
-      it 'compares as expected' do
-        expect(1 < duration).to eq true
-      end
-    end
   end
 end

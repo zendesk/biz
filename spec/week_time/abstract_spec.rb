@@ -65,11 +65,5 @@ RSpec.describe Biz::WeekTime::Abstract do
         expect(week_time > 100).to eq true
       end
     end
-
-    context 'and the comparing object is an integer' do
-      it 'compares as expected' do
-        expect(100 < week_time).to eq true
-      end
-    end
   end
 end

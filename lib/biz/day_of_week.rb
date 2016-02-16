@@ -31,8 +31,8 @@ module Biz
       @wday = Integer(wday)
     end
 
-    def contains?(week_time)
-      minutes.cover?(week_time)
+    def contains?(week_minute)
+      minutes.cover?(week_minute)
     end
 
     def start_minute

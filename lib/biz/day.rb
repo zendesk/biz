@@ -35,10 +35,6 @@ module Biz
       Date.from_day(day)
     end
 
-    def coerce(other)
-      [self.class.new(other), self]
-    end
-
     protected
 
     def <=>(other)

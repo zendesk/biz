@@ -24,10 +24,6 @@ module Biz
         day_of_week.symbol
       end
 
-      def coerce(other)
-        [self.class.new(other), self]
-      end
-
       delegate wday: :day_of_week
 
       delegate %i[

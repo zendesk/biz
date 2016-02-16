@@ -63,10 +63,6 @@ module Biz
       self.class.new(seconds.abs)
     end
 
-    def coerce(other)
-      [self.class.new(other), self]
-    end
-
     protected
 
     def <=>(other)

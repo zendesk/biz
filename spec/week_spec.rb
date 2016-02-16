@@ -112,11 +112,5 @@ RSpec.describe Biz::Week do
         expect(week > 1).to eq true
       end
     end
-
-    context 'and the comparing object is an integer' do
-      it 'compares as expected' do
-        expect(1 < week).to eq true
-      end
-    end
   end
 end

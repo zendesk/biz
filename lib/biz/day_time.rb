@@ -101,10 +101,6 @@ module Biz
       format(Timestamp::FORMAT, hour, minute)
     end
 
-    def coerce(other)
-      [self.class.new(other), self]
-    end
-
     protected
 
     def <=>(other)

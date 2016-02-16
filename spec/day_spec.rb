@@ -87,11 +87,5 @@ RSpec.describe Biz::Day do
         expect(day > 5).to eq true
       end
     end
-
-    context 'and the comparing object is an integer' do
-      it 'compares as expected' do
-        expect(5 < day).to eq true
-      end
-    end
   end
 end

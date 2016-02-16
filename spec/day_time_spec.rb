@@ -259,11 +259,5 @@ RSpec.describe Biz::DayTime do
         expect(day_time > 100).to eq true
       end
     end
-
-    context 'and the comparing object is an integer' do
-      it 'compares as expected' do
-        expect(100 < day_time).to eq true
-      end
-    end
   end
 end

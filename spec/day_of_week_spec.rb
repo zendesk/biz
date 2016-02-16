@@ -62,35 +62,35 @@ RSpec.describe Biz::DayOfWeek do
   end
 
   describe '#contains?' do
-    context 'when the week time is at the beginning of the day of the week' do
-      let(:week_time) { Biz::WeekTime.build(week_minute(wday: 1, hour: 0)) }
+    context 'when the week minute is at the beginning of the day of the week' do
+      let(:minute) { week_minute(wday: 1, hour: 0) }
 
       it 'returns true' do
-        expect(day.contains?(week_time)).to eq true
+        expect(day.contains?(minute)).to eq true
       end
     end
 
-    context 'when the week time is in the middle of the day of the week' do
-      let(:week_time) { Biz::WeekTime.build(week_minute(wday: 1, hour: 12)) }
+    context 'when the week minute is in the middle of the day of the week' do
+      let(:minute) { week_minute(wday: 1, hour: 12) }
 
       it 'returns true' do
-        expect(day.contains?(week_time)).to eq true
+        expect(day.contains?(minute)).to eq true
       end
     end
 
-    context 'when the week time is at the end of the day of the week' do
-      let(:week_time) { Biz::WeekTime.build(week_minute(wday: 2, hour: 0)) }
+    context 'when the week minute is at the end of the day of the week' do
+      let(:minute) { week_minute(wday: 2, hour: 0) }
 
       it 'returns true' do
-        expect(day.contains?(week_time)).to eq true
+        expect(day.contains?(minute)).to eq true
       end
     end
 
     context 'when the week time is not within the day of the week' do
-      let(:week_time) { Biz::WeekTime.build(week_minute(wday: 3, hour: 12)) }
+      let(:minute) { week_minute(wday: 3, hour: 12) }
 
       it 'returns false' do
-        expect(day.contains?(week_time)).to eq false
+        expect(day.contains?(minute)).to eq false
       end
     end
   end
