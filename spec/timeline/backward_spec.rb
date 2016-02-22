@@ -12,7 +12,7 @@ RSpec.describe Biz::Timeline::Backward do
       let(:terminus) { Time.utc(2006, 1, 1, 0, 1) }
 
       it 'returns a period with second precision' do
-        expect(timeline.until(terminus).to_a).to eq_time_segments [
+        expect(timeline.until(terminus).to_a).to eq [
           Biz::TimeSegment.new(Time.utc(2006, 1, 1, 0, 1), Time.utc(2006, 2))
         ]
       end
@@ -30,7 +30,7 @@ RSpec.describe Biz::Timeline::Backward do
       let(:terminus) { Time.utc(2004, 3) }
 
       it 'returns the proper periods' do
-        expect(timeline.until(terminus).to_a).to eq_time_segments [
+        expect(timeline.until(terminus).to_a).to eq [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
           Biz::TimeSegment.new(Time.utc(2005), Time.utc(2005, 2))
         ]
@@ -41,7 +41,7 @@ RSpec.describe Biz::Timeline::Backward do
       let(:terminus) { Time.utc(2004, 2) }
 
       it 'returns the proper periods' do
-        expect(timeline.until(terminus).to_a).to eq_time_segments [
+        expect(timeline.until(terminus).to_a).to eq [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
           Biz::TimeSegment.new(Time.utc(2005), Time.utc(2005, 2))
         ]
@@ -60,7 +60,7 @@ RSpec.describe Biz::Timeline::Backward do
       let(:terminus) { Time.utc(2005, 1, 15) }
 
       it 'returns the proper periods' do
-        expect(timeline.until(terminus).to_a).to eq_time_segments [
+        expect(timeline.until(terminus).to_a).to eq [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
           Biz::TimeSegment.new(Time.utc(2005, 1, 15), Time.utc(2005, 2))
         ]
@@ -71,7 +71,7 @@ RSpec.describe Biz::Timeline::Backward do
       let(:terminus) { Time.utc(2005) }
 
       it 'returns the proper periods' do
-        expect(timeline.until(terminus).to_a).to eq_time_segments [
+        expect(timeline.until(terminus).to_a).to eq [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
           Biz::TimeSegment.new(Time.utc(2005), Time.utc(2005, 2))
         ]
@@ -84,7 +84,7 @@ RSpec.describe Biz::Timeline::Backward do
       let(:duration) { Biz::Duration.seconds(2) }
 
       it 'returns a period with second precision' do
-        expect(timeline.for(duration).to_a).to eq_time_segments [
+        expect(timeline.for(duration).to_a).to eq [
           Biz::TimeSegment.new(
             Time.utc(2006, 1, 31, 23, 59, 58),
             Time.utc(2006, 2)
@@ -113,7 +113,7 @@ RSpec.describe Biz::Timeline::Backward do
       let(:duration) { Biz::Duration.seconds(in_seconds(days: 15)) }
 
       it 'returns part of the first period' do
-        expect(timeline.for(duration).to_a).to eq_time_segments [
+        expect(timeline.for(duration).to_a).to eq [
           Biz::TimeSegment.new(Time.utc(2006, 1, 17), Time.utc(2006, 2))
         ]
       end
@@ -123,7 +123,7 @@ RSpec.describe Biz::Timeline::Backward do
       let(:duration) { Biz::Duration.seconds(in_seconds(days: 31)) }
 
       it 'returns the first period' do
-        expect(timeline.for(duration).to_a).to eq_time_segments [
+        expect(timeline.for(duration).to_a).to eq [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2))
         ]
       end
@@ -133,7 +133,7 @@ RSpec.describe Biz::Timeline::Backward do
       let(:duration) { Biz::Duration.seconds(in_seconds(days: 62)) }
 
       it 'returns the proper periods' do
-        expect(timeline.for(duration).to_a).to eq_time_segments [
+        expect(timeline.for(duration).to_a).to eq [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
           Biz::TimeSegment.new(Time.utc(2005), Time.utc(2005, 2))
         ]
@@ -144,7 +144,7 @@ RSpec.describe Biz::Timeline::Backward do
       let(:duration) { Biz::Duration.seconds(in_seconds(days: 46)) }
 
       it 'returns the proper periods' do
-        expect(timeline.for(duration).to_a).to eq_time_segments [
+        expect(timeline.for(duration).to_a).to eq [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
           Biz::TimeSegment.new(Time.utc(2005, 1, 17), Time.utc(2005, 2))
         ]

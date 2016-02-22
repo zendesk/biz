@@ -10,7 +10,7 @@ RSpec.describe Biz do
 
     describe '.intervals' do
       it 'delegates to the top-level schedule' do
-        expect(described_class.intervals).to eq_intervals(
+        expect(described_class.intervals).to eq(
           [
             Biz::Interval.new(
               Biz::WeekTime.start(week_minute(wday: 0, hour: 11)),
@@ -24,7 +24,7 @@ RSpec.describe Biz do
 
     describe '.holidays' do
       it 'delegates to the top-level schedule' do
-        expect(described_class.holidays).to eq_holidays(
+        expect(described_class.holidays).to eq(
           [
             Biz::Holiday.new(
               Date.new(2015, 12, 25),
@@ -47,7 +47,7 @@ RSpec.describe Biz do
       it 'delegates to the top-level schedule' do
         expect(
           described_class.periods.after(Time.utc(2006, 1, 1)).first
-        ).to eq_time_segment(
+        ).to eq(
           Biz::TimeSegment.new(
             Time.utc(2006, 1, 1, 11),
             Time.utc(2006, 1, 1, 12)

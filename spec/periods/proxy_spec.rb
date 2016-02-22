@@ -5,7 +5,7 @@ RSpec.describe Biz::Periods::Proxy do
     let(:origin) { Time.utc(2006, 1, 3) }
 
     it 'generates periods after the provided origin' do
-      expect(periods.after(origin).take(2).to_a).to eq_time_segments [
+      expect(periods.after(origin).take(2).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 3, 10),
           Time.utc(2006, 1, 3, 16)
@@ -22,7 +22,7 @@ RSpec.describe Biz::Periods::Proxy do
     let(:origin) { Time.utc(2006, 1, 5) }
 
     it 'generates periods before the provided origin' do
-      expect(periods.before(origin).take(2).to_a).to eq_time_segments [
+      expect(periods.before(origin).take(2).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 4, 9),
           Time.utc(2006, 1, 4, 17)

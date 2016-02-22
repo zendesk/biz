@@ -6,7 +6,7 @@ RSpec.describe Biz::TimeSegment do
 
   describe '.before' do
     it 'returns the time segment before the provided time' do
-      expect(described_class.before(start_time)).to eq_time_segment(
+      expect(described_class.before(start_time)).to eq(
         described_class.new(Biz::Time::BIG_BANG, start_time)
       )
     end
@@ -14,7 +14,7 @@ RSpec.describe Biz::TimeSegment do
 
   describe '.after' do
     it 'returns the time segment after the provided time' do
-      expect(described_class.after(start_time)).to eq_time_segment(
+      expect(described_class.after(start_time)).to eq(
         described_class.new(start_time, Biz::Time::HEAT_DEATH)
       )
     end
@@ -105,7 +105,7 @@ RSpec.describe Biz::TimeSegment do
       let(:other_end_time)   { Time.utc(2006, 1, 2) }
 
       it 'returns a zero-duration time segment' do
-        expect(time_segment & other).to eq_time_segment(
+        expect(time_segment & other).to eq(
           described_class.new(start_time, start_time)
         )
       end
@@ -118,7 +118,7 @@ RSpec.describe Biz::TimeSegment do
         let(:other_end_time) { Time.utc(2006, 1, 8, 11, 45) }
 
         it 'returns the correct time segment' do
-          expect(time_segment & other).to eq_time_segment(
+          expect(time_segment & other).to eq(
             described_class.new(start_time, other_end_time)
           )
         end
@@ -128,7 +128,7 @@ RSpec.describe Biz::TimeSegment do
         let(:other_end_time) { Time.utc(2006, 1, 23) }
 
         it 'returns the correct time segment' do
-          expect(time_segment & other).to eq_time_segment(
+          expect(time_segment & other).to eq(
             described_class.new(start_time, end_time)
           )
         end
@@ -142,7 +142,7 @@ RSpec.describe Biz::TimeSegment do
         let(:other_end_time) { Time.utc(2006, 1, 9, 12, 30) }
 
         it 'returns the correct time segment' do
-          expect(time_segment & other).to eq_time_segment(
+          expect(time_segment & other).to eq(
             described_class.new(other_start_time, other_end_time)
           )
         end
@@ -152,7 +152,7 @@ RSpec.describe Biz::TimeSegment do
         let(:other_end_time) { Time.utc(2006, 1, 23) }
 
         it 'returns the correct time segment' do
-          expect(time_segment & other).to eq_time_segment(
+          expect(time_segment & other).to eq(
             described_class.new(other_start_time, end_time)
           )
         end
@@ -164,7 +164,7 @@ RSpec.describe Biz::TimeSegment do
       let(:other_end_time)   { Time.utc(2006, 2, 7) }
 
       it 'returns a zero-duration time segment' do
-        expect(time_segment & other).to eq_time_segment(
+        expect(time_segment & other).to eq(
           described_class.new(other_start_time, other_start_time)
         )
       end
@@ -179,7 +179,7 @@ RSpec.describe Biz::TimeSegment do
       let(:other_end_time)   { Time.utc(2006, 1, 2) }
 
       it 'returns the original time segment' do
-        expect(time_segment / other).to eq_time_segments [time_segment]
+        expect(time_segment / other).to eq [time_segment]
       end
     end
 
@@ -190,7 +190,7 @@ RSpec.describe Biz::TimeSegment do
         let(:other_end_time) { Time.utc(2006, 1, 8, 11, 45) }
 
         it 'returns the correct time segment' do
-          expect(time_segment / other).to eq_time_segments [
+          expect(time_segment / other).to eq [
             described_class.new(other.end_time, time_segment.end_time)
           ]
         end
@@ -212,7 +212,7 @@ RSpec.describe Biz::TimeSegment do
         let(:other_end_time) { Time.utc(2006, 1, 9, 12, 30) }
 
         it 'returns the correct time segments' do
-          expect(time_segment / other).to eq_time_segments [
+          expect(time_segment / other).to eq [
             described_class.new(time_segment.start_time, other.start_time),
             described_class.new(other.end_time, time_segment.end_time)
           ]
@@ -223,7 +223,7 @@ RSpec.describe Biz::TimeSegment do
         let(:other_end_time) { Time.utc(2006, 1, 23) }
 
         it 'returns the correct time segment' do
-          expect(time_segment / other).to eq_time_segments [
+          expect(time_segment / other).to eq [
             described_class.new(time_segment.start_time, other.start_time)
           ]
         end
@@ -235,7 +235,7 @@ RSpec.describe Biz::TimeSegment do
       let(:other_end_time)   { Time.utc(2006, 2, 7) }
 
       it 'returns the original time segment' do
-        expect(time_segment / other).to eq_time_segments [time_segment]
+        expect(time_segment / other).to eq [time_segment]
       end
     end
   end

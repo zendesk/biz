@@ -25,7 +25,7 @@ RSpec.describe Biz::Periods::Before do
     let(:origin) { Time.utc(2006, 1, 8) }
 
     it 'returns the proper intervals' do
-      expect(periods.take(6).to_a).to eq_time_segments [
+      expect(periods.take(6).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 7, 11),
           Time.utc(2006, 1, 7, 14, 30)
@@ -58,7 +58,7 @@ RSpec.describe Biz::Periods::Before do
     let(:origin) { Time.utc(2006, 1, 15) }
 
     it 'returns the proper intervals' do
-      expect(periods.take(12).to_a).to eq_time_segments [
+      expect(periods.take(12).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 14, 11),
           Time.utc(2006, 1, 14, 14, 30)
@@ -115,7 +115,7 @@ RSpec.describe Biz::Periods::Before do
     let(:origin) { Time.utc(2006, 1, 3) }
 
     it 'returns a full period first' do
-      expect(periods.first).to eq_time_segment(
+      expect(periods.first).to eq(
         Biz::TimeSegment.new(Time.utc(2006, 1, 2, 9), Time.utc(2006, 1, 2, 17))
       )
     end
@@ -125,7 +125,7 @@ RSpec.describe Biz::Periods::Before do
     let(:origin) { Time.utc(2006, 1, 2, 12) }
 
     it 'returns a partial period first' do
-      expect(periods.first).to eq_time_segment(
+      expect(periods.first).to eq(
         Biz::TimeSegment.new(Time.utc(2006, 1, 2, 9), Time.utc(2006, 1, 2, 12))
       )
     end
@@ -135,7 +135,7 @@ RSpec.describe Biz::Periods::Before do
     let(:origin) { Time.utc(2006, 1, 18) }
 
     it 'does not include that period' do
-      expect(periods.take(2).to_a).to eq_time_segments [
+      expect(periods.take(2).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 17, 10),
           Time.utc(2006, 1, 17, 16)
@@ -152,7 +152,7 @@ RSpec.describe Biz::Periods::Before do
     let(:origin) { Time.utc(2006, 1, 20) }
 
     it 'does not include any of those periods' do
-      expect(periods.take(3).to_a).to eq_time_segments [
+      expect(periods.take(3).to_a).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 19, 10),
           Time.utc(2006, 1, 19, 16)
@@ -176,7 +176,7 @@ RSpec.describe Biz::Periods::Before do
     let(:origin) { in_zone('Asia/Brunei') { Time.utc(2006, 1, 8, 7) } }
 
     it 'includes the relevant interval from the prior week' do
-      expect(periods.first).to eq_time_segment(
+      expect(periods.first).to eq(
         Biz::TimeSegment.new(
           in_zone('Asia/Brunei') { Time.utc(2006, 1, 8, 6) },
           in_zone('Asia/Brunei') { Time.utc(2006, 1, 8, 7) }
@@ -191,7 +191,7 @@ RSpec.describe Biz::Periods::Before do
     it 'creates a timeline using its periods' do
       expect(
         periods.timeline.until(Time.utc(2006, 1, 1)).to_a
-      ).to eq_time_segments [
+      ).to eq [
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 3, 10),
           Time.utc(2006, 1, 3, 16)
