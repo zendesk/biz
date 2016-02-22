@@ -239,4 +239,48 @@ RSpec.describe Biz::TimeSegment do
       end
     end
   end
+
+  describe '#==' do
+    context 'when the start time is not the same' do
+      let(:other_time_segment) {
+        described_class.new(time_segment.start_time + 1, time_segment.end_time)
+      }
+
+      it 'returns false' do
+        expect(time_segment == other_time_segment).to eq false
+      end
+    end
+
+    context 'when the end time is not the same' do
+      let(:other_time_segment) {
+        described_class.new(time_segment.start_time, time_segment.end_time + 1)
+      }
+
+      it 'returns false' do
+        expect(time_segment == other_time_segment).to eq false
+      end
+    end
+
+    context 'when the start time and end time are the same' do
+      let(:other_time_segment) {
+        described_class.new(time_segment.start_time, time_segment.end_time)
+      }
+
+      it 'returns true' do
+        expect(time_segment == other_time_segment).to eq true
+      end
+    end
+  end
+
+  describe '#eql?' do
+    let(:other_time_segment) {
+      described_class.new(time_segment.start_time, time_segment.end_time)
+    }
+
+    it 'aliases `==`' do
+      expect(time_segment.eql?(other_time_segment)).to eq(
+        time_segment == other_time_segment
+      )
+    end
+  end
 end

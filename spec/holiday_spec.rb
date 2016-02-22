@@ -62,4 +62,47 @@ RSpec.describe Biz::Holiday do
       expect(holiday.to_date).to eq Date.new(2010, 7, 15)
     end
   end
+
+  describe '#==' do
+    context 'when the date is not the same' do
+      let(:other_holiday) {
+        described_class.new(holiday.date.next_day, holiday.time_zone)
+      }
+
+      it 'returns false' do
+        expect(holiday == other_holiday).to eq false
+      end
+    end
+
+    context 'when the time zone is not the same' do
+      let(:other_holiday) {
+        described_class.new(
+          holiday.date,
+          TZInfo::Timezone.get('America/New_York')
+        )
+      }
+
+      it 'returns false' do
+        expect(holiday == other_holiday).to eq false
+      end
+    end
+
+    context 'when the date and time zone are the same' do
+      let(:other_holiday) {
+        described_class.new(holiday.date, holiday.time_zone)
+      }
+
+      it 'returns true' do
+        expect(holiday == other_holiday).to eq true
+      end
+    end
+  end
+
+  describe '#eql?' do
+    let(:other_holiday) { described_class.new(holiday.date, holiday.time_zone) }
+
+    it 'aliases `==`' do
+      expect(holiday.eql?(other_holiday)).to eq holiday == other_holiday
+    end
+  end
 end

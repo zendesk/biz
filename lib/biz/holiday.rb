@@ -22,5 +22,13 @@ module Biz
 
     alias to_date date
 
+    def ==(other)
+      other.is_a?(self.class) &&
+        date == other.date &&
+        time_zone == other.time_zone
+    end
+
+    alias eql? ==
+
   end
 end

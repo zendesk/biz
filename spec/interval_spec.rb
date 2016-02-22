@@ -97,4 +97,76 @@ RSpec.describe Biz::Interval do
       end
     end
   end
+
+  describe '#==' do
+    context 'when the start time is not the same' do
+      let(:other_interval) {
+        described_class.new(
+          Biz::WeekTime.start(interval.start_time.week_minute + 1),
+          interval.end_time,
+          interval.time_zone
+        )
+      }
+
+      it 'returns false' do
+        expect(interval == other_interval).to eq false
+      end
+    end
+
+    context 'when the end time is not the same' do
+      let(:other_interval) {
+        described_class.new(
+          interval.start_time,
+          Biz::WeekTime.end(interval.end_time.week_minute + 1),
+          interval.time_zone
+        )
+      }
+
+      it 'returns false' do
+        expect(interval == other_interval).to eq false
+      end
+    end
+
+    context 'when the time zone is not the same' do
+      let(:other_interval) {
+        described_class.new(
+          interval.start_time,
+          interval.end_time,
+          TZInfo::Timezone.get('America/New_York')
+        )
+      }
+
+      it 'returns false' do
+        expect(interval == other_interval).to eq false
+      end
+    end
+
+    context 'when the start time, end time, and time zone are the same' do
+      let(:other_interval) {
+        described_class.new(
+          interval.start_time,
+          interval.end_time,
+          interval.time_zone
+        )
+      }
+
+      it 'returns true' do
+        expect(interval == other_interval).to eq true
+      end
+    end
+  end
+
+  describe '#eql?' do
+    let(:other_interval) {
+      described_class.new(
+        interval.start_time,
+        interval.end_time,
+        interval.time_zone
+      )
+    }
+
+    it 'aliases `==`' do
+      expect(interval.eql?(other_interval)).to eq interval == other_interval
+    end
+  end
 end

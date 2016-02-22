@@ -29,5 +29,14 @@ module Biz
       )
     end
 
+    def ==(other)
+      other.is_a?(self.class) &&
+        start_time == other.start_time &&
+        end_time == other.end_time &&
+        time_zone == other.time_zone
+    end
+
+    alias eql? ==
+
   end
 end
