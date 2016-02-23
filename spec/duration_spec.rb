@@ -168,21 +168,47 @@ RSpec.describe Biz::Duration do
   end
 
   context 'when performing comparison' do
-    context 'and the compared object does not respond to #to_i' do
-      it 'raises an argument error' do
-        expect { duration < Object.new }.to raise_error ArgumentError
+    context 'and the compared object is a shorter duration' do
+      let(:other) {
+        described_class.new(
+          in_seconds(days: 2, hours: 5, minutes: 9, seconds: 29)
+        )
+      }
+
+      it 'compares as expected' do
+        expect(duration > other).to eq true
       end
     end
 
-    context 'and the compared object responds to #to_i' do
+    context 'and the compared object is the same duration' do
+      let(:other) {
+        described_class.new(
+          in_seconds(days: 2, hours: 5, minutes: 9, seconds: 30)
+        )
+      }
+
       it 'compares as expected' do
-        expect(duration > 1).to eq true
+        expect(duration == other).to eq true
       end
     end
 
-    context 'and the comparing object is an integer' do
+    context 'and the other object is a longer duration' do
+      let(:other) {
+        described_class.new(
+          in_seconds(days: 2, hours: 5, minutes: 9, seconds: 31)
+        )
+      }
+
       it 'compares as expected' do
-        expect(1 < duration).to eq true
+        expect(duration < other).to eq true
+      end
+    end
+
+    context 'and the compared object is not a duration' do
+      let(:other) { 1 }
+
+      it 'is not comparable' do
+        expect { duration < other }.to raise_error ArgumentError
       end
     end
   end

@@ -48,7 +48,7 @@ RSpec.describe Biz::Holiday do
 
   describe '#to_time_segment' do
     it 'returns the appropriate time segment' do
-      expect(holiday.to_time_segment).to eq_time_segment(
+      expect(holiday.to_time_segment).to eq(
         Biz::TimeSegment.new(
           in_zone('America/Los_Angeles') { Time.utc(2010, 7, 15) },
           in_zone('America/Los_Angeles') { Time.utc(2010, 7, 16) }
@@ -60,6 +60,49 @@ RSpec.describe Biz::Holiday do
   describe '#to_date' do
     it 'returns the appropriate date' do
       expect(holiday.to_date).to eq Date.new(2010, 7, 15)
+    end
+  end
+
+  describe '#==' do
+    context 'when the date is not the same' do
+      let(:other_holiday) {
+        described_class.new(holiday.date.next_day, holiday.time_zone)
+      }
+
+      it 'returns false' do
+        expect(holiday == other_holiday).to eq false
+      end
+    end
+
+    context 'when the time zone is not the same' do
+      let(:other_holiday) {
+        described_class.new(
+          holiday.date,
+          TZInfo::Timezone.get('America/New_York')
+        )
+      }
+
+      it 'returns false' do
+        expect(holiday == other_holiday).to eq false
+      end
+    end
+
+    context 'when the date and time zone are the same' do
+      let(:other_holiday) {
+        described_class.new(holiday.date, holiday.time_zone)
+      }
+
+      it 'returns true' do
+        expect(holiday == other_holiday).to eq true
+      end
+    end
+  end
+
+  describe '#eql?' do
+    let(:other_holiday) { described_class.new(holiday.date, holiday.time_zone) }
+
+    it 'aliases `==`' do
+      expect(holiday.eql?(other_holiday)).to eq holiday == other_holiday
     end
   end
 end

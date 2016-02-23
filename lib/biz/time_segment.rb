@@ -47,6 +47,14 @@ module Biz
       ].reject(&:empty?).map { |potential| self & potential }
     end
 
+    def ==(other)
+      other.is_a?(self.class) &&
+        start_time == other.start_time &&
+        end_time == other.end_time
+    end
+
+    alias eql? ==
+
     private
 
     def lower_bound(other)

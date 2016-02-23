@@ -57,7 +57,7 @@ RSpec.describe Biz::Interval do
     let(:week) { Biz::Week.new(4) }
 
     it 'returns the appropriate time segment for the given week' do
-      expect(interval.to_time_segment(week)).to eq_time_segment(
+      expect(interval.to_time_segment(week)).to eq(
         Biz::TimeSegment.new(
           in_zone('America/Los_Angeles') { Time.utc(2006, 1, 30, 9) },
           in_zone('America/Los_Angeles') { Time.utc(2006, 1, 30, 17) }
@@ -74,7 +74,7 @@ RSpec.describe Biz::Interval do
       }
 
       it 'returns the appropriate time segment' do
-        expect(interval.to_time_segment(week)).to eq_time_segment(
+        expect(interval.to_time_segment(week)).to eq(
           Biz::TimeSegment.new(
             in_zone('America/Los_Angeles') { Time.utc(2006, 1, 30) },
             in_zone('America/Los_Angeles') { Time.utc(2006, 1, 31) }
@@ -88,13 +88,85 @@ RSpec.describe Biz::Interval do
       let(:end_time)   { Biz::WeekTime.end(Biz::Time::MINUTES_IN_WEEK) }
 
       it 'returns the appropriate time segment' do
-        expect(interval.to_time_segment(week)).to eq_time_segment(
+        expect(interval.to_time_segment(week)).to eq(
           Biz::TimeSegment.new(
             in_zone('America/Los_Angeles') { Time.utc(2006, 1, 29) },
             in_zone('America/Los_Angeles') { Time.utc(2006, 2, 5) }
           )
         )
       end
+    end
+  end
+
+  describe '#==' do
+    context 'when the start time is not the same' do
+      let(:other_interval) {
+        described_class.new(
+          Biz::WeekTime.start(interval.start_time.week_minute + 1),
+          interval.end_time,
+          interval.time_zone
+        )
+      }
+
+      it 'returns false' do
+        expect(interval == other_interval).to eq false
+      end
+    end
+
+    context 'when the end time is not the same' do
+      let(:other_interval) {
+        described_class.new(
+          interval.start_time,
+          Biz::WeekTime.end(interval.end_time.week_minute + 1),
+          interval.time_zone
+        )
+      }
+
+      it 'returns false' do
+        expect(interval == other_interval).to eq false
+      end
+    end
+
+    context 'when the time zone is not the same' do
+      let(:other_interval) {
+        described_class.new(
+          interval.start_time,
+          interval.end_time,
+          TZInfo::Timezone.get('America/New_York')
+        )
+      }
+
+      it 'returns false' do
+        expect(interval == other_interval).to eq false
+      end
+    end
+
+    context 'when the start time, end time, and time zone are the same' do
+      let(:other_interval) {
+        described_class.new(
+          interval.start_time,
+          interval.end_time,
+          interval.time_zone
+        )
+      }
+
+      it 'returns true' do
+        expect(interval == other_interval).to eq true
+      end
+    end
+  end
+
+  describe '#eql?' do
+    let(:other_interval) {
+      described_class.new(
+        interval.start_time,
+        interval.end_time,
+        interval.time_zone
+      )
+    }
+
+    it 'aliases `==`' do
+      expect(interval.eql?(other_interval)).to eq interval == other_interval
     end
   end
 end

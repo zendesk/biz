@@ -3,6 +3,8 @@ module Biz
 
     SYMBOLS = %i[sun mon tue wed thu fri sat].freeze
 
+    include Comparable
+
     def self.from_time(time)
       DAYS.fetch(time.wday)
     end
@@ -31,8 +33,8 @@ module Biz
       @wday = Integer(wday)
     end
 
-    def contains?(week_time)
-      minutes.cover?(week_time)
+    def contains?(week_minute)
+      minutes.cover?(week_minute)
     end
 
     def start_minute
@@ -57,6 +59,12 @@ module Biz
 
     def symbol
       SYMBOLS.fetch(wday)
+    end
+
+    def <=>(other)
+      return unless other.is_a?(self.class)
+
+      wday <=> other.wday
     end
 
     DAYS = [

@@ -35,16 +35,10 @@ module Biz
       Date.from_day(day)
     end
 
-    def coerce(other)
-      [self.class.new(other), self]
-    end
-
-    protected
-
     def <=>(other)
-      return nil unless other.respond_to?(:to_i)
+      return unless other.is_a?(self.class)
 
-      day <=> other.to_i
+      day <=> other.day
     end
 
   end

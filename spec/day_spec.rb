@@ -31,7 +31,7 @@ RSpec.describe Biz::Day do
     let(:epoch_time) { Date.new(2006, 1, 10) }
 
     it 'creates the proper day' do
-      expect(described_class.from_date(epoch_time)).to eq 9
+      expect(described_class.from_date(epoch_time)).to eq described_class.new(9)
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe Biz::Day do
     let(:epoch_time) { Time.new(2006, 1, 10) }
 
     it 'creates the proper day' do
-      expect(described_class.from_time(epoch_time)).to eq 9
+      expect(described_class.from_time(epoch_time)).to eq described_class.new(9)
     end
   end
 
@@ -47,7 +47,9 @@ RSpec.describe Biz::Day do
     let(:epoch_time) { Time.new(2006, 1, 10) }
 
     it 'creates the proper day' do
-      expect(described_class.since_epoch(epoch_time)).to eq 9
+      expect(described_class.since_epoch(epoch_time)).to eq(
+        described_class.new(9)
+      )
     end
   end
 
@@ -76,21 +78,35 @@ RSpec.describe Biz::Day do
   end
 
   context 'when performing comparison' do
-    context 'and the compared object does not respond to #to_i' do
-      it 'raises an argument error' do
-        expect { day < Object.new }.to raise_error ArgumentError
+    context 'and the compared object is an earlier day' do
+      let(:other) { described_class.new(8) }
+
+      it 'compares as expected' do
+        expect(day > other).to eq true
       end
     end
 
-    context 'and the compared object responds to #to_i' do
+    context 'and the compared object is the same day' do
+      let(:other) { described_class.new(9) }
+
       it 'compares as expected' do
-        expect(day > 5).to eq true
+        expect(day == other).to eq true
       end
     end
 
-    context 'and the comparing object is an integer' do
+    context 'and the other object is a later day' do
+      let(:other) { described_class.new(10) }
+
       it 'compares as expected' do
-        expect(5 < day).to eq true
+        expect(day < other).to eq true
+      end
+    end
+
+    context 'and the compared object is not a day' do
+      let(:other) { 1 }
+
+      it 'is not comparable' do
+        expect { day < other }.to raise_error ArgumentError
       end
     end
   end

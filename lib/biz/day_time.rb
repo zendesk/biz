@@ -101,16 +101,10 @@ module Biz
       format(Timestamp::FORMAT, hour, minute)
     end
 
-    def coerce(other)
-      [self.class.new(other), self]
-    end
-
-    protected
-
     def <=>(other)
-      return nil unless other.respond_to?(:to_i)
+      return unless other.is_a?(self.class)
 
-      day_second <=> other.to_i
+      day_second <=> other.day_second
     end
 
     private

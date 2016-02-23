@@ -24,10 +24,6 @@ module Biz
         day_of_week.symbol
       end
 
-      def coerce(other)
-        [self.class.new(other), self]
-      end
-
       delegate wday: :day_of_week
 
       delegate %i[
@@ -47,12 +43,10 @@ module Biz
         to_int
       ] => :week_minute
 
-      protected
-
       def <=>(other)
-        return nil unless other.respond_to?(:to_i)
+        return unless other.is_a?(WeekTime::Abstract)
 
-        week_minute <=> other.to_i
+        week_minute <=> other.week_minute
       end
 
       private

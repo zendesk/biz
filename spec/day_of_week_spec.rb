@@ -62,35 +62,35 @@ RSpec.describe Biz::DayOfWeek do
   end
 
   describe '#contains?' do
-    context 'when the week time is at the beginning of the day of the week' do
-      let(:week_time) { Biz::WeekTime.build(week_minute(wday: 1, hour: 0)) }
+    context 'when the week minute is at the beginning of the day of the week' do
+      let(:minute) { week_minute(wday: 1, hour: 0) }
 
       it 'returns true' do
-        expect(day.contains?(week_time)).to eq true
+        expect(day.contains?(minute)).to eq true
       end
     end
 
-    context 'when the week time is in the middle of the day of the week' do
-      let(:week_time) { Biz::WeekTime.build(week_minute(wday: 1, hour: 12)) }
+    context 'when the week minute is in the middle of the day of the week' do
+      let(:minute) { week_minute(wday: 1, hour: 12) }
 
       it 'returns true' do
-        expect(day.contains?(week_time)).to eq true
+        expect(day.contains?(minute)).to eq true
       end
     end
 
-    context 'when the week time is at the end of the day of the week' do
-      let(:week_time) { Biz::WeekTime.build(week_minute(wday: 2, hour: 0)) }
+    context 'when the week minute is at the end of the day of the week' do
+      let(:minute) { week_minute(wday: 2, hour: 0) }
 
       it 'returns true' do
-        expect(day.contains?(week_time)).to eq true
+        expect(day.contains?(minute)).to eq true
       end
     end
 
     context 'when the week time is not within the day of the week' do
-      let(:week_time) { Biz::WeekTime.build(week_minute(wday: 3, hour: 12)) }
+      let(:minute) { week_minute(wday: 3, hour: 12) }
 
       it 'returns false' do
-        expect(day.contains?(week_time)).to eq false
+        expect(day.contains?(minute)).to eq false
       end
     end
   end
@@ -136,6 +136,40 @@ RSpec.describe Biz::DayOfWeek do
   describe '#symbol' do
     it 'returns the corresponding symbol for the day of the week' do
       expect(day.symbol).to eq :mon
+    end
+  end
+
+  context 'when performing comparison' do
+    context 'and the compared object is an earlier day of the week' do
+      let(:other) { described_class.new(0) }
+
+      it 'compares as expected' do
+        expect(day > other).to eq true
+      end
+    end
+
+    context 'and the compared object is the same day of the week' do
+      let(:other) { described_class.new(1) }
+
+      it 'compares as expected' do
+        expect(day == other).to eq true
+      end
+    end
+
+    context 'and the other object is a later day of the week' do
+      let(:other) { described_class.new(2) }
+
+      it 'compares as expected' do
+        expect(day < other).to eq true
+      end
+    end
+
+    context 'and the compared object is not a day of the week' do
+      let(:other) { 1 }
+
+      it 'is not comparable' do
+        expect { day < other }.to raise_error ArgumentError
+      end
     end
   end
 end
