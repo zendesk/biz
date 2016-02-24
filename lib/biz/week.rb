@@ -6,7 +6,7 @@ module Biz
     extend Forwardable
 
     def self.from_date(date)
-      new(Day.from_date(date).to_i / Time::DAYS_IN_WEEK)
+      new((date - Date::EPOCH).to_i / Time::DAYS_IN_WEEK)
     end
 
     def self.from_time(time)
