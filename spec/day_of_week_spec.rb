@@ -41,22 +41,6 @@ RSpec.describe Biz::DayOfWeek do
     end
   end
 
-  describe '.from_time' do
-    let(:epoch_time) { Time.new(2006, 1, 1) }
-
-    it 'creates the proper day of the week' do
-      expect(described_class.from_time(epoch_time).wday).to eq 0
-    end
-  end
-
-  describe '.from_date' do
-    let(:date) { Date.new(2006, 1, 3) }
-
-    it 'creates the proper day of the week' do
-      expect(described_class.from_date(date).wday).to eq 2
-    end
-  end
-
   describe '.from_symbol' do
     it 'creates the proper day of the week' do
       expect(described_class.from_symbol(:wed).wday).to eq 3

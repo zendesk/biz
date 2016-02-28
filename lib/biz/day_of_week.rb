@@ -9,18 +9,8 @@ module Biz
       ALL
     end
 
-    def self.from_time(time)
-      ALL.fetch(time.wday)
-    end
-
     def self.from_symbol(symbol)
       ALL.fetch(SYMBOLS.index(symbol))
-    end
-
-    class << self
-
-      alias from_date from_time
-
     end
 
     attr_reader :wday
