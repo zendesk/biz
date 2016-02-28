@@ -4,7 +4,7 @@ module Biz
     include Comparable
 
     def self.from_date(date)
-      new((date - Date::EPOCH).to_i / Time::DAYS_IN_WEEK)
+      new((date - Date.epoch).to_i / Time.week_days)
     end
 
     def self.from_time(time)
@@ -24,7 +24,7 @@ module Biz
     end
 
     def start_date
-      Date.from_day(week * Time::DAYS_IN_WEEK)
+      Date.from_day(week * Time.week_days)
     end
 
     def succ

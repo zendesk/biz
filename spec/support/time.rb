@@ -7,21 +7,21 @@ module Biz
         end
 
         def week_minute(args = {})
-          args.fetch(:wday) * Biz::Time::MINUTES_IN_DAY + day_minute(args)
+          args.fetch(:wday) * Biz::Time.day_minutes + day_minute(args)
         end
 
         def day_minute(args = {})
-          args.fetch(:hour) * Biz::Time::MINUTES_IN_HOUR + args.fetch(:min, 0)
+          args.fetch(:hour) * Biz::Time.hour_minutes + args.fetch(:min, 0)
         end
 
         def day_second(args = {})
-          day_minute(args) * Biz::Time::SECONDS_IN_MINUTE + args.fetch(:sec, 0)
+          day_minute(args) * Biz::Time.minute_seconds + args.fetch(:sec, 0)
         end
 
         def in_seconds(args = {})
-          args.fetch(:days, 0) * Biz::Time::SECONDS_IN_DAY +
-            args.fetch(:hours, 0) * Biz::Time::SECONDS_IN_HOUR +
-            args.fetch(:minutes, 0) * Biz::Time::SECONDS_IN_MINUTE +
+          args.fetch(:days, 0) * Biz::Time.day_seconds +
+            args.fetch(:hours, 0) * Biz::Time.hour_seconds +
+            args.fetch(:minutes, 0) * Biz::Time.minute_seconds +
             args.fetch(:seconds, 0)
         end
 

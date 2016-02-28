@@ -8,8 +8,8 @@ module Biz
 
       def self.from_time(time)
         new(
-          time.wday * Time::MINUTES_IN_DAY +
-            time.hour * Time::MINUTES_IN_HOUR +
+          time.wday * Time.day_minutes +
+            time.hour * Time.hour_minutes +
             time.min
         )
       end

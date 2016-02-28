@@ -46,5 +46,7 @@ module Biz
       }
     ].freeze
 
+    private_constant :RULES
+
   end
 end

@@ -67,17 +67,17 @@ RSpec.describe Biz::Interval do
 
     context 'when the interval covers an entire day' do
       let(:start_time) {
-        Biz::WeekTime.start(Biz::DayOfWeek::MONDAY.start_minute)
+        Biz::WeekTime.start(Biz::DayOfWeek.all.first.start_minute)
       }
       let(:end_time) {
-        Biz::WeekTime.end(Biz::DayOfWeek::MONDAY.end_minute)
+        Biz::WeekTime.end(Biz::DayOfWeek.all.first.end_minute)
       }
 
       it 'returns the appropriate time segment' do
         expect(interval.to_time_segment(week)).to eq(
           Biz::TimeSegment.new(
-            in_zone('America/Los_Angeles') { Time.utc(2006, 1, 30) },
-            in_zone('America/Los_Angeles') { Time.utc(2006, 1, 31) }
+            in_zone('America/Los_Angeles') { Time.utc(2006, 1, 29) },
+            in_zone('America/Los_Angeles') { Time.utc(2006, 1, 30) }
           )
         )
       end
@@ -85,7 +85,7 @@ RSpec.describe Biz::Interval do
 
     context 'when the interval covers an entire week' do
       let(:start_time) { Biz::WeekTime.start(0) }
-      let(:end_time)   { Biz::WeekTime.end(Biz::Time::MINUTES_IN_WEEK) }
+      let(:end_time)   { Biz::WeekTime.end(Biz::Time.week_minutes) }
 
       it 'returns the appropriate time segment' do
         expect(interval.to_time_segment(week)).to eq(

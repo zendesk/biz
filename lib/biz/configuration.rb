@@ -78,5 +78,8 @@ module Biz
       alias_method :business_hours=, :hours=
     end
 
+    private_constant :Raw,
+                     :Default
+
   end
 end

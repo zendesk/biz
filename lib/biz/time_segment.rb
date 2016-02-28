@@ -2,11 +2,11 @@ module Biz
   class TimeSegment
 
     def self.before(time)
-      new(Time::BIG_BANG, time)
+      new(Time.big_bang, time)
     end
 
     def self.after(time)
-      new(time, Time::HEAT_DEATH)
+      new(time, Time.heat_death)
     end
 
     attr_reader :start_time,

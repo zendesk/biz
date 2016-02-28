@@ -97,20 +97,18 @@ RSpec.describe Biz::WeekTime::End do
 
   context 'when the week minute is on a day boundary' do
     subject(:week_time) {
-      described_class.new(Biz::DayOfWeek::TUESDAY.end_minute)
+      described_class.new(Biz::DayOfWeek.all.first.end_minute)
     }
 
     describe '#day_time' do
       it 'returns the endnight day time' do
-        expect(week_time.day_time).to eq(
-          Biz::DayTime.new(Biz::Time::SECONDS_IN_DAY)
-        )
+        expect(week_time.day_time).to eq Biz::DayTime.new(Biz::Time.day_seconds)
       end
     end
 
     describe '#day_minute' do
       it 'returns the number of minutes in a day' do
-        expect(week_time.day_minute).to eq Biz::Time::MINUTES_IN_DAY
+        expect(week_time.day_minute).to eq Biz::Time.day_minutes
       end
     end
 

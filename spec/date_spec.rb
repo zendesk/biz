@@ -1,4 +1,10 @@
 RSpec.describe Biz::Date do
+  describe '.epoch' do
+    it 'returns the epoch date' do
+      expect(described_class.epoch).to eq Date.new(2006, 1, 1)
+    end
+  end
+
   describe '.from_day' do
     let(:built_date) { described_class.from_day(960) }
 

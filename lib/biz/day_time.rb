@@ -1,7 +1,7 @@
 module Biz
   class DayTime
 
-    VALID_SECONDS = 0..Time::SECONDS_IN_DAY
+    VALID_SECONDS = (0..Time.day_seconds).freeze
 
     module Timestamp
       FORMAT  = '%02d:%02d'.freeze
@@ -14,25 +14,25 @@ module Biz
 
       def from_time(time)
         new(
-          time.hour * Time::SECONDS_IN_HOUR +
-            time.min * Time::SECONDS_IN_MINUTE +
+          time.hour * Time.hour_seconds +
+            time.min * Time.minute_seconds +
             time.sec
         )
       end
 
       def from_minute(minute)
-        new(minute * Time::SECONDS_IN_MINUTE)
+        new(minute * Time.minute_seconds)
       end
 
       def from_hour(hour)
-        new(hour * Time::SECONDS_IN_HOUR)
+        new(hour * Time.hour_seconds)
       end
 
       def from_timestamp(timestamp)
         timestamp.match(Timestamp::PATTERN) { |match|
           new(
-            match[:hour].to_i * Time::SECONDS_IN_HOUR +
-              match[:minute].to_i * Time::SECONDS_IN_MINUTE +
+            match[:hour].to_i * Time.hour_seconds +
+              match[:minute].to_i * Time.minute_seconds +
               match[:second].to_i
           )
         }
@@ -59,25 +59,23 @@ module Biz
     end
 
     def hour
-      day_second / Time::SECONDS_IN_HOUR
+      day_second / Time.hour_seconds
     end
 
     def minute
-      day_second % Time::SECONDS_IN_HOUR / Time::SECONDS_IN_MINUTE
+      day_second % Time.hour_seconds / Time.minute_seconds
     end
 
     def second
-      day_second % Time::SECONDS_IN_MINUTE
+      day_second % Time.minute_seconds
     end
 
     def day_minute
-      hour * Time::MINUTES_IN_HOUR + minute
+      hour * Time.hour_minutes + minute
     end
 
     def for_dst
-      self.class.new(
-        (day_second + Time::SECONDS_IN_HOUR) % Time::SECONDS_IN_DAY
-      )
+      self.class.new((day_second + Time.hour_seconds) % Time.day_seconds)
     end
 
     def timestamp
@@ -92,6 +90,11 @@ module Biz
 
     MIDNIGHT = from_hour(0)
     ENDNIGHT = from_hour(24)
+
+    private_constant :VALID_SECONDS,
+                     :Timestamp,
+                     :MIDNIGHT,
+                     :ENDNIGHT
 
   end
 end

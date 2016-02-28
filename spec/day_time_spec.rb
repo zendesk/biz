@@ -42,8 +42,8 @@ RSpec.describe Biz::DayTime do
 
     context 'when the value is the number of seconds in a day' do
       it 'is successful' do
-        expect(described_class.new(Biz::Time::SECONDS_IN_DAY).day_second).to eq(
-          Biz::Time::SECONDS_IN_DAY
+        expect(described_class.new(Biz::Time.day_seconds).day_second).to eq(
+          Biz::Time.day_seconds
         )
       end
     end
@@ -51,7 +51,7 @@ RSpec.describe Biz::DayTime do
     context 'when the value is more than the number of seconds in a day' do
       it 'fails hard' do
         expect {
-          described_class.new(Biz::Time::SECONDS_IN_DAY + 1)
+          described_class.new(Biz::Time.day_seconds + 1)
         }.to raise_error ArgumentError
       end
     end

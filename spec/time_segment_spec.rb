@@ -7,7 +7,7 @@ RSpec.describe Biz::TimeSegment do
   describe '.before' do
     it 'returns the time segment before the provided time' do
       expect(described_class.before(start_time)).to eq(
-        described_class.new(Biz::Time::BIG_BANG, start_time)
+        described_class.new(Biz::Time.big_bang, start_time)
       )
     end
   end
@@ -15,7 +15,7 @@ RSpec.describe Biz::TimeSegment do
   describe '.after' do
     it 'returns the time segment after the provided time' do
       expect(described_class.after(start_time)).to eq(
-        described_class.new(start_time, Biz::Time::HEAT_DEATH)
+        described_class.new(start_time, Biz::Time.heat_death)
       )
     end
   end
