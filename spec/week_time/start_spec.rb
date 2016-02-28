@@ -95,12 +95,6 @@ RSpec.describe Biz::WeekTime::Start do
     end
   end
 
-  describe '#strftime' do
-    it 'returns a properly formatted string' do
-      expect(week_time.strftime('%A %H:%M %p')).to eq 'Sunday 09:30 AM'
-    end
-  end
-
   context 'when the week minute is on a day boundary' do
     subject(:week_time) {
       described_class.new(Biz::DayOfWeek::TUESDAY.start_minute)

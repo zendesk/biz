@@ -35,8 +35,6 @@ module Biz
         timestamp
       ] => :day_time
 
-      delegate strftime: :week_time
-
       delegate %i[
         to_s
         to_i
@@ -47,18 +45,6 @@ module Biz
         return unless other.is_a?(WeekTime::Abstract)
 
         week_minute <=> other.week_minute
-      end
-
-      private
-
-      def week_time
-        ::Time.new(
-          Date::EPOCH.year,
-          Date::EPOCH.month,
-          Date::EPOCH.mday + wday,
-          hour,
-          minute
-        )
       end
 
     end

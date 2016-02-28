@@ -52,8 +52,6 @@ module Biz
 
     attr_reader :day_second
 
-    delegate strftime: :format_time
-
     delegate %i[
       to_i
       to_int
@@ -97,19 +95,6 @@ module Biz
       return unless other.is_a?(self.class)
 
       day_second <=> other.day_second
-    end
-
-    private
-
-    def format_time
-      ::Time.new(
-        Date::EPOCH.year,
-        Date::EPOCH.month,
-        Date::EPOCH.mday,
-        hour,
-        minute,
-        second
-      )
     end
 
     MIDNIGHT = from_hour(0)

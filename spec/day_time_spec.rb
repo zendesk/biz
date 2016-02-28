@@ -217,12 +217,6 @@ RSpec.describe Biz::DayTime do
     end
   end
 
-  describe '#strftime' do
-    it 'returns a properly formatted string' do
-      expect(day_time.strftime('%H:%M:%S %p')).to eq '09:53:27 AM'
-    end
-  end
-
   describe '#to_int' do
     it 'returns the minutes since day start' do
       expect(day_time.to_int).to eq day_second(hour: 9, min: 53, sec: 27)
