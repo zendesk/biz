@@ -44,10 +44,6 @@ module Biz
         MIDNIGHT
       end
 
-      def noon
-        NOON
-      end
-
       def endnight
         ENDNIGHT
       end
@@ -117,7 +113,6 @@ module Biz
     end
 
     MIDNIGHT = from_hour(0)
-    NOON     = from_hour(12)
     ENDNIGHT = from_hour(24)
 
   end

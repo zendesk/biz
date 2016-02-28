@@ -123,14 +123,6 @@ RSpec.describe Biz::DayTime do
     end
   end
 
-  describe '.noon' do
-    it 'creates a day time that represents noon' do
-      expect(described_class.noon).to eq(
-        described_class.new(day_second(hour: 12))
-      )
-    end
-  end
-
   describe '.endnight' do
     it 'creates a day time that represents the end-of-day midnight' do
       expect(described_class.endnight).to eq(
@@ -173,7 +165,7 @@ RSpec.describe Biz::DayTime do
     end
 
     context 'when the day time is noon' do
-      let(:day_time) { Biz::DayTime.noon }
+      let(:day_time) { Biz::DayTime.new(day_second(hour: 12)) }
 
       it 'returns a day time one hour later' do
         expect(day_time.for_dst).to eq described_class.new(day_second(hour: 13))
