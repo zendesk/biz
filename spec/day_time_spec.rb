@@ -217,18 +217,6 @@ RSpec.describe Biz::DayTime do
     end
   end
 
-  describe '#to_int' do
-    it 'returns the minutes since day start' do
-      expect(day_time.to_int).to eq day_second(hour: 9, min: 53, sec: 27)
-    end
-  end
-
-  describe '#to_i' do
-    it 'returns the minutes since day start' do
-      expect(day_time.to_i).to eq day_second(hour: 9, min: 53, sec: 27)
-    end
-  end
-
   context 'when performing comparison' do
     context 'and the compared object is an earlier day time' do
       let(:other) { described_class.new(day_second(hour: 9, min: 53, sec: 26)) }

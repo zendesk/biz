@@ -61,7 +61,7 @@ RSpec.describe Biz::Week do
 
   describe '#succ' do
     it 'returns the next week' do
-      expect(week.succ).to eq described_class.new(week.to_i + 1)
+      expect(week.succ).to eq described_class.new(week.week + 1)
     end
   end
 
@@ -81,24 +81,6 @@ RSpec.describe Biz::Week do
 
     it 'adds the weeks' do
       expect(week_1 + week_2).to eq described_class.new(3)
-    end
-  end
-
-  describe '#to_s' do
-    it 'returns the week since epoch' do
-      expect(week.to_s).to eq '2'
-    end
-  end
-
-  describe '#to_int' do
-    it 'returns the week since epoch' do
-      expect(week.to_int).to eq 2
-    end
-  end
-
-  describe '#to_i' do
-    it 'returns the week since epoch' do
-      expect(week.to_i).to eq 2
     end
   end
 

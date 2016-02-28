@@ -35,12 +35,6 @@ module Biz
         timestamp
       ] => :day_time
 
-      delegate %i[
-        to_s
-        to_i
-        to_int
-      ] => :week_minute
-
       def <=>(other)
         return unless other.is_a?(WeekTime::Abstract)
 

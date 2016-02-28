@@ -3,8 +3,6 @@ module Biz
 
     include Comparable
 
-    extend Forwardable
-
     class << self
 
       def seconds(seconds)
@@ -28,8 +26,6 @@ module Biz
     end
 
     attr_reader :seconds
-
-    delegate to_i: :seconds
 
     def initialize(seconds)
       @seconds = Integer(seconds)

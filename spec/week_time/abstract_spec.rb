@@ -41,18 +41,6 @@ RSpec.describe Biz::WeekTime::Abstract do
     end
   end
 
-  describe '#to_int' do
-    it 'returns the minutes since week start' do
-      expect(week_time.to_int).to eq week_minute(wday: 0, hour: 9, min: 30)
-    end
-  end
-
-  describe '#to_i' do
-    it 'returns the minutes since week start' do
-      expect(week_time.to_i).to eq week_minute(wday: 0, hour: 9, min: 30)
-    end
-  end
-
   context 'when performing comparison' do
     context 'and the compared object is an earlier week time' do
       let(:other) {

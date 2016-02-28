@@ -10,8 +10,6 @@ module Biz
 
     include Comparable
 
-    extend Forwardable
-
     class << self
 
       def from_time(time)
@@ -51,11 +49,6 @@ module Biz
     end
 
     attr_reader :day_second
-
-    delegate %i[
-      to_i
-      to_int
-    ] => :day_second
 
     def initialize(day_second)
       @day_second = Integer(day_second)

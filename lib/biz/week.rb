@@ -3,8 +3,6 @@ module Biz
 
     include Comparable
 
-    extend Forwardable
-
     def self.from_date(date)
       new((date - Date::EPOCH).to_i / Time::DAYS_IN_WEEK)
     end
@@ -21,12 +19,6 @@ module Biz
 
     attr_reader :week
 
-    delegate %i[
-      to_s
-      to_i
-      to_int
-    ] => :week
-
     def initialize(week)
       @week = Integer(week)
     end
@@ -42,7 +34,7 @@ module Biz
     def downto(final_week)
       return enum_for(:downto, final_week) unless block_given?
 
-      week.downto(final_week.to_i).each do |raw_week|
+      week.downto(final_week.week).each do |raw_week|
         yield self.class.new(raw_week)
       end
     end
