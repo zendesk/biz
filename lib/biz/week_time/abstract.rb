@@ -2,9 +2,9 @@ module Biz
   module WeekTime
     class Abstract
 
-      include Comparable
-
       extend Forwardable
+
+      include Comparable
 
       def self.from_time(time)
         new(
