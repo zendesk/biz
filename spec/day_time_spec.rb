@@ -139,22 +139,6 @@ RSpec.describe Biz::DayTime do
     end
   end
 
-  describe '.am' do
-    it 'creates a day time that represents an a.m. time (midnight)' do
-      expect(described_class.midnight).to eq(
-        described_class.new(day_second(hour: 0))
-      )
-    end
-  end
-
-  describe '.pm' do
-    it 'creates a day time that represents a p.m. time (noon)' do
-      expect(described_class.noon).to eq(
-        described_class.new(day_second(hour: 12))
-      )
-    end
-  end
-
   describe '#hour' do
     it 'returns the hour' do
       expect(day_time.hour).to eq 9

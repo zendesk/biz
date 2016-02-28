@@ -44,13 +44,9 @@ module Biz
         MIDNIGHT
       end
 
-      alias am midnight
-
       def noon
         NOON
       end
-
-      alias pm noon
 
       def endnight
         ENDNIGHT
