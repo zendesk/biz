@@ -66,8 +66,6 @@ module Biz
       HEAT_DEATH
     end
 
-    attr_reader :time_zone
-
     def initialize(time_zone)
       @time_zone = time_zone
     end
@@ -95,6 +93,10 @@ module Biz
     def during_week(week, week_time)
       on_date(week.start_date + week_time.wday, week_time.day_time)
     end
+
+    protected
+
+    attr_reader :time_zone
 
   end
 end

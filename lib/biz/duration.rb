@@ -25,8 +25,6 @@ module Biz
 
     end
 
-    attr_reader :seconds
-
     def initialize(seconds)
       @seconds = Integer(seconds)
     end
@@ -64,6 +62,10 @@ module Biz
 
       seconds <=> other.seconds
     end
+
+    protected
+
+    attr_reader :seconds
 
   end
 end

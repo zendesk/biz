@@ -131,6 +131,12 @@ RSpec.describe Biz::DayTime do
     end
   end
 
+  describe '#day_second' do
+    it 'returns the number of seconds into the day' do
+      expect(day_time.day_second).to eq day_second(hour: 9, min: 53, sec: 27)
+    end
+  end
+
   describe '#hour' do
     it 'returns the hour' do
       expect(day_time.hour).to eq 9

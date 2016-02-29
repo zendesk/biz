@@ -48,8 +48,6 @@ module Biz
 
     end
 
-    attr_reader :day_second
-
     def initialize(day_second)
       @day_second = Integer(day_second)
 
@@ -57,6 +55,8 @@ module Biz
         fail ArgumentError, 'Invalid number of seconds for a day.'
       end
     end
+
+    attr_reader :day_second
 
     def hour
       day_second / Time.hour_seconds

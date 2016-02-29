@@ -13,8 +13,6 @@ module Biz
       ALL.fetch(SYMBOLS.index(symbol))
     end
 
-    attr_reader :wday
-
     def initialize(wday)
       @wday = Integer(wday)
     end
@@ -56,6 +54,10 @@ module Biz
 
       wday <=> other.wday
     end
+
+    protected
+
+    attr_reader :wday
 
     ALL = (0..6).map(&method(:new)).freeze
 

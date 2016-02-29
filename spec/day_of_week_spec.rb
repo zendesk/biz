@@ -4,13 +4,13 @@ RSpec.describe Biz::DayOfWeek do
   context 'when initializing' do
     context 'with an integer' do
       it 'is successful' do
-        expect(described_class.new(1).wday).to eq 1
+        expect(described_class.new(1)).to eq described_class.new(1)
       end
     end
 
     context 'with an valid integer-like value' do
       it 'is successful' do
-        expect(described_class.new('1').wday).to eq 1
+        expect(described_class.new('1')).to eq described_class.new(1)
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe Biz::DayOfWeek do
 
   describe '.from_symbol' do
     it 'creates the proper day of the week' do
-      expect(described_class.from_symbol(:wed).wday).to eq 3
+      expect(described_class.from_symbol(:wed)).to eq described_class.new(3)
     end
   end
 
@@ -128,13 +128,13 @@ RSpec.describe Biz::DayOfWeek do
   describe '#wday?' do
     context 'when the other `wday` is the same' do
       it 'returns true' do
-        expect(day.wday?(day.wday)).to eq true
+        expect(day.wday?(1)).to eq true
       end
     end
 
     context 'when the other `wday` is different' do
       it 'returns false' do
-        expect(day.wday?(day.wday + 1)).to eq false
+        expect(day.wday?(2)).to eq false
       end
     end
   end

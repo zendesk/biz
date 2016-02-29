@@ -61,7 +61,7 @@ RSpec.describe Biz::Week do
 
   describe '#succ' do
     it 'returns the next week' do
-      expect(week.succ).to eq described_class.new(week.week + 1)
+      expect(week.succ).to eq described_class.new(3)
     end
   end
 

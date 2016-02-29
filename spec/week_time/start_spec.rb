@@ -97,7 +97,7 @@ RSpec.describe Biz::WeekTime::Start do
 
   context 'when the week minute is on a day boundary' do
     subject(:week_time) {
-      described_class.new(Biz::DayOfWeek::all.first.start_minute)
+      described_class.new(Biz::DayOfWeek.all.first.start_minute)
     }
 
     describe '#day_time' do

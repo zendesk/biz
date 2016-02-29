@@ -14,8 +14,6 @@ module Biz
         )
       end
 
-      attr_reader :week_minute
-
       def initialize(week_minute)
         @week_minute = Integer(week_minute)
       end
@@ -40,6 +38,10 @@ module Biz
 
         week_minute <=> other.week_minute
       end
+
+      protected
+
+      attr_reader :week_minute
 
     end
   end

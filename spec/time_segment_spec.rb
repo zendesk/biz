@@ -28,6 +28,18 @@ RSpec.describe Biz::TimeSegment do
     end
   end
 
+  describe '#start_time' do
+    it 'returns the start time' do
+      expect(time_segment.start_time).to eq start_time
+    end
+  end
+
+  describe '#end_time' do
+    it 'returns the end time' do
+      expect(time_segment.end_time).to eq end_time
+    end
+  end
+
   describe '#endpoints' do
     it 'returns the endpoints' do
       expect(time_segment.endpoints).to eq [

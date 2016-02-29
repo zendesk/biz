@@ -17,8 +17,6 @@ module Biz
 
     end
 
-    attr_reader :week
-
     def initialize(week)
       @week = Integer(week)
     end
@@ -48,6 +46,10 @@ module Biz
 
       week <=> other.week
     end
+
+    protected
+
+    attr_reader :week
 
   end
 end
