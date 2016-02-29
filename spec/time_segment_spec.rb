@@ -240,47 +240,53 @@ RSpec.describe Biz::TimeSegment do
     end
   end
 
-  describe '#==' do
-    context 'when the start time is not the same' do
-      let(:other_time_segment) {
-        described_class.new(time_segment.start_time + 1, time_segment.end_time)
-      }
+  context 'when performing comparison' do
+    context 'and the compared object has an earlier start time' do
+      let(:other) { described_class.new(start_time - 1, end_time) }
 
-      it 'returns false' do
-        expect(time_segment == other_time_segment).to eq false
+      it 'compares as expected' do
+        expect(time_segment > other).to eq true
       end
     end
 
-    context 'when the end time is not the same' do
-      let(:other_time_segment) {
-        described_class.new(time_segment.start_time, time_segment.end_time + 1)
-      }
+    context 'and the compared object has a later start time' do
+      let(:other) { described_class.new(start_time + 1, end_time) }
 
-      it 'returns false' do
-        expect(time_segment == other_time_segment).to eq false
+      it 'compares as expected' do
+        expect(time_segment > other).to eq false
       end
     end
 
-    context 'when the start time and end time are the same' do
-      let(:other_time_segment) {
-        described_class.new(time_segment.start_time, time_segment.end_time)
-      }
+    context 'and the compared object has an earlier end time' do
+      let(:other) { described_class.new(start_time, end_time - 1) }
 
-      it 'returns true' do
-        expect(time_segment == other_time_segment).to eq true
+      it 'compares as expected' do
+        expect(time_segment > other).to eq true
       end
     end
-  end
 
-  describe '#eql?' do
-    let(:other_time_segment) {
-      described_class.new(time_segment.start_time, time_segment.end_time)
-    }
+    context 'and the compared object has a later end time' do
+      let(:other) { described_class.new(start_time, end_time + 1) }
 
-    it 'aliases `==`' do
-      expect(time_segment.eql?(other_time_segment)).to eq(
-        time_segment == other_time_segment
-      )
+      it 'compares as expected' do
+        expect(time_segment > other).to eq false
+      end
+    end
+
+    context 'and the compared object has the same start and end times' do
+      let(:other) { described_class.new(start_time, end_time) }
+
+      it 'compares as expected' do
+        expect(time_segment == other).to eq true
+      end
+    end
+
+    context 'and the compared object is not a time segment' do
+      let(:other) { 1 }
+
+      it 'is not comparable' do
+        expect { time_segment < other }.to raise_error ArgumentError
+      end
     end
   end
 end

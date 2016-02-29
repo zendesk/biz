@@ -1,6 +1,8 @@
 module Biz
   class TimeSegment
 
+    include Comparable
+
     def self.before(time)
       new(Time.big_bang, time)
     end
@@ -47,13 +49,11 @@ module Biz
       ].reject(&:empty?).map { |potential| self & potential }
     end
 
-    def ==(other)
-      other.is_a?(self.class) &&
-        start_time == other.start_time &&
-        end_time == other.end_time
-    end
+    def <=>(other)
+      return unless other.is_a?(self.class)
 
-    alias eql? ==
+      [start_time, end_time] <=> [other.start_time, other.end_time]
+    end
 
     private
 

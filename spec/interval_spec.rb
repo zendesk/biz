@@ -1,9 +1,15 @@
 RSpec.describe Biz::Interval do
-  let(:start_time) { Biz::WeekTime.start(week_minute(wday: 1, hour: 9)) }
-  let(:end_time)   { Biz::WeekTime.end(week_minute(wday: 1, hour: 17)) }
+  let(:start_time) { week_minute(wday: 1, hour: 9) }
+  let(:end_time)   { week_minute(wday: 1, hour: 17) }
   let(:time_zone)  { TZInfo::Timezone.get('America/Los_Angeles') }
 
-  subject(:interval) { described_class.new(start_time, end_time, time_zone) }
+  subject(:interval) {
+    described_class.new(
+      Biz::WeekTime.start(start_time),
+      Biz::WeekTime.end(end_time),
+      time_zone
+    )
+  }
 
   describe '#contains?' do
     context 'when the time is before the interval' do
@@ -49,7 +55,10 @@ RSpec.describe Biz::Interval do
 
   describe '#endpoints' do
     it 'returns the interval endpoints' do
-      expect(interval.endpoints).to eq [start_time, end_time]
+      expect(interval.endpoints).to eq [
+        Biz::WeekTime.start(start_time),
+        Biz::WeekTime.end(end_time)
+      ]
     end
   end
 
@@ -66,12 +75,8 @@ RSpec.describe Biz::Interval do
     end
 
     context 'when the interval covers an entire day' do
-      let(:start_time) {
-        Biz::WeekTime.start(Biz::DayOfWeek.all.first.start_minute)
-      }
-      let(:end_time) {
-        Biz::WeekTime.end(Biz::DayOfWeek.all.first.end_minute)
-      }
+      let(:start_time) { Biz::DayOfWeek.all.first.start_minute }
+      let(:end_time)   { Biz::DayOfWeek.all.first.end_minute }
 
       it 'returns the appropriate time segment' do
         expect(interval.to_time_segment(week)).to eq(
@@ -84,8 +89,8 @@ RSpec.describe Biz::Interval do
     end
 
     context 'when the interval covers an entire week' do
-      let(:start_time) { Biz::WeekTime.start(0) }
-      let(:end_time)   { Biz::WeekTime.end(Biz::Time.week_minutes) }
+      let(:start_time) { week_minute(wday: 0, hour: 0) }
+      let(:end_time)   { Biz::Time.week_minutes }
 
       it 'returns the appropriate time segment' do
         expect(interval.to_time_segment(week)).to eq(
@@ -98,75 +103,83 @@ RSpec.describe Biz::Interval do
     end
   end
 
-  describe '#==' do
-    context 'when the start time is not the same' do
-      let(:other_interval) {
+  context 'when performing comparison' do
+    context 'and the compared object has an earlier start time' do
+      let(:other) {
         described_class.new(
-          Biz::WeekTime.start(interval.start_time.week_minute + 1),
-          interval.end_time,
-          interval.time_zone
+          Biz::WeekTime.start(start_time - 1),
+          Biz::WeekTime.end(end_time),
+          time_zone
         )
       }
 
-      it 'returns false' do
-        expect(interval == other_interval).to eq false
+      it 'compares as expected' do
+        expect(interval > other).to eq true
       end
     end
 
-    context 'when the end time is not the same' do
-      let(:other_interval) {
+    context 'and the compared object has a later start time' do
+      let(:other) {
         described_class.new(
-          interval.start_time,
-          Biz::WeekTime.end(interval.end_time.week_minute + 1),
-          interval.time_zone
+          Biz::WeekTime.start(start_time + 1),
+          Biz::WeekTime.end(end_time),
+          time_zone
         )
       }
 
-      it 'returns false' do
-        expect(interval == other_interval).to eq false
+      it 'compares as expected' do
+        expect(interval > other).to eq false
       end
     end
 
-    context 'when the time zone is not the same' do
-      let(:other_interval) {
+    context 'and the compared object has an earlier end time' do
+      let(:other) {
         described_class.new(
-          interval.start_time,
-          interval.end_time,
-          TZInfo::Timezone.get('America/New_York')
+          Biz::WeekTime.start(start_time),
+          Biz::WeekTime.end(end_time - 1),
+          time_zone
         )
       }
 
-      it 'returns false' do
-        expect(interval == other_interval).to eq false
+      it 'compares as expected' do
+        expect(interval > other).to eq true
       end
     end
 
-    context 'when the start time, end time, and time zone are the same' do
-      let(:other_interval) {
+    context 'and the compared object has a different time zone' do
+      let(:other) {
         described_class.new(
-          interval.start_time,
-          interval.end_time,
-          interval.time_zone
+          Biz::WeekTime.start(start_time),
+          Biz::WeekTime.end(end_time + 1),
+          TZInfo::Timezone.get('America/Los_Angeles')
         )
       }
 
-      it 'returns true' do
-        expect(interval == other_interval).to eq true
+      it 'compares as expected' do
+        expect(interval == other).to eq false
       end
     end
-  end
 
-  describe '#eql?' do
-    let(:other_interval) {
-      described_class.new(
-        interval.start_time,
-        interval.end_time,
-        interval.time_zone
-      )
-    }
+    context 'and the compared object has the same endpoints and time zone' do
+      let(:other) {
+        described_class.new(
+          Biz::WeekTime.start(start_time),
+          Biz::WeekTime.end(end_time),
+          time_zone
+        )
+      }
 
-    it 'aliases `==`' do
-      expect(interval.eql?(other_interval)).to eq interval == other_interval
+      it 'compares as expected' do
+        expect(interval == other).to eq true
+      end
+    end
+
+    context 'and the compared object is not an interval' do
+      let(:other) { 1 }
+
+      it 'is not comparable' do
+        expect { interval < other }.to raise_error ArgumentError
+      end
     end
   end
 end

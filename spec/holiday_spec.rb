@@ -63,46 +63,47 @@ RSpec.describe Biz::Holiday do
     end
   end
 
-  describe '#==' do
-    context 'when the date is not the same' do
-      let(:other_holiday) {
-        described_class.new(holiday.date.next_day, holiday.time_zone)
-      }
+  context 'when performing comparison' do
+    context 'and the compared object has an earlier date' do
+      let(:other) { described_class.new(date.prev_day, time_zone) }
 
-      it 'returns false' do
-        expect(holiday == other_holiday).to eq false
+      it 'compares as expected' do
+        expect(holiday > other).to eq true
       end
     end
 
-    context 'when the time zone is not the same' do
-      let(:other_holiday) {
-        described_class.new(
-          holiday.date,
-          TZInfo::Timezone.get('America/New_York')
-        )
-      }
+    context 'and the compared object has a later date' do
+      let(:other) { described_class.new(date.next_day, time_zone) }
 
-      it 'returns false' do
-        expect(holiday == other_holiday).to eq false
+      it 'compares as expected' do
+        expect(holiday > other).to eq false
       end
     end
 
-    context 'when the date and time zone are the same' do
-      let(:other_holiday) {
-        described_class.new(holiday.date, holiday.time_zone)
+    context 'and the compared object has a different time zone' do
+      let(:other) {
+        described_class.new(date, TZInfo::Timezone.get('America/New_York'))
       }
 
-      it 'returns true' do
-        expect(holiday == other_holiday).to eq true
+      it 'compares as expected' do
+        expect(holiday == other).to eq false
       end
     end
-  end
 
-  describe '#eql?' do
-    let(:other_holiday) { described_class.new(holiday.date, holiday.time_zone) }
+    context 'and the compared object has the same date and time zone' do
+      let(:other) { described_class.new(date, time_zone) }
 
-    it 'aliases `==`' do
-      expect(holiday.eql?(other_holiday)).to eq holiday == other_holiday
+      it 'compares as expected' do
+        expect(holiday == other).to eq true
+      end
+    end
+
+    context 'and the compared object is not a holiday' do
+      let(:other) { 1 }
+
+      it 'is not comparable' do
+        expect { holiday < other }.to raise_error ArgumentError
+      end
     end
   end
 end

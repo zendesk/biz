@@ -12,7 +12,7 @@ module Biz
         raw
           .hours
           .flat_map { |weekday, hours| weekday_intervals(weekday, hours) }
-          .sort_by(&:start_time)
+          .sort
           .freeze
       end
     end

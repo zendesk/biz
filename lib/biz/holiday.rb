@@ -1,8 +1,7 @@
 module Biz
   class Holiday
 
-    attr_reader :date,
-                :time_zone
+    include Comparable
 
     def initialize(date, time_zone)
       @date      = date
@@ -20,15 +19,22 @@ module Biz
       )
     end
 
-    alias to_date date
+    def <=>(other)
+      return unless other.is_a?(self.class)
 
-    def ==(other)
-      other.is_a?(self.class) &&
-        date == other.date &&
-        time_zone == other.time_zone
+      [date, time_zone] <=> [other.date, other.time_zone]
     end
 
-    alias eql? ==
+    protected
+
+    attr_reader :date,
+                :time_zone
+
+    public
+
+    def to_date
+      date
+    end
 
   end
 end
