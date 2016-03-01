@@ -2,7 +2,9 @@ module Biz
   class Configuration
 
     def initialize
-      @raw = Raw.new.tap do |raw| yield raw if block_given? end
+      @raw = Raw.new
+
+      yield raw if block_given?
 
       Validation.perform(raw)
     end
