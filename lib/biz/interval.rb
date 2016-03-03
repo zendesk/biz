@@ -1,9 +1,7 @@
 module Biz
   class Interval
 
-    attr_reader :start_time,
-                :end_time,
-                :time_zone
+    include Comparable
 
     def initialize(start_time, end_time, time_zone)
       @start_time = start_time
@@ -29,14 +27,18 @@ module Biz
       )
     end
 
-    def ==(other)
-      other.is_a?(self.class) &&
-        start_time == other.start_time &&
-        end_time == other.end_time &&
-        time_zone == other.time_zone
+    def <=>(other)
+      return unless other.is_a?(self.class)
+
+      [start_time, end_time, time_zone] <=>
+        [other.start_time, other.end_time, other.time_zone]
     end
 
-    alias eql? ==
+    protected
+
+    attr_reader :start_time,
+                :end_time,
+                :time_zone
 
   end
 end

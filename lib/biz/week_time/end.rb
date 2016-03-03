@@ -9,9 +9,7 @@ module Biz
       private
 
       def day_of_week
-        @day_of_week ||= begin
-          DayOfWeek::DAYS.find { |day| day.contains?(week_minute) }
-        end
+        @day_of_week ||= DayOfWeek.all.find { |day| day.contains?(week_minute) }
       end
 
     end

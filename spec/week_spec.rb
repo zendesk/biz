@@ -2,12 +2,6 @@ RSpec.describe Biz::Week do
   subject(:week) { described_class.new(2) }
 
   context 'when initializing' do
-    context 'with an integer' do
-      it 'is successful' do
-        expect(described_class.new(1)).to be_truthy
-      end
-    end
-
     context 'with an valid integer-like value' do
       it 'is successful' do
         expect(described_class.new('1')).to be_truthy
@@ -61,7 +55,7 @@ RSpec.describe Biz::Week do
 
   describe '#succ' do
     it 'returns the next week' do
-      expect(week.succ).to eq described_class.new(week.to_i + 1)
+      expect(week.succ).to eq described_class.new(3)
     end
   end
 
@@ -81,24 +75,6 @@ RSpec.describe Biz::Week do
 
     it 'adds the weeks' do
       expect(week_1 + week_2).to eq described_class.new(3)
-    end
-  end
-
-  describe '#to_s' do
-    it 'returns the week since epoch' do
-      expect(week.to_s).to eq '2'
-    end
-  end
-
-  describe '#to_int' do
-    it 'returns the week since epoch' do
-      expect(week.to_int).to eq 2
-    end
-  end
-
-  describe '#to_i' do
-    it 'returns the week since epoch' do
-      expect(week.to_i).to eq 2
     end
   end
 

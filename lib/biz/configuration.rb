@@ -2,7 +2,9 @@ module Biz
   class Configuration
 
     def initialize
-      @raw = Raw.new.tap do |raw| yield raw if block_given? end
+      @raw = Raw.new
+
+      yield raw if block_given?
 
       Validation.perform(raw)
     end
@@ -12,7 +14,7 @@ module Biz
         raw
           .hours
           .flat_map { |weekday, hours| weekday_intervals(weekday, hours) }
-          .sort_by(&:start_time)
+          .sort
           .freeze
       end
     end
@@ -77,6 +79,9 @@ module Biz
 
       alias_method :business_hours=, :hours=
     end
+
+    private_constant :Raw,
+                     :Default
 
   end
 end

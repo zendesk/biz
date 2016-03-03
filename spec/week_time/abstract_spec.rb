@@ -6,15 +6,9 @@ RSpec.describe Biz::WeekTime::Abstract do
   }
 
   context 'when initializing' do
-    context 'with an integer' do
-      it 'is successful' do
-        expect(week_time_class.new(1).week_minute).to eq 1
-      end
-    end
-
     context 'with an valid integer-like value' do
       it 'is successful' do
-        expect(week_time_class.new('1').week_minute).to eq 1
+        expect(week_time_class.new('1')).to eq week_time_class.new(1)
       end
     end
 
@@ -38,18 +32,6 @@ RSpec.describe Biz::WeekTime::Abstract do
       expect(week_time_class.from_time(time)).to eq(
         week_time_class.new(week_minute(wday: 1, hour: 9, min: 30))
       )
-    end
-  end
-
-  describe '#to_int' do
-    it 'returns the minutes since week start' do
-      expect(week_time.to_int).to eq week_minute(wday: 0, hour: 9, min: 30)
-    end
-  end
-
-  describe '#to_i' do
-    it 'returns the minutes since week start' do
-      expect(week_time.to_i).to eq week_minute(wday: 0, hour: 9, min: 30)
     end
   end
 

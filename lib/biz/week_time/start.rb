@@ -3,16 +3,16 @@ module Biz
     class Start < Abstract
 
       def day_time
-        @day_time ||= DayTime.from_minute(week_minute % Time::MINUTES_IN_DAY)
+        @day_time ||= DayTime.from_minute(week_minute % Time.day_minutes)
       end
 
       private
 
       def day_of_week
         @day_of_week ||= begin
-          DayOfWeek::DAYS.fetch(
-            week_minute / Time::MINUTES_IN_DAY % Time::DAYS_IN_WEEK
-          )
+          DayOfWeek.all.find { |day_of_week|
+            day_of_week.wday?(week_minute / Time.day_minutes % Time.week_days)
+          }
         end
       end
 

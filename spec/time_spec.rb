@@ -3,6 +3,74 @@ RSpec.describe Biz::Time do
 
   subject(:time) { described_class.new(time_zone) }
 
+  describe '.minute_seconds' do
+    it 'returns the number of seconds in a minute' do
+      expect(described_class.minute_seconds).to eq 60
+    end
+  end
+
+  describe '.hour_minutes' do
+    it 'returns the number of minutes in an hour' do
+      expect(described_class.hour_minutes).to eq 60
+    end
+  end
+
+  describe '.day_hours' do
+    it 'returns the number of hours in a day' do
+      expect(described_class.day_hours).to eq 24
+    end
+  end
+
+  describe '.week_days' do
+    it 'returns the number of days in a week' do
+      expect(described_class.week_days).to eq 7
+    end
+  end
+
+  describe '.hour_seconds' do
+    it 'returns the number of seconds in an hour' do
+      expect(described_class.hour_seconds).to eq(
+        Biz::Time.hour_minutes * Biz::Time.minute_seconds
+      )
+    end
+  end
+
+  describe '.day_seconds' do
+    it 'returns the number of seconds in a day' do
+      expect(described_class.day_seconds).to eq(
+        Biz::Time.day_minutes * Biz::Time.minute_seconds
+      )
+    end
+  end
+
+  describe '.day_minutes' do
+    it 'returns the number of minutes in a day' do
+      expect(described_class.day_minutes).to eq(
+        Biz::Time.day_hours * Biz::Time.hour_minutes
+      )
+    end
+  end
+
+  describe '.week_minutes' do
+    it 'returns the number of minutes in a week' do
+      expect(described_class.week_minutes).to eq(
+        Biz::Time.week_days * Biz::Time.day_minutes
+      )
+    end
+  end
+
+  describe '.big_bang' do
+    it 'returns the beginning of time' do
+      expect(described_class.big_bang).to eq Time.new(-10**100)
+    end
+  end
+
+  describe '.heat_death' do
+    it 'returns the end of time' do
+      expect(described_class.heat_death).to eq Time.new(10**100)
+    end
+  end
+
   describe '#local' do
     let(:provided_time) {
       in_zone('America/New_York') { Time.utc(2006, 1, 1, 12, 30, 15) }

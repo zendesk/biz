@@ -1,21 +1,23 @@
 module Biz
   class TimeSegment
 
+    include Comparable
+
     def self.before(time)
-      new(Time::BIG_BANG, time)
+      new(Time.big_bang, time)
     end
 
     def self.after(time)
-      new(time, Time::HEAT_DEATH)
+      new(time, Time.heat_death)
     end
-
-    attr_reader :start_time,
-                :end_time
 
     def initialize(start_time, end_time)
       @start_time = start_time
       @end_time   = end_time
     end
+
+    attr_reader :start_time,
+                :end_time
 
     def duration
       Duration.new(end_time - start_time)
@@ -40,20 +42,11 @@ module Biz
       )
     end
 
-    def /(other)
-      [
-        self.class.new(start_time, other.start_time),
-        self.class.new(other.end_time, end_time)
-      ].reject(&:empty?).map { |potential| self & potential }
-    end
+    def <=>(other)
+      return unless other.is_a?(self.class)
 
-    def ==(other)
-      other.is_a?(self.class) &&
-        start_time == other.start_time &&
-        end_time == other.end_time
+      [start_time, end_time] <=> [other.start_time, other.end_time]
     end
-
-    alias eql? ==
 
     private
 

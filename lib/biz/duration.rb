@@ -3,8 +3,6 @@ module Biz
 
     include Comparable
 
-    extend Forwardable
-
     class << self
 
       def seconds(seconds)
@@ -14,22 +12,18 @@ module Biz
       alias second seconds
 
       def minutes(minutes)
-        new(minutes * Time::SECONDS_IN_MINUTE)
+        new(minutes * Time.minute_seconds)
       end
 
       alias minute minutes
 
       def hours(hours)
-        new(hours * Time::SECONDS_IN_HOUR)
+        new(hours * Time.hour_seconds)
       end
 
       alias hour hours
 
     end
-
-    attr_reader :seconds
-
-    delegate to_i: :seconds
 
     def initialize(seconds)
       @seconds = Integer(seconds)
@@ -40,11 +34,11 @@ module Biz
     end
 
     def in_minutes
-      seconds / Time::SECONDS_IN_MINUTE
+      seconds / Time.minute_seconds
     end
 
     def in_hours
-      seconds / Time::SECONDS_IN_HOUR
+      seconds / Time.hour_seconds
     end
 
     def +(other)
@@ -68,6 +62,10 @@ module Biz
 
       seconds <=> other.seconds
     end
+
+    protected
+
+    attr_reader :seconds
 
   end
 end

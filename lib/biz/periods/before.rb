@@ -9,9 +9,9 @@ module Biz
       private
 
       def weeks
-        Week.since_epoch(Time.new(time_zone).local(origin)).downto(
-          Week.since_epoch(Time::BIG_BANG)
-        )
+        Week
+          .since_epoch(Time.new(time_zone).local(origin))
+          .downto(Week.since_epoch(Time.big_bang))
       end
 
       def relevant?(period)

@@ -2,7 +2,13 @@ module Biz
   module Calculation
     class ForDuration
 
-      UNITS = Set.new(%i[second seconds minute minutes hour hours day days])
+      UNITS = %i[second seconds minute minutes hour hours day days].freeze
+
+      private_constant :UNITS
+
+      def self.units
+        UNITS
+      end
 
       def self.with_unit(schedule, scalar, unit)
         unless UNITS.include?(unit)

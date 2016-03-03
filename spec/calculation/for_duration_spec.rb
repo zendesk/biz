@@ -1,5 +1,13 @@
 RSpec.describe Biz::Calculation::ForDuration do
-  describe '#with_unit' do
+  describe '.units' do
+    it 'returns the supported units' do
+      expect(described_class.units).to eq(
+        %i[second seconds minute minutes hour hours day days]
+      )
+    end
+  end
+
+  describe '.with_unit' do
     context 'when called with a supported unit' do
       it 'returns a calculation with the unit' do
         expect(

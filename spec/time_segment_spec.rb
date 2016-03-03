@@ -7,7 +7,7 @@ RSpec.describe Biz::TimeSegment do
   describe '.before' do
     it 'returns the time segment before the provided time' do
       expect(described_class.before(start_time)).to eq(
-        described_class.new(Biz::Time::BIG_BANG, start_time)
+        described_class.new(Biz::Time.big_bang, start_time)
       )
     end
   end
@@ -15,7 +15,7 @@ RSpec.describe Biz::TimeSegment do
   describe '.after' do
     it 'returns the time segment after the provided time' do
       expect(described_class.after(start_time)).to eq(
-        described_class.new(start_time, Biz::Time::HEAT_DEATH)
+        described_class.new(start_time, Biz::Time.heat_death)
       )
     end
   end
@@ -25,6 +25,18 @@ RSpec.describe Biz::TimeSegment do
       expect(time_segment.duration).to eq(
         Biz::Duration.new(end_time - start_time)
       )
+    end
+  end
+
+  describe '#start_time' do
+    it 'returns the start time' do
+      expect(time_segment.start_time).to eq start_time
+    end
+  end
+
+  describe '#end_time' do
+    it 'returns the end time' do
+      expect(time_segment.end_time).to eq end_time
     end
   end
 
@@ -171,116 +183,53 @@ RSpec.describe Biz::TimeSegment do
     end
   end
 
-  describe '#/' do
-    let(:other) { described_class.new(other_start_time, other_end_time) }
+  context 'when performing comparison' do
+    context 'and the compared object has an earlier start time' do
+      let(:other) { described_class.new(start_time - 1, end_time) }
 
-    context 'when the other segment occurs before the time segment' do
-      let(:other_start_time) { Time.utc(2006, 1, 1) }
-      let(:other_end_time)   { Time.utc(2006, 1, 2) }
-
-      it 'returns the original time segment' do
-        expect(time_segment / other).to eq [time_segment]
+      it 'compares as expected' do
+        expect(time_segment > other).to eq true
       end
     end
 
-    context 'when the other segment starts before the time segment' do
-      let(:other_start_time) { Time.utc(2006, 1, 7) }
+    context 'and the compared object has a later start time' do
+      let(:other) { described_class.new(start_time + 1, end_time) }
 
-      context 'and ends before the time segment' do
-        let(:other_end_time) { Time.utc(2006, 1, 8, 11, 45) }
-
-        it 'returns the correct time segment' do
-          expect(time_segment / other).to eq [
-            described_class.new(other.end_time, time_segment.end_time)
-          ]
-        end
-      end
-
-      context 'and ends after the time segment' do
-        let(:other_end_time) { Time.utc(2006, 1, 23) }
-
-        it 'returns an empty array' do
-          expect(time_segment / other).to eq []
-        end
+      it 'compares as expected' do
+        expect(time_segment > other).to eq false
       end
     end
 
-    context 'when the other segment starts after the time segment' do
-      let(:other_start_time) { Time.utc(2006, 1, 8, 11, 30) }
+    context 'and the compared object has an earlier end time' do
+      let(:other) { described_class.new(start_time, end_time - 1) }
 
-      context 'and ends before the time segment' do
-        let(:other_end_time) { Time.utc(2006, 1, 9, 12, 30) }
-
-        it 'returns the correct time segments' do
-          expect(time_segment / other).to eq [
-            described_class.new(time_segment.start_time, other.start_time),
-            described_class.new(other.end_time, time_segment.end_time)
-          ]
-        end
-      end
-
-      context 'and ends after the time segment' do
-        let(:other_end_time) { Time.utc(2006, 1, 23) }
-
-        it 'returns the correct time segment' do
-          expect(time_segment / other).to eq [
-            described_class.new(time_segment.start_time, other.start_time)
-          ]
-        end
+      it 'compares as expected' do
+        expect(time_segment > other).to eq true
       end
     end
 
-    context 'when the other segment occurs after the time segment' do
-      let(:other_start_time) { Time.utc(2006, 2, 1) }
-      let(:other_end_time)   { Time.utc(2006, 2, 7) }
+    context 'and the compared object has a later end time' do
+      let(:other) { described_class.new(start_time, end_time + 1) }
 
-      it 'returns the original time segment' do
-        expect(time_segment / other).to eq [time_segment]
-      end
-    end
-  end
-
-  describe '#==' do
-    context 'when the start time is not the same' do
-      let(:other_time_segment) {
-        described_class.new(time_segment.start_time + 1, time_segment.end_time)
-      }
-
-      it 'returns false' do
-        expect(time_segment == other_time_segment).to eq false
+      it 'compares as expected' do
+        expect(time_segment > other).to eq false
       end
     end
 
-    context 'when the end time is not the same' do
-      let(:other_time_segment) {
-        described_class.new(time_segment.start_time, time_segment.end_time + 1)
-      }
+    context 'and the compared object has the same start and end times' do
+      let(:other) { described_class.new(start_time, end_time) }
 
-      it 'returns false' do
-        expect(time_segment == other_time_segment).to eq false
+      it 'compares as expected' do
+        expect(time_segment == other).to eq true
       end
     end
 
-    context 'when the start time and end time are the same' do
-      let(:other_time_segment) {
-        described_class.new(time_segment.start_time, time_segment.end_time)
-      }
+    context 'and the compared object is not a time segment' do
+      let(:other) { 1 }
 
-      it 'returns true' do
-        expect(time_segment == other_time_segment).to eq true
+      it 'is not comparable' do
+        expect { time_segment < other }.to raise_error ArgumentError
       end
-    end
-  end
-
-  describe '#eql?' do
-    let(:other_time_segment) {
-      described_class.new(time_segment.start_time, time_segment.end_time)
-    }
-
-    it 'aliases `==`' do
-      expect(time_segment.eql?(other_time_segment)).to eq(
-        time_segment == other_time_segment
-      )
     end
   end
 end

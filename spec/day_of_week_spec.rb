@@ -2,15 +2,9 @@ RSpec.describe Biz::DayOfWeek do
   subject(:day) { described_class.new(1) }
 
   context 'when initializing' do
-    context 'with an integer' do
-      it 'is successful' do
-        expect(described_class.new(1).wday).to eq 1
-      end
-    end
-
     context 'with an valid integer-like value' do
       it 'is successful' do
-        expect(described_class.new('1').wday).to eq 1
+        expect(described_class.new('1')).to eq described_class.new(1)
       end
     end
 
@@ -27,37 +21,23 @@ RSpec.describe Biz::DayOfWeek do
     end
   end
 
-  describe '.from_time' do
-    let(:epoch_time) { Time.new(2006, 1, 1) }
-
-    it 'creates the proper day of the week' do
-      expect(described_class.from_time(epoch_time).wday).to eq 0
-    end
-  end
-
-  describe '.from_date' do
-    let(:date) { Date.new(2006, 1, 3) }
-
-    it 'creates the proper day of the week' do
-      expect(described_class.from_date(date).wday).to eq 2
+  describe '.all' do
+    it 'returns all the days of the week' do
+      expect(described_class.all).to eq [
+        described_class.new(0),
+        described_class.new(1),
+        described_class.new(2),
+        described_class.new(3),
+        described_class.new(4),
+        described_class.new(5),
+        described_class.new(6)
+      ]
     end
   end
 
   describe '.from_symbol' do
     it 'creates the proper day of the week' do
-      expect(described_class.from_symbol(:wed).wday).to eq 3
-    end
-  end
-
-  describe '.first' do
-    it 'returns the first day of the week' do
-      expect(described_class.first).to eq Biz::DayOfWeek::SUNDAY
-    end
-  end
-
-  describe '.last' do
-    it 'returns the last day of the week' do
-      expect(described_class.last).to eq Biz::DayOfWeek::SATURDAY
+      expect(described_class.from_symbol(:wed)).to eq described_class.new(3)
     end
   end
 
@@ -136,6 +116,20 @@ RSpec.describe Biz::DayOfWeek do
   describe '#symbol' do
     it 'returns the corresponding symbol for the day of the week' do
       expect(day.symbol).to eq :mon
+    end
+  end
+
+  describe '#wday?' do
+    context 'when the other `wday` is the same' do
+      it 'returns true' do
+        expect(day.wday?(1)).to eq true
+      end
+    end
+
+    context 'when the other `wday` is different' do
+      it 'returns false' do
+        expect(day.wday?(2)).to eq false
+      end
     end
   end
 

@@ -4,12 +4,6 @@ RSpec.describe Biz::DayTime do
   }
 
   context 'when initializing' do
-    context 'with an integer' do
-      it 'is successful' do
-        expect(described_class.new(1).day_second).to eq 1
-      end
-    end
-
     context 'with an valid integer-like value' do
       it 'is successful' do
         expect(described_class.new('1').day_second).to eq 1
@@ -42,8 +36,8 @@ RSpec.describe Biz::DayTime do
 
     context 'when the value is the number of seconds in a day' do
       it 'is successful' do
-        expect(described_class.new(Biz::Time::SECONDS_IN_DAY).day_second).to eq(
-          Biz::Time::SECONDS_IN_DAY
+        expect(described_class.new(Biz::Time.day_seconds).day_second).to eq(
+          Biz::Time.day_seconds
         )
       end
     end
@@ -51,7 +45,7 @@ RSpec.describe Biz::DayTime do
     context 'when the value is more than the number of seconds in a day' do
       it 'fails hard' do
         expect {
-          described_class.new(Biz::Time::SECONDS_IN_DAY + 1)
+          described_class.new(Biz::Time.day_seconds + 1)
         }.to raise_error ArgumentError
       end
     end
@@ -123,14 +117,6 @@ RSpec.describe Biz::DayTime do
     end
   end
 
-  describe '.noon' do
-    it 'creates a day time that represents noon' do
-      expect(described_class.noon).to eq(
-        described_class.new(day_second(hour: 12))
-      )
-    end
-  end
-
   describe '.endnight' do
     it 'creates a day time that represents the end-of-day midnight' do
       expect(described_class.endnight).to eq(
@@ -139,19 +125,9 @@ RSpec.describe Biz::DayTime do
     end
   end
 
-  describe '.am' do
-    it 'creates a day time that represents an a.m. time (midnight)' do
-      expect(described_class.midnight).to eq(
-        described_class.new(day_second(hour: 0))
-      )
-    end
-  end
-
-  describe '.pm' do
-    it 'creates a day time that represents a p.m. time (noon)' do
-      expect(described_class.noon).to eq(
-        described_class.new(day_second(hour: 12))
-      )
+  describe '#day_second' do
+    it 'returns the number of seconds into the day' do
+      expect(day_time.day_second).to eq day_second(hour: 9, min: 53, sec: 27)
     end
   end
 
@@ -189,7 +165,7 @@ RSpec.describe Biz::DayTime do
     end
 
     context 'when the day time is noon' do
-      let(:day_time) { Biz::DayTime.noon }
+      let(:day_time) { Biz::DayTime.new(day_second(hour: 12)) }
 
       it 'returns a day time one hour later' do
         expect(day_time.for_dst).to eq described_class.new(day_second(hour: 13))
@@ -238,24 +214,6 @@ RSpec.describe Biz::DayTime do
       it 'returns a correctly formatted timestamp' do
         expect(day_time.timestamp).to eq '15:27'
       end
-    end
-  end
-
-  describe '#strftime' do
-    it 'returns a properly formatted string' do
-      expect(day_time.strftime('%H:%M:%S %p')).to eq '09:53:27 AM'
-    end
-  end
-
-  describe '#to_int' do
-    it 'returns the minutes since day start' do
-      expect(day_time.to_int).to eq day_second(hour: 9, min: 53, sec: 27)
-    end
-  end
-
-  describe '#to_i' do
-    it 'returns the minutes since day start' do
-      expect(day_time.to_i).to eq day_second(hour: 9, min: 53, sec: 27)
     end
   end
 

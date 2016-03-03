@@ -2,19 +2,17 @@ module Biz
   module WeekTime
     class Abstract
 
-      include Comparable
-
       extend Forwardable
+
+      include Comparable
 
       def self.from_time(time)
         new(
-          time.wday * Time::MINUTES_IN_DAY +
-            time.hour * Time::MINUTES_IN_HOUR +
+          time.wday * Time.day_minutes +
+            time.hour * Time.hour_minutes +
             time.min
         )
       end
-
-      attr_reader :week_minute
 
       def initialize(week_minute)
         @week_minute = Integer(week_minute)
@@ -35,31 +33,15 @@ module Biz
         timestamp
       ] => :day_time
 
-      delegate strftime: :week_time
-
-      delegate %i[
-        to_s
-        to_i
-        to_int
-      ] => :week_minute
-
       def <=>(other)
         return unless other.is_a?(WeekTime::Abstract)
 
         week_minute <=> other.week_minute
       end
 
-      private
+      protected
 
-      def week_time
-        ::Time.new(
-          Date::EPOCH.year,
-          Date::EPOCH.month,
-          Date::EPOCH.mday + wday,
-          hour,
-          minute
-        )
-      end
+      attr_reader :week_minute
 
     end
   end

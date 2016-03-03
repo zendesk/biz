@@ -1,4 +1,10 @@
 RSpec.describe Biz::Date do
+  describe '.epoch' do
+    it 'returns the epoch date' do
+      expect(described_class.epoch).to eq Date.new(2006, 1, 1)
+    end
+  end
+
   describe '.from_day' do
     let(:built_date) { described_class.from_day(960) }
 
@@ -31,7 +37,7 @@ RSpec.describe Biz::Date do
     end
 
     context 'when the day time is noon' do
-      let(:day_time) { Biz::DayTime.noon }
+      let(:day_time) { Biz::DayTime.new(day_second(hour: 12)) }
 
       it 'returns the same date' do
         expect(described_class.for_dst(date, day_time)).to eq date

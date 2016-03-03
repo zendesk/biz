@@ -11,7 +11,7 @@ RSpec.describe Biz::WeekTime do
 
   describe '.start' do
     let(:week_time) {
-      described_class.start(Biz::DayOfWeek::MONDAY.start_minute)
+      described_class.start(Biz::DayOfWeek.all.first.start_minute)
     }
 
     it 'creates a week time that acts as a start time' do
@@ -20,7 +20,7 @@ RSpec.describe Biz::WeekTime do
   end
 
   describe '.end' do
-    let(:week_time) { described_class.end(Biz::DayOfWeek::MONDAY.end_minute) }
+    let(:week_time) { described_class.end(Biz::DayOfWeek.all.first.end_minute) }
 
     it 'creates a week time that acts as an end time' do
       expect(week_time.timestamp).to eq '24:00'
@@ -29,7 +29,7 @@ RSpec.describe Biz::WeekTime do
 
   describe '.build' do
     let(:week_time) {
-      described_class.build(Biz::DayOfWeek::MONDAY.start_minute)
+      described_class.build(Biz::DayOfWeek.all.first.start_minute)
     }
 
     it 'creates a week time that acts as a start time' do
