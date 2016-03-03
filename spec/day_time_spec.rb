@@ -4,12 +4,6 @@ RSpec.describe Biz::DayTime do
   }
 
   context 'when initializing' do
-    context 'with an integer' do
-      it 'is successful' do
-        expect(described_class.new(1).day_second).to eq 1
-      end
-    end
-
     context 'with an valid integer-like value' do
       it 'is successful' do
         expect(described_class.new('1').day_second).to eq 1
