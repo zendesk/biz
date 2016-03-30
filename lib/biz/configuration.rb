@@ -23,7 +23,12 @@ module Biz
 
     def holidays
       @holidays ||= begin
-        raw.holidays.map { |date| Holiday.new(date, time_zone) }.freeze
+        raw
+          .holidays
+          .to_set
+          .map { |date| Holiday.new(date, time_zone) }
+          .sort
+          .freeze
       end
     end
 
