@@ -50,7 +50,15 @@ RSpec.describe Biz::TimeSegment do
   end
 
   describe '#empty?' do
-    context 'when the start time equals the end time' do
+    context 'when the start time is before the end time' do
+      let(:time_segment) { described_class.new(start_time, start_time + 1) }
+
+      it 'returns false' do
+        expect(time_segment.empty?).to eq false
+      end
+    end
+
+    context 'when the start time is equal to the end time' do
       let(:time_segment) { described_class.new(start_time, start_time) }
 
       it 'returns true' do
@@ -58,11 +66,11 @@ RSpec.describe Biz::TimeSegment do
       end
     end
 
-    context 'when the start time does not equal the end time' do
-      let(:time_segment) { described_class.new(start_time, end_time) }
+    context 'when the start time is after the end time' do
+      let(:time_segment) { described_class.new(end_time + 1, end_time) }
 
-      it 'returns false' do
-        expect(time_segment.empty?).to eq false
+      it 'returns true' do
+        expect(time_segment.empty?).to eq true
       end
     end
   end

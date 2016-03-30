@@ -141,4 +141,52 @@ RSpec.describe Biz::Schedule do
       )
     end
   end
+
+  describe '#&' do
+    let(:other) {
+      described_class.new do |config|
+        config.hours = {
+          sun: {'10:00' => '12:00'},
+          mon: {'08:00' => '10:00'},
+          tue: {'11:00' => '15:00'},
+          wed: {'16:00' => '18:00'},
+          thu: {'11:00' => '12:00', '13:00' => '14:00'}
+        }
+
+        config.holidays = [
+          Date.new(2006, 1, 1),
+          Date.new(2006, 7, 4),
+          Date.new(2006, 11, 24)
+        ]
+
+        config.time_zone = 'America/Los_Angeles'
+      end
+    }
+
+    it 'returns a new schedule' do
+      expect(schedule & other).to be_a Biz::Schedule
+    end
+
+    it 'configures the schedule with the intersection of intervals' do
+      expect(Biz::Interval.to_hours((schedule & other).intervals)).to eq(
+        mon: {'09:00' => '10:00'},
+        tue: {'11:00' => '15:00'},
+        wed: {'16:00' => '17:00'},
+        thu: {'11:00' => '12:00', '13:00' => '14:00'}
+      )
+    end
+
+    it 'configures the schedule with the union of holidays' do
+      expect((schedule & other).holidays.map(&:to_date)).to eq [
+        Date.new(2006, 1, 1),
+        Date.new(2006, 7, 4),
+        Date.new(2006, 11, 24),
+        Date.new(2006, 12, 25)
+      ]
+    end
+
+    it 'configures the schedule with the original time zone' do
+      expect((schedule & other).time_zone).to eq schedule.time_zone
+    end
+  end
 end

@@ -36,26 +36,16 @@ module Biz
     end
 
     def &(other)
-      self.class.new(
-        lower_bound(other),
-        [lower_bound(other), upper_bound(other)].max
-      )
+      lower_bound = [self, other].map(&:start_time).max
+      upper_bound = [self, other].map(&:end_time).min
+
+      self.class.new(lower_bound, [lower_bound, upper_bound].max)
     end
 
     def <=>(other)
       return unless other.is_a?(self.class)
 
       [start_time, end_time] <=> [other.start_time, other.end_time]
-    end
-
-    private
-
-    def lower_bound(other)
-      [self, other].map(&:start_time).max
-    end
-
-    def upper_bound(other)
-      [self, other].map(&:end_time).min
     end
 
   end

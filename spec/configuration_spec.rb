@@ -39,7 +39,7 @@ RSpec.describe Biz::Configuration do
   end
 
   describe '#intervals' do
-    context 'when left unconfigured' do
+    context 'when unconfigured' do
       subject(:configuration) {
         Biz::Configuration.new do |config|
           config.holidays  = holidays
@@ -126,7 +126,28 @@ RSpec.describe Biz::Configuration do
   end
 
   describe '#holidays' do
-    context 'when left unconfigured' do
+    let(:holidays) {
+      [Date.new(2006, 12, 25), Date.new(2006, 1, 1), Date.new(2006, 7, 4)]
+    }
+
+    it 'returns the proper holidays' do
+      expect(configuration.holidays).to eq [
+        Biz::Holiday.new(
+          Date.new(2006, 1, 1),
+          TZInfo::Timezone.get('America/New_York')
+        ),
+        Biz::Holiday.new(
+          Date.new(2006, 7, 4),
+          TZInfo::Timezone.get('America/New_York')
+        ),
+        Biz::Holiday.new(
+          Date.new(2006, 12, 25),
+          TZInfo::Timezone.get('America/New_York')
+        )
+      ]
+    end
+
+    context 'when unconfigured' do
       subject(:configuration) {
         Biz::Configuration.new do |config|
           config.hours     = hours
@@ -139,22 +160,22 @@ RSpec.describe Biz::Configuration do
       end
     end
 
-    it 'returns the proper holidays' do
-      expect(configuration.holidays).to eq [
-        Biz::Holiday.new(
-          Date.new(2006, 1, 1),
-          TZInfo::Timezone.get('America/New_York')
-        ),
-        Biz::Holiday.new(
-          Date.new(2006, 12, 25),
-          TZInfo::Timezone.get('America/New_York')
-        )
-      ]
+    context 'when configured with duplicate holidays' do
+      let(:holidays) { Array.new(3) { Date.new(2006, 1, 1) } }
+
+      it 'removes the duplicate dates' do
+        expect(configuration.holidays).to eq [
+          Biz::Holiday.new(
+            Date.new(2006, 1, 1),
+            TZInfo::Timezone.get('America/New_York')
+          )
+        ]
+      end
     end
   end
 
   describe '#time_zone' do
-    context 'when left unconfigured' do
+    context 'when unconfigured' do
       subject(:configuration) {
         Biz::Configuration.new do |config|
           config.hours    = hours
@@ -176,7 +197,7 @@ RSpec.describe Biz::Configuration do
 
   describe '#weekdays' do
     it 'returns the active weekdays for the configured schedule' do
-      expect(configuration.weekdays).to eq Set.new(%i[mon tue wed thu fri sat])
+      expect(configuration.weekdays).to eq %i[mon tue wed thu fri sat]
     end
   end
 end

@@ -46,6 +46,23 @@ module Biz
       Time.new(time_zone)
     end
 
+    def &(other)
+      self.class.new do |config|
+        config.hours = Interval.to_hours(
+          intervals.flat_map { |interval|
+            other
+              .intervals
+              .map { |other_interval| interval & other_interval }
+              .reject(&:empty?)
+          }
+        )
+
+        config.holidays = [*holidays, *other.holidays].map(&:to_date)
+
+        config.time_zone = time_zone.name
+      end
+    end
+
     protected
 
     attr_reader :configuration

@@ -11,6 +11,109 @@ RSpec.describe Biz::Interval do
     )
   }
 
+  describe '.to_hours' do
+    let(:intervals) {
+      [
+        described_class.new(
+          Biz::WeekTime.start(week_minute(wday: 1, hour: 9)),
+          Biz::WeekTime.end(week_minute(wday: 1, hour: 17)),
+          time_zone
+        ),
+        described_class.new(
+          Biz::WeekTime.start(week_minute(wday: 2, hour: 9)),
+          Biz::WeekTime.end(week_minute(wday: 2, hour: 12)),
+          time_zone
+        ),
+        described_class.new(
+          Biz::WeekTime.start(week_minute(wday: 2, hour: 13)),
+          Biz::WeekTime.end(week_minute(wday: 2, hour: 17)),
+          time_zone
+        ),
+        described_class.new(
+          Biz::WeekTime.start(week_minute(wday: 4, hour: 10)),
+          Biz::WeekTime.end(week_minute(wday: 4, hour: 16)),
+          time_zone
+        ),
+        described_class.new(
+          Biz::WeekTime.start(week_minute(wday: 5, hour: 9)),
+          Biz::WeekTime.end(week_minute(wday: 5, hour: 17)),
+          time_zone
+        )
+      ]
+    }
+
+    it 'returns a configuration hash for the provided intervals' do
+      expect(described_class.to_hours(intervals)).to eq(
+        mon: {'09:00' => '17:00'},
+        tue: {'09:00' => '12:00', '13:00' => '17:00'},
+        thu: {'10:00' => '16:00'},
+        fri: {'09:00' => '17:00'}
+      )
+    end
+  end
+
+  describe '#start_time' do
+    it 'returns the start time' do
+      expect(interval.start_time).to eq Biz::WeekTime.start(start_time)
+    end
+  end
+
+  describe '#end_time' do
+    it 'returns the end time' do
+      expect(interval.end_time).to eq Biz::WeekTime.end(end_time)
+    end
+  end
+
+  describe '#time_zone' do
+    it 'returns the time zone' do
+      expect(interval.time_zone).to eq time_zone
+    end
+  end
+
+  describe '#wday_symbol' do
+    let(:start_time) { week_minute(wday: 1, hour: 12) }
+    let(:end_time)   { week_minute(wday: 2, hour: 12) }
+
+    it 'returns the symbol for the day containing the start time' do
+      expect(interval.wday_symbol).to eq :mon
+    end
+  end
+
+  describe '#endpoints' do
+    it 'returns the interval endpoints' do
+      expect(interval.endpoints).to eq [
+        Biz::WeekTime.start(start_time),
+        Biz::WeekTime.end(end_time)
+      ]
+    end
+  end
+
+  describe '#empty?' do
+    context 'when the start time is before the end time' do
+      let(:start_time) { end_time.pred }
+
+      it 'returns false' do
+        expect(interval.empty?).to eq false
+      end
+    end
+
+    context 'when the start time is equal to the end time' do
+      let(:start_time) { end_time }
+
+      it 'returns true' do
+        expect(interval.empty?).to eq true
+      end
+    end
+
+    context 'when the start time is after the end time' do
+      let(:start_time) { end_time.succ }
+
+      it 'returns true' do
+        expect(interval.empty?).to eq true
+      end
+    end
+  end
+
   describe '#contains?' do
     context 'when the time is before the interval' do
       let(:time) { in_zone('America/New_York') { Time.utc(2006, 1, 2, 11) } }
@@ -53,15 +156,6 @@ RSpec.describe Biz::Interval do
     end
   end
 
-  describe '#endpoints' do
-    it 'returns the interval endpoints' do
-      expect(interval.endpoints).to eq [
-        Biz::WeekTime.start(start_time),
-        Biz::WeekTime.end(end_time)
-      ]
-    end
-  end
-
   describe '#to_time_segment' do
     let(:week) { Biz::Week.new(4) }
 
@@ -97,6 +191,110 @@ RSpec.describe Biz::Interval do
           Biz::TimeSegment.new(
             in_zone('America/Los_Angeles') { Time.utc(2006, 1, 29) },
             in_zone('America/Los_Angeles') { Time.utc(2006, 2, 5) }
+          )
+        )
+      end
+    end
+  end
+
+  describe '#&' do
+    let(:other) {
+      described_class.new(
+        Biz::WeekTime.start(other_start_time),
+        Biz::WeekTime.end(other_end_time),
+        time_zone
+      )
+    }
+
+    context 'when the other interval occurs before the interval' do
+      let(:other_start_time) { week_minute(wday: 0, hour: 9) }
+      let(:other_end_time)   { week_minute(wday: 0, hour: 17) }
+
+      it 'returns a zero-duration interval' do
+        expect(interval & other).to eq(
+          described_class.new(
+            Biz::WeekTime.start(start_time),
+            Biz::WeekTime.end(start_time),
+            time_zone
+          )
+        )
+      end
+    end
+
+    context 'when the other interval starts before the interval' do
+      let(:other_start_time) { week_minute(wday: 1, hour: 8) }
+
+      context 'and ends before the interval' do
+        let(:other_end_time) { week_minute(wday: 1, hour: 12) }
+
+        it 'returns the correct interval' do
+          expect(interval & other).to eq(
+            described_class.new(
+              Biz::WeekTime.start(start_time),
+              Biz::WeekTime.end(other_end_time),
+              time_zone
+            )
+          )
+        end
+      end
+
+      context 'and ends after the interval' do
+        let(:other_end_time) { week_minute(wday: 1, hour: 18) }
+
+        it 'returns the correct interval' do
+          expect(interval & other).to eq(
+            described_class.new(
+              Biz::WeekTime.start(start_time),
+              Biz::WeekTime.end(end_time),
+              time_zone
+            )
+          )
+        end
+      end
+    end
+
+    context 'when the other interval starts after the interval' do
+      let(:other_start_time) { week_minute(wday: 1, hour: 12) }
+
+      context 'and ends before the interval' do
+        let(:other_end_time) { week_minute(wday: 1, hour: 15) }
+
+        it 'returns the correct interval' do
+          expect(interval & other).to eq(
+            described_class.new(
+              Biz::WeekTime.start(other_start_time),
+              Biz::WeekTime.end(other_end_time),
+              time_zone
+            )
+          )
+        end
+      end
+
+      context 'and ends after the interval' do
+        let(:other_end_time) { week_minute(wday: 1, hour: 18) }
+
+        it 'returns the correct interval' do
+          expect(interval & other).to eq(
+            described_class.new(
+              Biz::WeekTime.start(other_start_time),
+              Biz::WeekTime.end(end_time),
+              time_zone
+            )
+          )
+        end
+      end
+    end
+
+    context 'when the other interval occurs after the interval' do
+      let(:other_start_time) { week_minute(wday: 2, hour: 9) }
+      let(:other_end_time)   { week_minute(wday: 2, hour: 17) }
+
+      it 'returns a zero-duration interval' do
+        expect(interval & other).to eq(
+          described_class.new(
+            Biz::WeekTime.start(other_start_time),
+            Biz::WeekTime.end(other_start_time),
+            time_zone
           )
         )
       end

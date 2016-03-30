@@ -7,6 +7,8 @@ module Biz
       yield raw if block_given?
 
       Validation.perform(raw)
+
+      raw.freeze
     end
 
     def intervals
@@ -21,7 +23,12 @@ module Biz
 
     def holidays
       @holidays ||= begin
-        raw.holidays.map { |date| Holiday.new(date, time_zone) }.freeze
+        raw
+          .holidays
+          .uniq
+          .map { |date| Holiday.new(date, time_zone) }
+          .sort
+          .freeze
       end
     end
 
@@ -30,7 +37,7 @@ module Biz
     end
 
     def weekdays
-      @weekdays ||= raw.hours.keys.to_set.freeze
+      @weekdays ||= raw.hours.keys.uniq.freeze
     end
 
     protected

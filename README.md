@@ -17,6 +17,7 @@ Time calculations using business hours.
   - Multiple schedule configurations.
 * Second-level precision on all calculations.
 * Accurate handling of Daylight Saving Time.
+* Schedule intersection.
 * Thread-safe.
 
 ## Anti-Features
@@ -50,7 +51,7 @@ Biz.configure do |config|
     sat: {'10:00' => '14:00'}
   }
 
-  config.holidays = [Date.new(2014, 1, 1), Date.new(2014, 12, 25)]
+  config.holidays = [Date.new(2016, 1, 1), Date.new(2016, 12, 25)]
 
   config.time_zone = 'America/Los_Angeles'
 end
@@ -118,6 +119,74 @@ Biz.periods
 #  #<Biz::TimeSegment start_time=2015-04-29 16:00:00 UTC end_time=2015-04-30 00:00:00 UTC>,
 #  #<Biz::TimeSegment start_time=2015-04-28 07:00:00 UTC end_time=2015-04-29 07:00:00 UTC>,
 #  #<Biz::TimeSegment start_time=2015-04-27 20:36:57 UTC end_time=2015-04-28 00:00:00 UTC>]
+```
+
+## Schedule Intersection
+
+An intersection of two schedules can be found using `&`:
+
+```ruby
+schedule_1 = Biz::Schedule.new do |config|
+  config.hours = {
+    mon: {'09:00' => '17:00'},
+    tue: {'10:00' => '16:00'},
+    wed: {'09:00' => '17:00'},
+    thu: {'10:00' => '16:00'},
+    fri: {'09:00' => '17:00'},
+    sat: {'11:00' => '14:30'}
+  }
+
+  config.holidays = [Date.new(2016, 1, 1), Date.new(2016, 12, 25)]
+
+  config.time_zone = 'Etc/UTC'
+end
+
+schedule_2 = Biz::Schedule.new do |config|
+  config.hours = {
+    sun: {'10:00' => '12:00'},
+    mon: {'08:00' => '10:00'},
+    tue: {'11:00' => '15:00'},
+    wed: {'16:00' => '18:00'},
+    thu: {'11:00' => '12:00', '13:00' => '14:00'}
+  }
+
+  config.holidays = [
+    Date.new(2016, 1, 1),
+    Date.new(2016, 7, 4),
+    Date.new(2016, 11, 24)
+  ]
+
+  config.time_zone = 'America/Los_Angeles'
+end
+
+schedule_1 & schedule_2
+```
+
+The resulting schedule will be a combination of the two schedules: an
+intersection of the intervals, a union of the holidays, and the time zone of the
+first schedule.
+
+For the above example, the resulting schedule would be equivalent to one with
+the following configuration:
+
+```ruby
+Biz::Schedule.new do |config|
+  config.hours = {
+    mon: {'09:00' => '10:00'},
+    tue: {'11:00' => '15:00'},
+    wed: {'16:00' => '17:00'},
+    thu: {'11:00' => '12:00', '13:00' => '14:00'}
+  }
+
+  config.holidays = [
+    Date.new(2016, 1, 1),
+    Date.new(2016, 7, 4),
+    Date.new(2016, 11, 24),
+    Date.new(2016, 12, 25)
+  ]
+
+  config.time_zone = 'Etc/UTC'
+end
 ```
 
 ## Core Extensions

@@ -1,7 +1,6 @@
 require 'date'
 require 'delegate'
 require 'forwardable'
-require 'set'
 
 require 'clavius'
 require 'tzinfo'
