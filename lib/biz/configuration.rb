@@ -25,7 +25,7 @@ module Biz
       @holidays ||= begin
         raw
           .holidays
-          .to_set
+          .uniq
           .map { |date| Holiday.new(date, time_zone) }
           .sort
           .freeze
@@ -37,7 +37,7 @@ module Biz
     end
 
     def weekdays
-      @weekdays ||= raw.hours.keys.to_set.freeze
+      @weekdays ||= raw.hours.keys.uniq.freeze
     end
 
     protected
