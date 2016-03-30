@@ -39,7 +39,7 @@ RSpec.describe Biz::Configuration do
   end
 
   describe '#intervals' do
-    context 'when left unconfigured' do
+    context 'when unconfigured' do
       subject(:configuration) {
         Biz::Configuration.new do |config|
           config.holidays  = holidays
@@ -175,7 +175,7 @@ RSpec.describe Biz::Configuration do
   end
 
   describe '#time_zone' do
-    context 'when left unconfigured' do
+    context 'when unconfigured' do
       subject(:configuration) {
         Biz::Configuration.new do |config|
           config.hours    = hours
