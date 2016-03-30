@@ -52,6 +52,24 @@ RSpec.describe Biz::Interval do
     end
   end
 
+  describe '#start_time' do
+    it 'returns the start time' do
+      expect(interval.start_time).to eq Biz::WeekTime.start(start_time)
+    end
+  end
+
+  describe '#end_time' do
+    it 'returns the end time' do
+      expect(interval.end_time).to eq Biz::WeekTime.end(end_time)
+    end
+  end
+
+  describe '#time_zone' do
+    it 'returns the time zone' do
+      expect(interval.time_zone).to eq time_zone
+    end
+  end
+
   describe '#wday_symbol' do
     let(:start_time) { week_minute(wday: 1, hour: 12) }
     let(:end_time)   { week_minute(wday: 2, hour: 12) }

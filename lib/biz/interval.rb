@@ -19,6 +19,10 @@ module Biz
       @time_zone  = time_zone
     end
 
+    attr_reader :start_time,
+                :end_time,
+                :time_zone
+
     delegate wday_symbol: :start_time
 
     def endpoints
@@ -56,12 +60,6 @@ module Biz
       [start_time, end_time, time_zone] <=>
         [other.start_time, other.end_time, other.time_zone]
     end
-
-    protected
-
-    attr_reader :start_time,
-                :end_time,
-                :time_zone
 
   end
 end
