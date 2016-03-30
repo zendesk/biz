@@ -51,7 +51,7 @@ Biz.configure do |config|
     sat: {'10:00' => '14:00'}
   }
 
-  config.holidays = [Date.new(2014, 1, 1), Date.new(2014, 12, 25)]
+  config.holidays = [Date.new(2016, 1, 1), Date.new(2016, 12, 25)]
 
   config.time_zone = 'America/Los_Angeles'
 end
