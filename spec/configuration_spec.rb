@@ -172,6 +172,24 @@ RSpec.describe Biz::Configuration do
         ]
       end
     end
+
+    context 'when configured with an array-like object' do
+      let(:holidays) {
+        Class.new do
+          def initialize(holidays)
+            @holidays = holidays
+          end
+
+          def to_a
+            @holidays
+          end
+        end.new([Date.new(2006, 1, 1)])
+      }
+
+      it 'does not blow up' do
+        expect { configuration.holidays }.not_to raise_error
+      end
+    end
   end
 
   describe '#time_zone' do
