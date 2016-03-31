@@ -25,6 +25,7 @@ module Biz
       @holidays ||= begin
         raw
           .holidays
+          .to_a
           .uniq
           .map { |date| Holiday.new(date, time_zone) }
           .sort
