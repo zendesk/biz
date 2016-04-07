@@ -54,12 +54,11 @@ module Biz
               private
 
               def timeline(direction, time)
-                schedule.periods.public_send(direction, time).timeline
-                  .for(duration).to_a
-              end
-
-              def duration
-                Duration.public_send(unit, scalar)
+                schedule
+                  .periods
+                  .public_send(direction, time)
+                  .timeline
+                  .for(Duration.public_send(unit, scalar)).to_a
               end
             end
           )
@@ -81,26 +80,15 @@ module Biz
               def periods(direction, time)
                 schedule.periods.public_send(
                   direction,
-                  advanced_date(direction, time)
+                  advanced_time(direction, schedule.in_zone.local(time))
                 )
               end
 
-              def advanced_date(direction, time)
+              def advanced_time(direction, time)
                 schedule.in_zone.on_date(
-                  schedule
-                    .dates
-                    .days(scalar)
-                    .public_send(direction, local(time)),
-                  day_time(time)
+                  schedule.dates.days(scalar).public_send(direction, time),
+                  DayTime.from_time(time)
                 )
-              end
-
-              def day_time(time)
-                DayTime.from_time(local(time))
-              end
-
-              def local(time)
-                schedule.in_zone.local(time)
               end
             end
           )
