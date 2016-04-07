@@ -15,7 +15,7 @@ module Biz
           fail ArgumentError, 'The unit is not supported.'
         end
 
-        send(unit, schedule, scalar)
+        public_send(unit, schedule, scalar)
       end
 
       def self.unit
@@ -54,12 +54,11 @@ module Biz
               private
 
               def timeline(direction, time)
-                schedule.periods.send(direction, time).timeline
-                  .for(duration).to_a
-              end
-
-              def duration
-                Duration.send(unit, scalar)
+                schedule
+                  .periods
+                  .public_send(direction, time)
+                  .timeline
+                  .for(Duration.public_send(unit, scalar)).to_a
               end
             end
           )
@@ -79,22 +78,17 @@ module Biz
               private
 
               def periods(direction, time)
-                schedule.periods.send(direction, advanced_date(direction, time))
-              end
-
-              def advanced_date(direction, time)
-                schedule.in_zone.on_date(
-                  schedule.dates.days(scalar).send(direction, local(time)),
-                  day_time(time)
+                schedule.periods.public_send(
+                  direction,
+                  advanced_time(direction, schedule.in_zone.local(time))
                 )
               end
 
-              def day_time(time)
-                DayTime.from_time(local(time))
-              end
-
-              def local(time)
-                schedule.in_zone.local(time)
+              def advanced_time(direction, time)
+                schedule.in_zone.on_date(
+                  schedule.dates.days(scalar).public_send(direction, time),
+                  DayTime.from_time(time)
+                )
               end
             end
           )
