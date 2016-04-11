@@ -31,7 +31,7 @@ module Biz
     private
 
     def schedule
-      Thread.current[:biz_schedule] or fail 'Biz has not been configured.'
+      Thread.current[:biz_schedule] or fail "#{name} not configured"
     end
 
   end

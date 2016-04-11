@@ -11,9 +11,7 @@ module Biz
       end
 
       def self.with_unit(schedule, scalar, unit)
-        unless UNITS.include?(unit)
-          fail ArgumentError, 'The unit is not supported.'
-        end
+        fail ArgumentError, 'unsupported unit' unless UNITS.include?(unit)
 
         public_send(unit, schedule, scalar)
       end
