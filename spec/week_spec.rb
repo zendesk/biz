@@ -2,9 +2,9 @@ RSpec.describe Biz::Week do
   subject(:week) { described_class.new(2) }
 
   context 'when initializing' do
-    context 'with an valid integer-like value' do
+    context 'with a valid integer-like value' do
       it 'is successful' do
-        expect(described_class.new('1')).to be_truthy
+        expect { described_class.new('1') }.not_to raise_error
       end
     end
 

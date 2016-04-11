@@ -4,9 +4,9 @@ RSpec.describe Biz::Duration do
   }
 
   context 'when initializing' do
-    context 'with an valid integer-like value' do
+    context 'with a valid integer-like value' do
       it 'is successful' do
-        expect(described_class.new('1')).to eq described_class.new(1)
+        expect { described_class.new('1') }.not_to raise_error
       end
     end
 
