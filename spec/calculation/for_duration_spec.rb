@@ -1,4 +1,46 @@
 RSpec.describe Biz::Calculation::ForDuration do
+  context 'when initializing' do
+    context 'with a valid integer-like scalar' do
+      it 'is successful' do
+        expect { described_class.new(schedule, '1') }.not_to raise_error
+      end
+    end
+
+    context 'with an invalid integer-like scalar' do
+      it 'fails hard' do
+        expect {
+          described_class.new(schedule, '1one')
+        }.to raise_error ArgumentError
+      end
+    end
+
+    context 'with a non-integer scalar' do
+      it 'fails hard' do
+        expect { described_class.new(schedule, []) }.to raise_error TypeError
+      end
+    end
+
+    context 'with a negative scalar' do
+      it 'fails hard' do
+        expect {
+          described_class.new(schedule, -1)
+        }.to raise_error ArgumentError
+      end
+    end
+
+    context 'with a zero scalar' do
+      it 'is successful' do
+        expect { described_class.new(schedule, 0) }.not_to raise_error
+      end
+    end
+
+    context 'with a positive scalar' do
+      it 'is successful' do
+        expect { described_class.new(schedule, 1) }.not_to raise_error
+      end
+    end
+  end
+
   describe '.units' do
     it 'returns the supported units' do
       expect(described_class.units).to eq(

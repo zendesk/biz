@@ -24,7 +24,9 @@ module Biz
 
       def initialize(schedule, scalar)
         @schedule = schedule
-        @scalar   = scalar
+        @scalar   = Integer(scalar)
+
+        fail ArgumentError, 'negative scalar' if @scalar < 0
       end
 
       protected
