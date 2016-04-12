@@ -38,27 +38,40 @@ module Biz
         self.class.unit
       end
 
+      def moment_before(time)
+        schedule.periods.before(time).first.end_time
+      end
+
+      def moment_after(time)
+        schedule.periods.after(time).first.start_time
+      end
+
       [
         *%i[second seconds minute minutes hour hours].map { |unit|
           const_set(
             unit.to_s.capitalize,
             Class.new(self) do
               def before(time)
-                timeline(:before, time).last.start_time
+                return moment_before(time) if scalar.zero?
+
+                advanced_periods(:before, time).last.start_time
               end
 
               def after(time)
-                timeline(:after, time).last.end_time
+                return moment_after(time) if scalar.zero?
+
+                advanced_periods(:after, time).last.end_time
               end
 
               private
 
-              def timeline(direction, time)
+              def advanced_periods(direction, time)
                 schedule
                   .periods
                   .public_send(direction, time)
                   .timeline
-                  .for(Duration.public_send(unit, scalar)).to_a
+                  .for(Duration.public_send(unit, scalar))
+                  .to_a
               end
             end
           )
@@ -68,10 +81,14 @@ module Biz
             unit.to_s.capitalize,
             Class.new(self) do
               def before(time)
+                return moment_before(time) if scalar.zero?
+
                 periods(:before, time).first.end_time
               end
 
               def after(time)
+                return moment_after(time) if scalar.zero?
+
                 periods(:after, time).first.start_time
               end
 

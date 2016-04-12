@@ -73,13 +73,24 @@ RSpec.describe Biz::Calculation::ForDuration do
 
   %i[second seconds].each do |unit|
     describe ".#{unit}" do
-      subject(:calculation) { described_class.send(unit, schedule, 90) }
+      let(:scalar) { 90 }
+
+      subject(:calculation) { described_class.send(unit, schedule, scalar) }
 
       describe '#before' do
         let(:time) { Time.utc(2006, 1, 4, 16, 1, 30) }
 
         it 'returns the backward time after the elapsed duration' do
           expect(calculation.before(time)).to eq Time.utc(2006, 1, 4, 16)
+        end
+
+        context 'when the scalar is zero' do
+          let(:scalar) { 0 }
+          let(:time)   { Time.utc(2006, 1, 3) }
+
+          it 'returns the first active moment backward in time' do
+            expect(calculation.before(time)).to eq Time.utc(2006, 1, 2, 17)
+          end
         end
       end
 
@@ -89,19 +100,39 @@ RSpec.describe Biz::Calculation::ForDuration do
         it 'returns the forward time after the elapsed duration' do
           expect(calculation.after(time)).to eq Time.utc(2006, 1, 4, 16)
         end
+
+        context 'when the scalar is zero' do
+          let(:scalar) { 0 }
+          let(:time)   { Time.utc(2006, 1, 3) }
+
+          it 'returns the first active moment forward in time' do
+            expect(calculation.after(time)).to eq Time.utc(2006, 1, 3, 10)
+          end
+        end
       end
     end
   end
 
   %i[minute minutes].each do |unit|
     describe ".#{unit}" do
-      subject(:calculation) { described_class.send(unit, schedule, 90) }
+      let(:scalar) { 90 }
+
+      subject(:calculation) { described_class.send(unit, schedule, scalar) }
 
       describe '#before' do
         let(:time) { Time.utc(2006, 1, 4, 16, 30) }
 
         it 'returns the backward time after the elapsed duration' do
           expect(calculation.before(time)).to eq Time.utc(2006, 1, 4, 15)
+        end
+
+        context 'when the scalar is zero' do
+          let(:scalar) { 0 }
+          let(:time)   { Time.utc(2006, 1, 3) }
+
+          it 'returns the first active moment backward in time' do
+            expect(calculation.before(time)).to eq Time.utc(2006, 1, 2, 17)
+          end
         end
       end
 
@@ -111,19 +142,39 @@ RSpec.describe Biz::Calculation::ForDuration do
         it 'returns the forward time after the elapsed duration' do
           expect(calculation.after(time)).to eq Time.utc(2006, 1, 4, 17)
         end
+
+        context 'when the scalar is zero' do
+          let(:scalar) { 0 }
+          let(:time)   { Time.utc(2006, 1, 3) }
+
+          it 'returns the first active moment forward in time' do
+            expect(calculation.after(time)).to eq Time.utc(2006, 1, 3, 10)
+          end
+        end
       end
     end
   end
 
   %i[hour hours].each do |unit|
     describe ".#{unit}" do
-      subject(:calculation) { described_class.send(unit, schedule, 3) }
+      let(:scalar) { 3 }
+
+      subject(:calculation) { described_class.send(unit, schedule, scalar) }
 
       describe '#before' do
         let(:time) { Time.utc(2006, 1, 4, 17) }
 
         it 'returns the backward time after the elapsed duration' do
           expect(calculation.before(time)).to eq Time.utc(2006, 1, 4, 14)
+        end
+
+        context 'when the scalar is zero' do
+          let(:scalar) { 0 }
+          let(:time)   { Time.utc(2006, 1, 3) }
+
+          it 'returns the first active moment backward in time' do
+            expect(calculation.before(time)).to eq Time.utc(2006, 1, 2, 17)
+          end
         end
       end
 
@@ -133,13 +184,24 @@ RSpec.describe Biz::Calculation::ForDuration do
         it 'returns the forward time after the elapsed duration' do
           expect(calculation.after(time)).to eq Time.utc(2006, 1, 4, 17)
         end
+
+        context 'when the scalar is zero' do
+          let(:scalar) { 0 }
+          let(:time)   { Time.utc(2006, 1, 3) }
+
+          it 'returns the first active moment forward in time' do
+            expect(calculation.after(time)).to eq Time.utc(2006, 1, 3, 10)
+          end
+        end
       end
     end
   end
 
   %i[day days].each do |unit|
     describe ".#{unit}" do
-      subject(:calculation) { described_class.send(unit, schedule, 2) }
+      let(:scalar) { 2 }
+
+      subject(:calculation) { described_class.send(unit, schedule, scalar) }
 
       describe '#before' do
         context 'when the advanced time is within a period' do
@@ -173,6 +235,15 @@ RSpec.describe Biz::Calculation::ForDuration do
             expect(calculation.before(time)).to eq(
               Time.utc(2006, 1, 6, 12, 30, 52)
             )
+          end
+        end
+
+        context 'when the scalar is zero' do
+          let(:scalar) { 0 }
+          let(:time)   { Time.utc(2006, 1, 2, 14) }
+
+          it 'returns the first active moment backward in time' do
+            expect(calculation.before(time)).to eq Time.utc(2006, 1, 2, 14)
           end
         end
       end
@@ -209,6 +280,15 @@ RSpec.describe Biz::Calculation::ForDuration do
             expect(calculation.after(time)).to eq(
               Time.utc(2006, 1, 9, 12, 30, 52)
             )
+          end
+        end
+
+        context 'when the scalar is zero' do
+          let(:scalar) { 0 }
+          let(:time)   { Time.utc(2006, 1, 2, 13) }
+
+          it 'returns the first active moment forward in time' do
+            expect(calculation.after(time)).to eq Time.utc(2006, 1, 2, 13)
           end
         end
       end
