@@ -4,9 +4,9 @@ RSpec.describe Biz::DayTime do
   }
 
   context 'when initializing' do
-    context 'with an valid integer-like value' do
+    context 'with a valid integer-like value' do
       it 'is successful' do
-        expect(described_class.new('1').day_second).to eq 1
+        expect { described_class.new('1') }.not_to raise_error
       end
     end
 
@@ -22,23 +22,21 @@ RSpec.describe Biz::DayTime do
       end
     end
 
-    context 'when the value is negative' do
+    context 'with a negative value' do
       it 'fails hard' do
         expect { described_class.new(-1) }.to raise_error ArgumentError
       end
     end
 
-    context 'when the value is zero' do
+    context 'when a zero value' do
       it 'is successful' do
-        expect(described_class.new(0).day_second).to eq 0
+        expect { described_class.new(0).day_second }.not_to raise_error
       end
     end
 
     context 'when the value is the number of seconds in a day' do
       it 'is successful' do
-        expect(described_class.new(Biz::Time.day_seconds).day_second).to eq(
-          Biz::Time.day_seconds
-        )
+        expect { described_class.new(Biz::Time.day_seconds) }.not_to raise_error
       end
     end
 

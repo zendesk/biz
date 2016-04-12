@@ -38,10 +38,10 @@ module Biz
     end
 
     RULES = [
-      Rule.new('Hours must be hash-like.') { |raw|
+      Rule.new('hours not hash-like') { |raw|
         raw.hours.respond_to?(:to_h)
       },
-      Rule.new('Hours must be provided.') { |raw|
+      Rule.new('hours not provided') { |raw|
         raw.hours.to_h.any?
       }
     ].freeze

@@ -31,7 +31,8 @@ module Biz
     private
 
     def schedule
-      Thread.current[:biz_schedule] or fail 'Biz has not been configured.'
+      Thread.current[:biz_schedule] or
+        fail Error::Configuration, "#{name} not configured"
     end
 
   end

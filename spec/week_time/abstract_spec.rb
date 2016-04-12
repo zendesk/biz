@@ -6,9 +6,9 @@ RSpec.describe Biz::WeekTime::Abstract do
   }
 
   context 'when initializing' do
-    context 'with an valid integer-like value' do
+    context 'with a valid integer-like value' do
       it 'is successful' do
-        expect(week_time_class.new('1')).to eq week_time_class.new(1)
+        expect { week_time_class.new('1') }.not_to raise_error
       end
     end
 

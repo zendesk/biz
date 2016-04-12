@@ -7,9 +7,9 @@ RSpec.describe Biz::Validation do
     before do raw.hours = {} end
 
     it 'performs the validation on the provided raw input' do
-      expect { described_class.perform(raw) }.to raise_error(
-        Biz::Error::Configuration
-      )
+      expect {
+        described_class.perform(raw)
+      }.to raise_error Biz::Error::Configuration
     end
   end
 

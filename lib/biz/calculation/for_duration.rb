@@ -11,9 +11,7 @@ module Biz
       end
 
       def self.with_unit(schedule, scalar, unit)
-        unless UNITS.include?(unit)
-          fail ArgumentError, 'The unit is not supported.'
-        end
+        fail ArgumentError, 'unsupported unit' unless UNITS.include?(unit)
 
         public_send(unit, schedule, scalar)
       end
@@ -24,7 +22,9 @@ module Biz
 
       def initialize(schedule, scalar)
         @schedule = schedule
-        @scalar   = scalar
+        @scalar   = Integer(scalar)
+
+        fail ArgumentError, 'negative scalar' if @scalar < 0
       end
 
       protected

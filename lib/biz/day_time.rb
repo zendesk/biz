@@ -52,7 +52,7 @@ module Biz
       @day_second = Integer(day_second)
 
       unless VALID_SECONDS.cover?(@day_second)
-        fail ArgumentError, 'Invalid number of seconds for a day.'
+        fail ArgumentError, 'second not within a day'
       end
     end
 
