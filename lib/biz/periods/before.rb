@@ -10,7 +10,7 @@ module Biz
 
       def weeks
         Week
-          .since_epoch(Time.new(time_zone).local(origin))
+          .since_epoch(schedule.in_zone.local(origin))
           .downto(Week.since_epoch(Time.big_bang))
       end
 

@@ -11,8 +11,6 @@ module Biz
         super(periods) do |yielder, period| yielder << period end
       end
 
-      delegate time_zone: :schedule
-
       def timeline
         Timeline::Proxy.new(self)
       end
