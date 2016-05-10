@@ -39,10 +39,6 @@ module Biz
         intervals.lazy.map { |interval| interval.to_time_segment(week) }
       end
 
-      def intervals
-        schedule.intervals
-      end
-
     end
   end
 end

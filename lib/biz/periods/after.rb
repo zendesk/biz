@@ -20,7 +20,11 @@ module Biz
       end
 
       def boundary
-        TimeSegment.after(origin)
+        @boundary ||= TimeSegment.after(origin)
+      end
+
+      def intervals
+        @intervals ||= schedule.intervals
       end
 
     end

@@ -19,11 +19,11 @@ module Biz
       end
 
       def boundary
-        TimeSegment.before(origin)
+        @boundary ||= TimeSegment.before(origin)
       end
 
       def intervals
-        super.reverse
+        @intervals ||= schedule.intervals.reverse
       end
 
     end
