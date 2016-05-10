@@ -90,7 +90,12 @@ Biz.in_hours?(Time.utc(2015, 1, 10, 9))
 Biz.on_holiday?(Time.utc(2014, 1, 1))
 ```
 
-Note that all returned times are in UTC.
+All returned times are in UTC.
+
+If a schedule will be configured with a large number of holidays and performance
+is a particular concern, it's recommended that holidays are filtered down to
+those relevant to the calculation(s) at hand before configuration to improve
+performance.
 
 By dropping down a level, you can get access to the underlying time segments,
 which you can use to do your own custom calculations or just get a better idea
