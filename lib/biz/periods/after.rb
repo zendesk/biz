@@ -10,7 +10,7 @@ module Biz
 
       def weeks
         Range.new(
-          Week.since_epoch(Time.new(time_zone).local(origin)),
+          Week.since_epoch(schedule.in_zone.local(origin)),
           Week.since_epoch(Time.heat_death)
         )
       end
@@ -20,7 +20,11 @@ module Biz
       end
 
       def boundary
-        TimeSegment.after(origin)
+        @boundary ||= TimeSegment.after(origin)
+      end
+
+      def intervals
+        @intervals ||= schedule.intervals
       end
 
     end

@@ -11,8 +11,6 @@ module Biz
         super(periods) do |yielder, period| yielder << period end
       end
 
-      delegate time_zone: :schedule
-
       def timeline
         Timeline::Proxy.new(self)
       end
@@ -39,10 +37,6 @@ module Biz
 
       def business_periods(week)
         intervals.lazy.map { |interval| interval.to_time_segment(week) }
-      end
-
-      def intervals
-        schedule.intervals
       end
 
     end
