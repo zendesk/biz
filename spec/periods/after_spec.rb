@@ -173,15 +173,29 @@ RSpec.describe Biz::Periods::After do
     let(:hours)     { {sat: {'06:00' => '18:00'}} }
     let(:time_zone) { 'America/Los_Angeles' }
 
-    let(:origin) {
-      in_zone('America/Los_Angeles') { Time.utc(2006, 1, 7, 17) }
-    }
+    let(:origin) { in_zone('America/Los_Angeles') { Time.utc(2006, 1, 7, 17) } }
 
     it 'includes the relevant interval from the prior week' do
       expect(periods.first).to eq(
         Biz::TimeSegment.new(
           in_zone('America/Los_Angeles') { Time.utc(2006, 1, 7, 17) },
           in_zone('America/Los_Angeles') { Time.utc(2006, 1, 7, 18) }
+        )
+      )
+    end
+  end
+
+  context 'when an empty interval is generated' do
+    let(:hours)     { {sun: {'02:30' => '03:15'}, mon: {'09:00' => '17:00'}} }
+    let(:time_zone) { 'America/Los_Angeles' }
+
+    let(:origin) { in_zone('America/Los_Angeles') { Time.utc(2006, 4, 2) } }
+
+    it 'is filtered out' do
+      expect(periods.first).to eq(
+        Biz::TimeSegment.new(
+          in_zone('America/Los_Angeles') { Time.utc(2006, 4, 3, 9) },
+          in_zone('America/Los_Angeles') { Time.utc(2006, 4, 3, 17) }
         )
       )
     end
