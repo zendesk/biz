@@ -37,8 +37,8 @@ module Biz
               sat: {'11:00' => '14:30'}
             )
 
-            config.holidays = args.fetch(:holidays, [])
-
+            config.breaks    = args.fetch(:breaks, {})
+            config.holidays  = args.fetch(:holidays, [])
             config.time_zone = args.fetch(:time_zone, 'Etc/UTC')
           end
         end

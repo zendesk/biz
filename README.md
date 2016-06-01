@@ -11,14 +11,15 @@ Time calculations using business hours.
 ## Features
 
 * Support for:
-  - Intervals spanning the entire day.
-  - Interday intervals and holidays.
   - Multiple intervals per day.
   - Multiple schedule configurations.
-* Second-level precision on all calculations.
-* Accurate handling of Daylight Saving Time.
+  - Intervals spanning the entire day.
+  - Holidays.
+  - Breaks (time-segment holidays).
+* Second-level calculation precision.
+* Seamless Daylight Saving Time handling.
 * Schedule intersection.
-* Thread-safe.
+* Thread safety.
 
 ## Anti-Features
 
@@ -51,11 +52,19 @@ Biz.configure do |config|
     sat: {'10:00' => '14:00'}
   }
 
+  config.breaks = {
+    Date.new(2006, 1, 2) => {'10:00' => '11:30'},
+    Date.new(2006, 1, 3) => {'14:15' => '14:30', '15:40' => '15:50'}
+  }
+
   config.holidays = [Date.new(2016, 1, 1), Date.new(2016, 12, 25)]
 
   config.time_zone = 'America/Los_Angeles'
 end
 ```
+
+Periods occurring on holidays are disregarded. Similarly, any segment of a
+period that overlaps with a break is treated as inactive.
 
 If global configuration isn't your thing, configure an instance instead:
 

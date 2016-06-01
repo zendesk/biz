@@ -18,6 +18,10 @@ module Biz
         origin > period.start_time
       end
 
+      def active_periods(*)
+        super.reverse
+      end
+
       def boundary
         @boundary ||= TimeSegment.before(origin)
       end

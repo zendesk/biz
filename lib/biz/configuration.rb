@@ -21,6 +21,16 @@ module Biz
       end
     end
 
+    def breaks
+      @breaks ||= begin
+        raw
+          .breaks
+          .flat_map { |date, hours| break_periods(date, hours) }
+          .sort
+          .freeze
+      end
+    end
+
     def holidays
       @holidays ||= begin
         raw
@@ -47,6 +57,10 @@ module Biz
 
     private
 
+    def time
+      @time ||= Time.new(time_zone)
+    end
+
     def weekday_intervals(weekday, hours)
       hours.map { |start_timestamp, end_timestamp|
         Interval.new(
@@ -63,7 +77,16 @@ module Biz
       }
     end
 
-    Raw = Struct.new(:hours, :holidays, :time_zone) do
+    def break_periods(date, hours)
+      hours.map { |start_timestamp, end_timestamp|
+        TimeSegment.new(
+          time.on_date(date, DayTime.from_timestamp(start_timestamp)),
+          time.on_date(date, DayTime.from_timestamp(end_timestamp))
+        )
+      }
+    end
+
+    Raw = Struct.new(:hours, :breaks, :holidays, :time_zone) do
       module Default
         HOURS = {
           mon: {'09:00' => '17:00'},
@@ -73,6 +96,7 @@ module Biz
           fri: {'09:00' => '17:00'}
         }.freeze
 
+        BREAKS    = [].freeze
         HOLIDAYS  = [].freeze
         TIME_ZONE = 'Etc/UTC'.freeze
       end
@@ -81,6 +105,7 @@ module Biz
         super
 
         self.hours     ||= Default::HOURS
+        self.breaks    ||= Default::BREAKS
         self.holidays  ||= Default::HOLIDAYS
         self.time_zone ||= Default::TIME_ZONE
       end

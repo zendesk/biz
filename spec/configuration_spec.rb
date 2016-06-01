@@ -9,12 +9,21 @@ RSpec.describe Biz::Configuration do
       sat: {'11:00' => '14:30'}
     }
   }
+
+  let(:breaks) {
+    {
+      Date.new(2006, 1, 2) => {'10:00' => '11:30'},
+      Date.new(2006, 1, 3) => {'14:15' => '14:30', '15:40' => '15:50'}
+    }
+  }
+
   let(:holidays)  { [Date.new(2006, 1, 1), Date.new(2006, 12, 25)] }
   let(:time_zone) { 'America/New_York' }
 
   subject(:configuration) {
     Biz::Configuration.new do |config|
       config.hours     = hours
+      config.breaks    = breaks
       config.holidays  = holidays
       config.time_zone = time_zone
     end
@@ -30,9 +39,7 @@ RSpec.describe Biz::Configuration do
     it 'raises a configuration error' do
       expect {
         Biz::Configuration.new do |config|
-          config.hours     = {}
-          config.holidays  = holidays
-          config.time_zone = time_zone
+          config.hours = {}
         end
       }.to raise_error Biz::Error::Configuration
     end
@@ -41,10 +48,7 @@ RSpec.describe Biz::Configuration do
   describe '#intervals' do
     context 'when unconfigured' do
       subject(:configuration) {
-        Biz::Configuration.new do |config|
-          config.holidays  = holidays
-          config.time_zone = time_zone
-        end
+        Biz::Configuration.new do |config| config.time_zone = time_zone end
       }
 
       it 'returns the default set of intervals' do
@@ -125,6 +129,33 @@ RSpec.describe Biz::Configuration do
     end
   end
 
+  describe '#breaks' do
+    it 'returns the proper break periods' do
+      expect(configuration.breaks).to eq [
+        Biz::TimeSegment.new(
+          in_zone(time_zone) { Time.new(2006, 1, 2, 10) },
+          in_zone(time_zone) { Time.new(2006, 1, 2, 11, 30) }
+        ),
+        Biz::TimeSegment.new(
+          in_zone(time_zone) { Time.new(2006, 1, 3, 14, 15) },
+          in_zone(time_zone) { Time.new(2006, 1, 3, 14, 30) }
+        ),
+        Biz::TimeSegment.new(
+          in_zone(time_zone) { Time.new(2006, 1, 3, 15, 40) },
+          in_zone(time_zone) { Time.new(2006, 1, 3, 15, 50) }
+        )
+      ]
+    end
+
+    context 'when unconfigured' do
+      subject(:configuration) { Biz::Configuration.new do end }
+
+      it 'returns the default set of break periods' do
+        expect(configuration.breaks).to eq []
+      end
+    end
+  end
+
   describe '#holidays' do
     let(:holidays) {
       [Date.new(2006, 12, 25), Date.new(2006, 1, 1), Date.new(2006, 7, 4)]
@@ -148,12 +179,7 @@ RSpec.describe Biz::Configuration do
     end
 
     context 'when unconfigured' do
-      subject(:configuration) {
-        Biz::Configuration.new do |config|
-          config.hours     = hours
-          config.time_zone = time_zone
-        end
-      }
+      subject(:configuration) { Biz::Configuration.new do end }
 
       it 'returns the default set of holidays' do
         expect(configuration.holidays).to eq []
@@ -194,12 +220,7 @@ RSpec.describe Biz::Configuration do
 
   describe '#time_zone' do
     context 'when unconfigured' do
-      subject(:configuration) {
-        Biz::Configuration.new do |config|
-          config.hours    = hours
-          config.holidays = holidays
-        end
-      }
+      subject(:configuration) { Biz::Configuration.new do end }
 
       it 'returns the default time zone' do
         expect(configuration.time_zone).to eq TZInfo::Timezone.get('Etc/UTC')
