@@ -42,6 +42,13 @@ module Biz
       self.class.new(lower_bound, [lower_bound, upper_bound].max)
     end
 
+    def /(other)
+      [
+        self.class.new(start_time, other.start_time),
+        self.class.new(other.end_time, end_time)
+      ].reject(&:empty?).map { |potential| self & potential }
+    end
+
     def <=>(other)
       return unless other.is_a?(self.class)
 

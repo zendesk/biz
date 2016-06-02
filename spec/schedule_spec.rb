@@ -9,11 +9,21 @@ RSpec.describe Biz::Schedule do
       sat: {'11:00' => '14:30'}
     }
   }
+
+  let(:breaks) {
+    {
+      Date.new(2006, 1, 2) => {'10:00' => '11:30'},
+      Date.new(2006, 1, 3) => {'14:15' => '14:30', '15:40' => '15:50'}
+    }
+  }
+
   let(:holidays)  { [Date.new(2006, 1, 1), Date.new(2006, 12, 25)] }
   let(:time_zone) { 'Etc/UTC' }
-  let(:config)    {
+
+  let(:config) {
     proc do |c|
       c.hours     = hours
+      c.breaks    = breaks
       c.holidays  = holidays
       c.time_zone = time_zone
     end
@@ -24,6 +34,12 @@ RSpec.describe Biz::Schedule do
   describe '#intervals' do
     it 'delegates to the configuration' do
       expect(schedule.intervals).to eq Biz::Configuration.new(&config).intervals
+    end
+  end
+
+  describe '#breaks' do
+    it 'delegates to the configuration' do
+      expect(schedule.breaks).to eq Biz::Configuration.new(&config).breaks
     end
   end
 
@@ -73,7 +89,7 @@ RSpec.describe Biz::Schedule do
   describe '#within' do
     it 'returns the amount of elapsed business time between two times' do
       expect(
-        schedule.within(Time.utc(2006, 1, 2, 11), Time.utc(2006, 1, 3, 11))
+        schedule.within(Time.utc(2006, 1, 5, 12), Time.utc(2006, 1, 6, 12))
       ).to eq Biz::Duration.hours(7)
     end
   end

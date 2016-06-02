@@ -10,13 +10,19 @@ RSpec.describe Biz::Periods::Before do
     }
   }
 
+  let(:breaks)    { {} }
   let(:holidays)  { [Date.new(2006, 1, 16), Date.new(2006, 1, 18)] }
   let(:time_zone) { 'Etc/UTC' }
   let(:origin)    { Time.utc(2006, 1, 8) }
 
   subject(:periods) {
     described_class.new(
-      schedule(hours: hours, holidays: holidays, time_zone: time_zone),
+      schedule(
+        hours:     hours,
+        breaks:    breaks,
+        holidays:  holidays,
+        time_zone: time_zone
+      ),
       origin
     )
   }
@@ -128,6 +134,137 @@ RSpec.describe Biz::Periods::Before do
       expect(periods.first).to eq(
         Biz::TimeSegment.new(Time.utc(2006, 1, 2, 9), Time.utc(2006, 1, 2, 12))
       )
+    end
+  end
+
+  context 'when a break overlaps with the beginning of a period' do
+    let(:breaks) { {Date.new(2006, 1, 7) => {'14:00' => '15:00'}} }
+
+    it 'excludes the overlapping time' do
+      expect(periods.first).to eq(
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 11),
+          Time.utc(2006, 1, 7, 14)
+        )
+      )
+    end
+  end
+
+  context 'when a break overlaps with the end of a period' do
+    let(:breaks) { {Date.new(2006, 1, 7) => {'10:00' => '12:00'}} }
+
+    it 'excludes the overlapping time' do
+      expect(periods.first).to eq(
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 12),
+          Time.utc(2006, 1, 7, 14, 30)
+        )
+      )
+    end
+  end
+
+  context 'when a break overlaps an entire period' do
+    let(:breaks) { {Date.new(2006, 1, 7) => {'10:00' => '16:00'}} }
+
+    it 'excludes that period' do
+      expect(periods.first).to eq(
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 6, 9),
+          Time.utc(2006, 1, 6, 17)
+        )
+      )
+    end
+  end
+
+  context 'when a break is in the middle of a period' do
+    let(:breaks) { {Date.new(2006, 1, 7) => {'12:00' => '13:00'}} }
+
+    it 'excludes the overlapping time' do
+      expect(periods.take(2).to_a).to eq [
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 13),
+          Time.utc(2006, 1, 7, 14, 30)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 11),
+          Time.utc(2006, 1, 7, 12)
+        )
+      ]
+    end
+  end
+
+  context 'when multiple breaks are in the middle of a period' do
+    let(:breaks) {
+      {Date.new(2006, 1, 7) => {'11:30' => '12:00', '12:30' => '13:00'}}
+    }
+
+    it 'excludes the overlapping time' do
+      expect(periods.take(3).to_a).to eq [
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 13),
+          Time.utc(2006, 1, 7, 14, 30)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 12),
+          Time.utc(2006, 1, 7, 12, 30)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 11),
+          Time.utc(2006, 1, 7, 11, 30)
+        )
+      ]
+    end
+  end
+
+  context 'when a break overlaps multiple periods' do
+    let(:hours)  { {sat: {'17:00' => '19:00', '20:00' => '22:00'}} }
+    let(:breaks) { {Date.new(2006, 1, 7) => {'18:00' => '21:00'}} }
+
+    it 'excludes the overlapping time' do
+      expect(periods.take(2).to_a).to eq [
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 21),
+          Time.utc(2006, 1, 7, 22)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 17),
+          Time.utc(2006, 1, 7, 18)
+        )
+      ]
+    end
+  end
+
+  context 'when multiple breaks overlap multiple periods' do
+    let(:breaks) {
+      {
+        Date.new(2006, 1, 6) => {'09:30' => '10:15', '11:30' => '12:30'},
+        Date.new(2006, 1, 7) => {'12:00' => '13:00', '14:25' => '14:40'}
+      }
+    }
+
+    it 'excludes the overlapping time' do
+      expect(periods.take(5).to_a).to eq [
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 13),
+          Time.utc(2006, 1, 7, 14, 25)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 7, 11),
+          Time.utc(2006, 1, 7, 12)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 6, 12, 30),
+          Time.utc(2006, 1, 6, 17)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 6, 10, 15),
+          Time.utc(2006, 1, 6, 11, 30)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 6, 9),
+          Time.utc(2006, 1, 6, 9, 30)
+        )
+      ]
     end
   end
 
