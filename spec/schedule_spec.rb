@@ -104,7 +104,7 @@ RSpec.describe Biz::Schedule do
     end
 
     context 'when the time is in business hours' do
-      let(:time) { Time.utc(2006, 1, 2, 10) }
+      let(:time) { Time.utc(2006, 1, 2, 12) }
 
       it 'returns true' do
         expect(schedule.in_hours?(time)).to eq true
@@ -122,7 +122,7 @@ RSpec.describe Biz::Schedule do
     end
 
     context 'when the time is in business hours' do
-      let(:time) { Time.utc(2006, 1, 2, 10) }
+      let(:time) { Time.utc(2006, 1, 2, 12) }
 
       it 'returns true' do
         expect(schedule.business_hours?(time)).to eq true
