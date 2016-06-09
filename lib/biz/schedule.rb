@@ -48,27 +48,12 @@ module Biz
     end
 
     def &(other)
-      self.class.new do |config|
-        config.hours     = Interval.to_hours(intersected_intervals(other))
-        config.holidays  = [*holidays, *other.holidays].map(&:to_date)
-        config.time_zone = time_zone.name
-      end
+      self.class.new(&(configuration & other.configuration))
     end
 
     protected
 
     attr_reader :configuration
-
-    private
-
-    def intersected_intervals(other)
-      intervals.flat_map { |interval|
-        other
-          .intervals
-          .map { |other_interval| interval & other_interval }
-          .reject(&:empty?)
-      }
-    end
 
   end
 end
