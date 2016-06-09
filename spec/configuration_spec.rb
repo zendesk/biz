@@ -267,6 +267,8 @@ RSpec.describe Biz::Configuration do
           thu: {'11:00' => '12:00', '13:00' => '14:00'}
         }
 
+        config.breaks = {Date.new(2006, 1, 3) => {'11:15' => '11:45'}}
+
         config.holidays = [
           Date.new(2006, 1, 1),
           Date.new(2006, 7, 4),
@@ -288,6 +290,27 @@ RSpec.describe Biz::Configuration do
         wed: {'16:00' => '17:00'},
         thu: {'11:00' => '12:00', '13:00' => '14:00'}
       )
+    end
+
+    it 'unions the breaks' do
+      expect((configuration & other).breaks).to eq [
+        Biz::TimeSegment.new(
+          in_zone('America/New_York') { Time.new(2006, 1, 2, 10) },
+          in_zone('America/New_York') { Time.new(2006, 1, 2, 11, 30) }
+        ),
+        Biz::TimeSegment.new(
+          in_zone('America/New_York') { Time.new(2006, 1, 3, 11, 15) },
+          in_zone('America/New_York') { Time.new(2006, 1, 3, 11, 45) }
+        ),
+        Biz::TimeSegment.new(
+          in_zone('America/New_York') { Time.new(2006, 1, 3, 14, 15) },
+          in_zone('America/New_York') { Time.new(2006, 1, 3, 14, 30) }
+        ),
+        Biz::TimeSegment.new(
+          in_zone('America/New_York') { Time.new(2006, 1, 3, 15, 40) },
+          in_zone('America/New_York') { Time.new(2006, 1, 3, 15, 50) }
+        )
+      ]
     end
 
     it 'unions the holidays' do

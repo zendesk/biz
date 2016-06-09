@@ -150,6 +150,11 @@ schedule_1 = Biz::Schedule.new do |config|
     sat: {'11:00' => '14:30'}
   }
 
+  config.breaks = {
+    Date.new(2016, 6, 2) => {'09:00' => '10:30', '16:00' => '16:30'},
+    Date.new(2016, 6, 3) => {'12:15' => '12:45'}
+  }
+
   config.holidays = [Date.new(2016, 1, 1), Date.new(2016, 12, 25)]
 
   config.time_zone = 'Etc/UTC'
@@ -162,6 +167,11 @@ schedule_2 = Biz::Schedule.new do |config|
     tue: {'11:00' => '15:00'},
     wed: {'16:00' => '18:00'},
     thu: {'11:00' => '12:00', '13:00' => '14:00'}
+  }
+
+  config.breaks = {
+    Date.new(2016, 6, 3) => {'13:30' => '14:00'},
+    Date.new(2016, 6, 4) => {'11:00' => '12:00'}
   }
 
   config.holidays = [
@@ -177,8 +187,8 @@ schedule_1 & schedule_2
 ```
 
 The resulting schedule will be a combination of the two schedules: an
-intersection of the intervals, a union of the holidays, and the time zone of the
-first schedule.
+intersection of the intervals, a union of the breaks and holidays, and the time
+zone of the first schedule.
 
 For the above example, the resulting schedule would be equivalent to one with
 the following configuration:
@@ -190,6 +200,12 @@ Biz::Schedule.new do |config|
     tue: {'11:00' => '15:00'},
     wed: {'16:00' => '17:00'},
     thu: {'11:00' => '12:00', '13:00' => '14:00'}
+  }
+
+  config.breaks = {
+    Date.new(2016, 6, 2) => {'09:00' => '10:30', '16:00' => '16:30'},
+    Date.new(2016, 6, 3) => {'12:15' => '12:45', '13:30' => '14:00'},
+    Date.new(2016, 6, 4) => {'11:00' => '12:00'}
   }
 
   config.holidays = [

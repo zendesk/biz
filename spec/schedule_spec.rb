@@ -169,6 +169,8 @@ RSpec.describe Biz::Schedule do
           thu: {'11:00' => '12:00', '13:00' => '14:00'}
         }
 
+        config.breaks = {Date.new(2006, 1, 3) => {'11:15' => '11:45'}}
+
         config.holidays = [
           Date.new(2006, 1, 1),
           Date.new(2006, 7, 4),
@@ -181,10 +183,20 @@ RSpec.describe Biz::Schedule do
 
     it 'returns an intersected schedule' do
       expect(
-        (schedule & other).periods.after(Time.utc(2006, 1, 1)).take(2).to_a
+        (schedule & other).periods.after(Time.utc(2006, 1, 1)).take(3).to_a
       ).to eq [
-        Biz::TimeSegment.new(Time.utc(2006, 1, 2, 9), Time.utc(2006, 1, 2, 10)),
-        Biz::TimeSegment.new(Time.utc(2006, 1, 3, 11), Time.utc(2006, 1, 3, 15))
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 2, 9),
+          Time.utc(2006, 1, 2, 10)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 3, 11),
+          Time.utc(2006, 1, 3, 11, 15)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 3, 11, 45),
+          Time.utc(2006, 1, 3, 14, 15)
+        )
       ]
     end
   end
