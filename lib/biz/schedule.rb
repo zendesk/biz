@@ -37,11 +37,15 @@ module Biz
       Calculation::Active.new(self, time).result
     end
 
+    alias business_hours? in_hours?
+
+    def on_break?(time)
+      Calculation::OnBreak.new(self, time).result
+    end
+
     def on_holiday?(time)
       Calculation::OnHoliday.new(self, time).result
     end
-
-    alias business_hours? in_hours?
 
     def in_zone
       Time.new(time_zone)
