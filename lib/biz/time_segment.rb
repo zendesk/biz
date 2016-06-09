@@ -32,7 +32,7 @@ module Biz
     end
 
     def contains?(time)
-      (start_time..end_time).cover?(time)
+      (start_time...end_time).cover?(time)
     end
 
     def &(other)

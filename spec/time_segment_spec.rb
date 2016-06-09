@@ -103,8 +103,8 @@ RSpec.describe Biz::TimeSegment do
     context 'when the time equals the end time' do
       let(:time) { end_time }
 
-      it 'returns true' do
-        expect(time_segment.contains?(time)).to eq true
+      it 'returns false' do
+        expect(time_segment.contains?(time)).to eq false
       end
     end
 
