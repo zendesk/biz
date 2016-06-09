@@ -8,7 +8,8 @@ module Biz
       end
 
       def result
-        schedule.intervals.any? { |interval| interval.contains?(time) } &&
+        schedule.intervals.any?   { |interval| interval.contains?(time) } &&
+          schedule.breaks.none?   { |break_| break_.contains?(time) } &&
           schedule.holidays.none? { |holiday| holiday.contains?(time) }
       end
 
