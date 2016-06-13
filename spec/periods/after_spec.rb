@@ -268,7 +268,7 @@ RSpec.describe Biz::Periods::After do
     end
   end
 
-  context 'when a period on a holiday is encountered' do
+  context 'when a period during a holiday is encountered' do
     let(:origin) { Time.utc(2006, 1, 14) }
 
     it 'does not include that period' do
@@ -285,7 +285,7 @@ RSpec.describe Biz::Periods::After do
     end
   end
 
-  context 'when multiple periods on holidays are encountered' do
+  context 'when multiple periods during holidays are encountered' do
     let(:origin) { Time.utc(2006, 1, 14) }
 
     it 'does not include any of those periods' do

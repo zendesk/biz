@@ -1,6 +1,8 @@
 module Biz
   class Holiday
 
+    extend Forwardable
+
     include Comparable
 
     def initialize(date, time_zone)
@@ -8,15 +10,15 @@ module Biz
       @time_zone = time_zone
     end
 
-    def contains?(time)
-      date == Time.new(time_zone).local(time).to_date
-    end
+    delegate contains?: :to_time_segment
 
     def to_time_segment
-      TimeSegment.new(
-        Time.new(time_zone).on_date(date, DayTime.midnight),
-        Time.new(time_zone).on_date(date, DayTime.endnight)
-      )
+      @time_segment ||= begin
+        TimeSegment.new(
+          Time.new(time_zone).on_date(date, DayTime.midnight),
+          Time.new(time_zone).on_date(date, DayTime.endnight)
+        )
+      end
     end
 
     def <=>(other)

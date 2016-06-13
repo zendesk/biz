@@ -25,6 +25,7 @@ module Biz
       within
       in_hours?
       business_hours?
+      on_break?
       on_holiday?
     ] => :schedule
 

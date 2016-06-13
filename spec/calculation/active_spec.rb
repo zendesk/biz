@@ -11,7 +11,7 @@ RSpec.describe Biz::Calculation::Active do
 
   describe '#result' do
     context 'when the time is not contained by an interval' do
-      context 'and not on a break nor holiday' do
+      context 'and not during a break nor holiday' do
         let(:time) { Time.utc(2006, 1, 1, 6) }
 
         it 'returns false' do
@@ -19,7 +19,7 @@ RSpec.describe Biz::Calculation::Active do
         end
       end
 
-      context 'and on a break' do
+      context 'and during a break' do
         let(:time) { Time.utc(2006, 1, 3, 6) }
 
         it 'returns false' do
@@ -27,7 +27,7 @@ RSpec.describe Biz::Calculation::Active do
         end
       end
 
-      context 'and on a holiday' do
+      context 'and during a holiday' do
         let(:time) { Time.utc(2006, 1, 4, 6) }
 
         it 'returns false' do
@@ -37,7 +37,7 @@ RSpec.describe Biz::Calculation::Active do
     end
 
     context 'when the time is contained by an interval' do
-      context 'and not on a break nor holiday' do
+      context 'and not during a break nor holiday' do
         let(:time) { Time.utc(2006, 1, 2, 12) }
 
         it 'returns true' do
@@ -45,7 +45,7 @@ RSpec.describe Biz::Calculation::Active do
         end
       end
 
-      context 'and on a break' do
+      context 'and during a break' do
         let(:time) { Time.utc(2006, 1, 3, 10) }
 
         it 'returns false' do
@@ -53,7 +53,7 @@ RSpec.describe Biz::Calculation::Active do
         end
       end
 
-      context 'and on a holiday' do
+      context 'and during a holiday' do
         let(:time) { Time.utc(2006, 1, 4, 12) }
 
         it 'returns false' do
