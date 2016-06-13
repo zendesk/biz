@@ -152,7 +152,7 @@ Here's the logic that's followed:
 > on that day as the specified time, look forward (or back) to find the next
 > moment in time that is in business hours.
 
-## Schedule Intersection
+## Schedule intersection
 
 An intersection of two schedules can be found using `&`:
 
@@ -236,7 +236,7 @@ Biz::Schedule.new do |config|
 end
 ```
 
-## Core Extensions
+## Core extensions
 
 Optional extensions to core classes (`Date`, `Fixnum`, and `Time`) are available
 for additional expressiveness:
