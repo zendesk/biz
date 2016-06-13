@@ -95,10 +95,10 @@ Biz.within(Time.utc(2015, 3, 7), Time.utc(2015, 3, 14)).in_seconds
 # Determine if a time is in business hours
 Biz.in_hours?(Time.utc(2015, 1, 10, 9))
 
-# Determine if a time is on a break
+# Determine if a time is during a break
 Biz.on_break?(Time.utc(2016, 6, 3))
 
-# Determine if a time is on a holiday
+# Determine if a time is during a holiday
 Biz.on_holiday?(Time.utc(2014, 1, 1))
 ```
 

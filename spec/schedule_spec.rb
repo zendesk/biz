@@ -131,7 +131,7 @@ RSpec.describe Biz::Schedule do
   end
 
   describe '#on_break?' do
-    context 'when the time is on a break' do
+    context 'when the time is during a break' do
       let(:time) { Time.utc(2006, 1, 2, 11) }
 
       it 'returns true' do
@@ -139,7 +139,7 @@ RSpec.describe Biz::Schedule do
       end
     end
 
-    context 'when the time is not on a break' do
+    context 'when the time is not during a break' do
       let(:time) { Time.utc(2006, 1, 2, 13) }
 
       it 'returns false' do
@@ -149,7 +149,7 @@ RSpec.describe Biz::Schedule do
   end
 
   describe '#on_holiday?' do
-    context 'when the time is on a holiday' do
+    context 'when the time is during a holiday' do
       let(:time) { Time.utc(2006, 12, 25, 12) }
 
       it 'returns true' do
@@ -157,7 +157,7 @@ RSpec.describe Biz::Schedule do
       end
     end
 
-    context 'when the time is not on a holiday' do
+    context 'when the time is not during a holiday' do
       let(:time) { Time.utc(2006, 12, 26, 12) }
 
       it 'returns false' do

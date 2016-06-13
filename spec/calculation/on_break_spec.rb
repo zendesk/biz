@@ -31,7 +31,7 @@ RSpec.describe Biz::Calculation::OnBreak do
       end
     end
 
-    context 'when the time is not on a break' do
+    context 'when the time is not during a break' do
       let(:time) { Time.utc(2006, 1, 5, 12) }
 
       it 'returns false' do
