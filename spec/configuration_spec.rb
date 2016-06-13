@@ -45,6 +45,22 @@ RSpec.describe Biz::Configuration do
     end
   end
 
+  context 'when converted to a proc for configuration' do
+    let(:proc_configuration) { described_class.new(&configuration) }
+
+    it 'configures the intervals' do
+      expect(proc_configuration.intervals).to eq configuration.intervals
+    end
+
+    it 'configures the holidays' do
+      expect(proc_configuration.holidays).to eq configuration.holidays
+    end
+
+    it 'configures the time zone' do
+      expect(proc_configuration.time_zone).to eq configuration.time_zone
+    end
+  end
+
   describe '#intervals' do
     context 'when unconfigured' do
       subject(:configuration) {
@@ -237,6 +253,77 @@ RSpec.describe Biz::Configuration do
   describe '#weekdays' do
     it 'returns the active weekdays for the configured schedule' do
       expect(configuration.weekdays).to eq %i[mon tue wed thu fri sat]
+    end
+  end
+
+  describe '#&' do
+    let(:other) {
+      described_class.new do |config|
+        config.hours = {
+          sun: {'10:00' => '12:00'},
+          mon: {'08:00' => '10:00'},
+          tue: {'11:00' => '15:00'},
+          wed: {'16:00' => '18:00'},
+          thu: {'11:00' => '12:00', '13:00' => '14:00'}
+        }
+
+        config.breaks = {Date.new(2006, 1, 3) => {'11:15' => '11:45'}}
+
+        config.holidays = [
+          Date.new(2006, 1, 1),
+          Date.new(2006, 7, 4),
+          Date.new(2006, 11, 24)
+        ]
+
+        config.time_zone = 'Etc/UTC'
+      end
+    }
+
+    it 'returns a new configuration' do
+      expect(configuration & other).to be_a Biz::Configuration
+    end
+
+    it 'intersects the intervals' do
+      expect(Biz::Interval.to_hours((configuration & other).intervals)).to eq(
+        mon: {'09:00' => '10:00'},
+        tue: {'11:00' => '15:00'},
+        wed: {'16:00' => '17:00'},
+        thu: {'11:00' => '12:00', '13:00' => '14:00'}
+      )
+    end
+
+    it 'unions the breaks' do
+      expect((configuration & other).breaks).to eq [
+        Biz::TimeSegment.new(
+          in_zone('America/New_York') { Time.new(2006, 1, 2, 10) },
+          in_zone('America/New_York') { Time.new(2006, 1, 2, 11, 30) }
+        ),
+        Biz::TimeSegment.new(
+          in_zone('America/New_York') { Time.new(2006, 1, 3, 11, 15) },
+          in_zone('America/New_York') { Time.new(2006, 1, 3, 11, 45) }
+        ),
+        Biz::TimeSegment.new(
+          in_zone('America/New_York') { Time.new(2006, 1, 3, 14, 15) },
+          in_zone('America/New_York') { Time.new(2006, 1, 3, 14, 30) }
+        ),
+        Biz::TimeSegment.new(
+          in_zone('America/New_York') { Time.new(2006, 1, 3, 15, 40) },
+          in_zone('America/New_York') { Time.new(2006, 1, 3, 15, 50) }
+        )
+      ]
+    end
+
+    it 'unions the holidays' do
+      expect((configuration & other).holidays.map(&:to_date)).to eq [
+        Date.new(2006, 1, 1),
+        Date.new(2006, 7, 4),
+        Date.new(2006, 11, 24),
+        Date.new(2006, 12, 25)
+      ]
+    end
+
+    it 'uses the original time zone' do
+      expect((configuration & other).time_zone).to eq configuration.time_zone
     end
   end
 end

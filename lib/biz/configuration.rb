@@ -51,11 +51,29 @@ module Biz
       @weekdays ||= raw.hours.keys.uniq.freeze
     end
 
+    def &(other)
+      self.class.new do |config|
+        config.hours     = Interval.to_hours(intersected_intervals(other))
+        config.breaks    = combined_breaks(other)
+        config.holidays  = [*raw.holidays, *other.raw.holidays].map(&:to_date)
+        config.time_zone = raw.time_zone
+      end
+    end
+
     protected
 
     attr_reader :raw
 
     private
+
+    def to_proc
+      proc do |config|
+        config.hours     = raw.hours
+        config.breaks    = raw.breaks
+        config.holidays  = raw.holidays
+        config.time_zone = raw.time_zone
+      end
+    end
 
     def time
       @time ||= Time.new(time_zone)
@@ -84,6 +102,23 @@ module Biz
           time.on_date(date, DayTime.from_timestamp(end_timestamp))
         )
       }
+    end
+
+    def intersected_intervals(other)
+      intervals.flat_map { |interval|
+        other
+          .intervals
+          .map { |other_interval| interval & other_interval }
+          .reject(&:empty?)
+      }
+    end
+
+    def combined_breaks(other)
+      Hash.new do |config, date| config.store(date, {}) end.tap do |combined|
+        [raw.breaks, other.raw.breaks].each do |configured|
+          configured.each do |date, breaks| combined[date].merge!(breaks) end
+        end
+      end
     end
 
     Raw = Struct.new(:hours, :breaks, :holidays, :time_zone) do

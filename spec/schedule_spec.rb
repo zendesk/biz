@@ -169,6 +169,8 @@ RSpec.describe Biz::Schedule do
           thu: {'11:00' => '12:00', '13:00' => '14:00'}
         }
 
+        config.breaks = {Date.new(2006, 1, 3) => {'11:15' => '11:45'}}
+
         config.holidays = [
           Date.new(2006, 1, 1),
           Date.new(2006, 7, 4),
@@ -179,30 +181,23 @@ RSpec.describe Biz::Schedule do
       end
     }
 
-    it 'returns a new schedule' do
-      expect(schedule & other).to be_a Biz::Schedule
-    end
-
-    it 'configures the schedule with the intersection of intervals' do
-      expect(Biz::Interval.to_hours((schedule & other).intervals)).to eq(
-        mon: {'09:00' => '10:00'},
-        tue: {'11:00' => '15:00'},
-        wed: {'16:00' => '17:00'},
-        thu: {'11:00' => '12:00', '13:00' => '14:00'}
-      )
-    end
-
-    it 'configures the schedule with the union of holidays' do
-      expect((schedule & other).holidays.map(&:to_date)).to eq [
-        Date.new(2006, 1, 1),
-        Date.new(2006, 7, 4),
-        Date.new(2006, 11, 24),
-        Date.new(2006, 12, 25)
+    it 'returns an intersected schedule' do
+      expect(
+        (schedule & other).periods.after(Time.utc(2006, 1, 1)).take(3).to_a
+      ).to eq [
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 2, 9),
+          Time.utc(2006, 1, 2, 10)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 3, 11),
+          Time.utc(2006, 1, 3, 11, 15)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 3, 11, 45),
+          Time.utc(2006, 1, 3, 14, 15)
+        )
       ]
-    end
-
-    it 'configures the schedule with the original time zone' do
-      expect((schedule & other).time_zone).to eq schedule.time_zone
     end
   end
 end
