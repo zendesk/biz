@@ -138,7 +138,21 @@ Biz.periods
 #  #<Biz::TimeSegment start_time=2015-04-27 20:36:57 UTC end_time=2015-04-28 00:00:00 UTC>]
 ```
 
-## Schedule Intersection
+#### Day calculation semantics
+
+Unlike seconds, minutes, or hours, a "day" is an ambiguous concept, particularly
+in relation to the vast number of potential schedule configurations. Because of
+that, day calculations are implemented with the principle of making the logic as
+straightforward as possible while knowing not all use cases will be satisfied
+out of the box.
+
+Here's the logic that's followed:
+
+> Find the next day that contains business hours. Starting from the same minute
+> on that day as the specified time, look forward (or back) to find the next
+> moment in time that is in business hours.
+
+## Schedule intersection
 
 An intersection of two schedules can be found using `&`:
 
@@ -222,7 +236,7 @@ Biz::Schedule.new do |config|
 end
 ```
 
-## Core Extensions
+## Core extensions
 
 Optional extensions to core classes (`Date`, `Fixnum`, and `Time`) are available
 for additional expressiveness:
