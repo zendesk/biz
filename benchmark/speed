@@ -244,9 +244,9 @@ Benchmark.ips do |bm|
   end
 
   bm.report 'business_time' do
-    time.workday? &&
-      !Time.before_business_hours?(time) &&
-      !Time.after_business_hours?(time)
+    time.workday? \
+      && !Time.before_business_hours?(time) \
+      && !Time.after_business_hours?(time)
   end
 
   bm.report 'working_hours' do
@@ -265,9 +265,9 @@ Benchmark.ips do |bm|
   end
 
   bm.report 'business_time' do
-    time.workday? &&
-      !Time.before_business_hours?(time) &&
-      !Time.after_business_hours?(time)
+    time.workday? \
+      && !Time.before_business_hours?(time) \
+      && !Time.after_business_hours?(time)
   end
 
   bm.report 'working_hours' do
