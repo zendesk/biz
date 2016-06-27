@@ -11,9 +11,9 @@ group :development do
 end
 
 group :test do
-  gem 'codeclimate-test-reporter', '~> 0.5.0', require: false
+  gem 'codeclimate-test-reporter', '~> 0.6.0', require: false
 end
 
 group :development, :test do
-  gem 'rubocop', '~> 0.39.0', require: false
+  gem 'rubocop', '~> 0.41.0', require: false
 end
