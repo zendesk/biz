@@ -238,8 +238,8 @@ end
 
 ## Core extensions
 
-Optional extensions to core classes (`Date`, `Fixnum`, and `Time`) are available
-for additional expressiveness:
+Optional extensions to core classes (`Date`, `Integer`, and `Time`) are
+available for additional expressiveness:
 
 ```ruby
 require 'biz/core_ext'
