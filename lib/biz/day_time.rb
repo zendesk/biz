@@ -51,9 +51,7 @@ module Biz
     def initialize(day_second)
       @day_second = Integer(day_second)
 
-      unless VALID_SECONDS.cover?(@day_second)
-        fail ArgumentError, 'second not within a day'
-      end
+      fail ArgumentError, 'second not within a day' unless valid_second?
     end
 
     attr_reader :day_second
@@ -86,6 +84,12 @@ module Biz
       return unless other.is_a?(self.class)
 
       day_second <=> other.day_second
+    end
+
+    private
+
+    def valid_second?
+      VALID_SECONDS.cover?(day_second)
     end
 
     MIDNIGHT = from_hour(0)
