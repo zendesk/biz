@@ -1,11 +1,14 @@
 Metrics/AbcSize:
-  Max: 20
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
 
 Metrics/ClassLength:
-  Max: 120
+  Enabled: false
 
 Metrics/MethodLength:
-  Max: 20
+  Enabled: false
 
 Style/AndOr:
   EnforcedStyle: conditionals
