@@ -8,7 +8,7 @@ module Biz
       end
 
       def result
-        schedule.breaks.any? { |break_| break_.contains?(time) }
+        schedule.breaks.any? { |brake| brake.contains?(time) }
       end
 
       protected
