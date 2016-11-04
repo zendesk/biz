@@ -9,7 +9,7 @@ module Biz
 
       def result
         schedule.intervals.any?      { |interval| interval.contains?(time) } \
-          && schedule.breaks.none?   { |break_| break_.contains?(time) } \
+          && schedule.breaks.none?   { |brake| brake.contains?(time) } \
           && schedule.holidays.none? { |holiday| holiday.contains?(time) }
       end
 
