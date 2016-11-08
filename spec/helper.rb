@@ -1,7 +1,7 @@
 if ENV['CODECLIMATE_REPO_TOKEN']
-  require 'codeclimate-test-reporter'
+  require 'simplecov'
 
-  CodeClimate::TestReporter.start
+  SimpleCov.start
 end
 
 require 'biz'
