@@ -289,7 +289,7 @@ To open a console with the gem and sample schedule loaded:
 
 ## Copyright and license
 
-Copyright 2015-16 Zendesk
+Copyright 2015-17 Zendesk
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this gem except in compliance with the License.
