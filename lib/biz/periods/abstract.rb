@@ -1,14 +1,12 @@
 module Biz
   module Periods
-    class Abstract < Enumerator::Lazy
-
-      extend Forwardable
+    class Abstract < SimpleDelegator
 
       def initialize(schedule, origin)
         @schedule = schedule
         @origin   = origin
 
-        super(periods) do |yielder, period| yielder << period end
+        super(periods)
       end
 
       def timeline
