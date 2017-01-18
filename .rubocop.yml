@@ -2,7 +2,8 @@ Metrics/AbcSize:
   Enabled: false
 
 Metrics/BlockLength:
-  Enabled: false
+  Exclude:
+    - 'spec/**/*.rb'
 
 Metrics/ClassLength:
   Enabled: false
