@@ -8,8 +8,6 @@ rvm:
 
 cache: bundler
 
-sudo: false
-
 after_success: bundle exec codeclimate-test-reporter
 
 notifications:
