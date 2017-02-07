@@ -9,7 +9,3 @@ rvm:
 cache: bundler
 
 after_success: bundle exec codeclimate-test-reporter
-
-addons:
-  code_climate:
-    repo_token: 23788f6358c812402884bb474c91ba819e6c096189b8ebe45d3b10b206ed4c67
