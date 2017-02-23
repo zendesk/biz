@@ -69,9 +69,12 @@ period that overlaps with a break is treated as inactive.
 If global configuration isn't your thing, configure an instance instead:
 
 ```ruby
-Biz::Schedule.new do |config|
+schedule = Biz::Schedule.new do |config|
   # ...
 end
+
+# then use your schedule just like Biz
+schedule.time(30, :minutes).before(Time.utc(2015, 1, 1, 11, 45))
 ```
 
 Note that times must be specified in 24-hour clock format and time zones
