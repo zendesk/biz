@@ -102,6 +102,14 @@ Biz.on_break?(Time.utc(2016, 6, 3))
 Biz.on_holiday?(Time.utc(2014, 1, 1))
 ```
 
+The same methods can be called on a configured instance:
+
+```ruby
+schedule = Biz::Schedule.new
+
+schedule.in_hours?(Time.utc(2015, 1, 1, 10))
+```
+
 All returned times are in UTC.
 
 If a schedule will be configured with a large number of holidays and performance
