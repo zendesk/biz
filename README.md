@@ -77,6 +77,13 @@ end
 Note that times must be specified in 24-hour clock format and time zones
 must be [IANA identifiers](http://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
+If you're operating in a threaded environment and want to use the same
+configuration across threads, save the configured schedule as a global variable:
+
+```ruby
+$biz = Biz::Schedule.new
+```
+
 ## Usage
 
 ```ruby
