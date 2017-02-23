@@ -261,6 +261,23 @@ Time.utc(2014, 1, 1, 12).on_holiday?
 Date.new(2015, 12, 10).business_day?
 ```
 
+## How to fix `Biz not configured` errors when using global configuration with threaded app servers
+If you try to set a global config using `Biz.configure` in an initializer when using a threaded production app server such as Puma, Passenger, etc. will get errors like `Biz not configured`. If you still want to create a global config the simplest alternative is to add your schedule/config a global variable that is shared across threads.
+
+```ruby
+# config/initializers/biz.rb
+
+$Biz = Biz::Schedule.new do |c|
+  # do config
+end
+```
+
+Then in your code whenever you want to do a time conversion with Biz and this schedule then use the $Biz variable instead
+
+```ruby
+$Biz.time(30, :minutes).before(Time.now)
+```
+
 ## Contributing
 
 Pull requests are welcome, but consider asking for a feature or bug fix first
