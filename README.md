@@ -77,6 +77,13 @@ end
 Note that times must be specified in 24-hour clock format and time zones
 must be [IANA identifiers](http://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
+If you're operating in a threaded environment and want to use the same
+configuration across threads, save the configured schedule as a global variable:
+
+```ruby
+$biz = Biz::Schedule.new
+```
+
 ## Usage
 
 ```ruby
@@ -100,6 +107,14 @@ Biz.on_break?(Time.utc(2016, 6, 3))
 
 # Determine if a time is during a holiday
 Biz.on_holiday?(Time.utc(2014, 1, 1))
+```
+
+The same methods can be called on a configured instance:
+
+```ruby
+schedule = Biz::Schedule.new
+
+schedule.in_hours?(Time.utc(2015, 1, 1, 10))
 ```
 
 All returned times are in UTC.
