@@ -13,7 +13,7 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', '~> 1.0',    require: false
-  gem 'simplecov',                 '~> 0.13.0', require: false
+  gem 'simplecov',                 '~> 0.14.0', require: false
 end
 
 group :development, :test do
