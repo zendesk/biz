@@ -2,8 +2,7 @@ Metrics/AbcSize:
   Enabled: false
 
 Metrics/BlockLength:
-  Exclude:
-    - 'spec/**/*.rb'
+  Enabled: false
 
 Metrics/ClassLength:
   Enabled: false
@@ -28,9 +27,7 @@ Style/MultilineMethodCallIndentation:
 
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
-    '%i': '[]'
-    '%w': '[]'
-    '%W': '[]'
+    default: '[]'
 
 Style/SignalException:
   EnforcedStyle: semantic
