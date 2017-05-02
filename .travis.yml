@@ -7,4 +7,6 @@ rvm:
 
 cache: bundler
 
+bundler_args: --without benchmark development
+
 after_success: bundle exec codeclimate-test-reporter

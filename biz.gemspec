@@ -13,9 +13,6 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = '>= 2.2'
 
-  gem.add_runtime_dependency 'clavius', '~> 1.0'
-  gem.add_runtime_dependency 'tzinfo'
-
-  gem.add_development_dependency 'rake',  '~> 12.0'
-  gem.add_development_dependency 'rspec', '~> 3.0'
+  gem.add_dependency 'clavius', '~> 1.0'
+  gem.add_dependency 'tzinfo'
 end
