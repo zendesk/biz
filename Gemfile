@@ -8,12 +8,12 @@ group :benchmark do
   gem 'working_hours', '~> 1.0',   require: false
 end
 
-group :test do
+group :ci do
   gem 'codeclimate-test-reporter', '~> 1.0',    require: false
   gem 'simplecov',                 '~> 0.14.0', require: false
 end
 
-group :development, :test do
+group :ci, :development do
   gem 'bump',    '~> 0.5.0',  require: false
   gem 'rake',    '~> 12.0',   require: false
   gem 'rspec',   '~> 3.0',    require: false
