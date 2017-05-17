@@ -99,6 +99,12 @@ Biz.time(1, :day).after(Time.utc(2015, 1, 8, 10))
 # Find the amount of business time between two times
 Biz.within(Time.utc(2015, 3, 7), Time.utc(2015, 3, 14)).in_seconds
 
+# Find the start of the business day
+Biz.periods.on(Date.today).first.start_time
+
+# Find the end of the business day
+Biz.periods.on(Date.today).to_a.last.end_time
+
 # Determine if a time is in business hours
 Biz.in_hours?(Time.utc(2015, 1, 10, 9))
 
