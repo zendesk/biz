@@ -14,6 +14,14 @@ module Biz
         Before.new(schedule, origin)
       end
 
+      def on(date)
+        schedule
+          .periods
+          .after(schedule.in_zone.on_date(date, DayTime.midnight))
+          .timeline
+          .until(schedule.in_zone.on_date(date, DayTime.endnight))
+      end
+
       protected
 
       attr_reader :schedule

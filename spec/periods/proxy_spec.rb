@@ -1,5 +1,16 @@
 RSpec.describe Biz::Periods::Proxy do
-  subject(:periods) { described_class.new(schedule) }
+  let(:hours) {
+    {
+      mon: {'09:00' => '17:00'},
+      tue: {'10:00' => '16:00'},
+      wed: {'09:00' => '17:00'},
+      thu: {'10:00' => '12:00', '13:00' => '17:00'},
+      fri: {'09:00' => '17:00'},
+      sat: {'11:00' => '14:30'}
+    }
+  }
+
+  subject(:periods) { described_class.new(schedule(hours: hours)) }
 
   describe '#after' do
     let(:origin) { Time.utc(2006, 1, 3) }
@@ -30,6 +41,23 @@ RSpec.describe Biz::Periods::Proxy do
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 3, 10),
           Time.utc(2006, 1, 3, 16)
+        )
+      ]
+    end
+  end
+
+  describe '#on' do
+    let(:date) { Date.new(2006, 1, 5) }
+
+    it 'generates periods on the provided date' do
+      expect(periods.on(date).to_a).to eq [
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 5, 10),
+          Time.utc(2006, 1, 5, 12)
+        ),
+        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 5, 13),
+          Time.utc(2006, 1, 5, 17)
         )
       ]
     end
