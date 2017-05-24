@@ -1,3 +1,12 @@
+Layout/EmptyLinesAroundClassBody:
+  EnforcedStyle: empty_lines
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
 Metrics/AbcSize:
   Enabled: false
 
@@ -19,12 +28,6 @@ Style/BlockDelimiters:
 Style/Documentation:
   Enabled: false
 
-Style/EmptyLinesAroundClassBody:
-  EnforcedStyle: empty_lines
-
-Style/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     default: '[]'
@@ -32,5 +35,5 @@ Style/PercentLiteralDelimiters:
 Style/SignalException:
   EnforcedStyle: semantic
 
-Style/SpaceInsideHashLiteralBraces:
-  EnforcedStyle: no_space
+Style/YodaCondition:
+  Enabled: false
