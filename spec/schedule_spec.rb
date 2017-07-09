@@ -39,6 +39,12 @@ RSpec.describe Biz::Schedule do
     end
   end
 
+  describe '#shifts' do
+    it 'delegates to the configuration' do
+      expect(schedule.shifts).to eq Biz::Configuration.new(&config).shifts
+    end
+  end
+
   describe '#breaks' do
     it 'delegates to the configuration' do
       expect(schedule.breaks).to eq Biz::Configuration.new(&config).breaks

@@ -12,6 +12,13 @@ RSpec.describe Biz::Configuration do
     }
   }
 
+  let(:shifts) {
+    {
+      Date.new(2006, 1, 4) => {'10:00' => '14:00'},
+      Date.new(2006, 1, 5) => {'11:00' => '13:00', '14:00' => '16:00'}
+    }
+  }
+
   let(:breaks) {
     {
       Date.new(2006, 1, 2) => {'10:00' => '11:30'},
@@ -25,6 +32,7 @@ RSpec.describe Biz::Configuration do
   subject(:configuration) {
     Biz::Configuration.new do |config|
       config.hours     = hours
+      config.shifts    = shifts
       config.breaks    = breaks
       config.holidays  = holidays
       config.time_zone = time_zone
@@ -52,6 +60,10 @@ RSpec.describe Biz::Configuration do
 
     it 'configures the intervals' do
       expect(proc_configuration.intervals).to eq configuration.intervals
+    end
+
+    it 'configures the shifts' do
+      expect(proc_configuration.shifts).to eq configuration.shifts
     end
 
     it 'configures the holidays' do
@@ -147,8 +159,35 @@ RSpec.describe Biz::Configuration do
     end
   end
 
+  describe '#shifts' do
+    it 'returns the proper shifts' do
+      expect(configuration.shifts).to eq [
+        Biz::TimeSegment.new(
+          in_zone(time_zone) { Time.new(2006, 1, 4, 10) },
+          in_zone(time_zone) { Time.new(2006, 1, 4, 14) }
+        ),
+        Biz::TimeSegment.new(
+          in_zone(time_zone) { Time.new(2006, 1, 5, 11) },
+          in_zone(time_zone) { Time.new(2006, 1, 5, 13) }
+        ),
+        Biz::TimeSegment.new(
+          in_zone(time_zone) { Time.new(2006, 1, 5, 14) },
+          in_zone(time_zone) { Time.new(2006, 1, 5, 16) }
+        )
+      ]
+    end
+
+    context 'when unconfigured' do
+      subject(:configuration) { Biz::Configuration.new do end }
+
+      it 'returns the default set of shifts' do
+        expect(configuration.shifts).to eq []
+      end
+    end
+  end
+
   describe '#breaks' do
-    it 'returns the proper break periods' do
+    it 'returns the proper breaks' do
       expect(configuration.breaks).to eq [
         Biz::TimeSegment.new(
           in_zone(time_zone) { Time.new(2006, 1, 2, 10) },
@@ -168,7 +207,7 @@ RSpec.describe Biz::Configuration do
     context 'when unconfigured' do
       subject(:configuration) { Biz::Configuration.new do end }
 
-      it 'returns the default set of break periods' do
+      it 'returns the default set of breaks' do
         expect(configuration.breaks).to eq []
       end
     end
@@ -269,6 +308,8 @@ RSpec.describe Biz::Configuration do
           thu: {'11:00' => '12:00', '13:00' => '14:00'}
         }
 
+        config.shifts = {Date.new(2006, 1, 15) => {'19:00' => '19:30'}}
+
         config.breaks = {Date.new(2006, 1, 3) => {'11:15' => '11:45'}}
 
         config.holidays = [
@@ -294,7 +335,11 @@ RSpec.describe Biz::Configuration do
       )
     end
 
-    it 'unions the breaks' do
+    it 'uses no shifts' do
+      expect((configuration & other).shifts).to eq []
+    end
+
+    it 'combines the breaks' do
       expect((configuration & other).breaks).to eq [
         Biz::TimeSegment.new(
           in_zone('America/New_York') { Time.new(2006, 1, 2, 10) },
@@ -315,7 +360,7 @@ RSpec.describe Biz::Configuration do
       ]
     end
 
-    it 'unions the holidays' do
+    it 'combines the holidays' do
       expect((configuration & other).holidays.map(&:to_date)).to eq [
         Date.new(2006, 1, 1),
         Date.new(2006, 7, 4),

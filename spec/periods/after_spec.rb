@@ -12,6 +12,14 @@ RSpec.describe Biz::Periods::After do
     }
   }
 
+  let(:shifts) {
+    {
+      Date.new(2005, 12, 31) => {'10:00' => '14:00'},
+      Date.new(2006, 1, 4)   => {'08:00' => '12:00'},
+      Date.new(2006, 1, 6)   => {'09:00' => '10:00'}
+    }
+  }
+
   let(:breaks)    { {} }
   let(:holidays)  { [Date.new(2006, 1, 16), Date.new(2006, 1, 18)] }
   let(:time_zone) { 'Etc/UTC' }
@@ -21,6 +29,7 @@ RSpec.describe Biz::Periods::After do
     described_class.new(
       schedule(
         hours:     hours,
+        shifts:    shifts,
         breaks:    breaks,
         holidays:  holidays,
         time_zone: time_zone
@@ -43,8 +52,8 @@ RSpec.describe Biz::Periods::After do
           Time.utc(2006, 1, 3, 16)
         ),
         Biz::TimeSegment.new(
-          Time.utc(2006, 1, 4, 9),
-          Time.utc(2006, 1, 4, 17)
+          Time.utc(2006, 1, 4, 8),
+          Time.utc(2006, 1, 4, 12)
         ),
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 5, 10),
@@ -52,7 +61,7 @@ RSpec.describe Biz::Periods::After do
         ),
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 6, 9),
-          Time.utc(2006, 1, 6, 17)
+          Time.utc(2006, 1, 6, 10)
         ),
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 7, 11),
@@ -76,16 +85,15 @@ RSpec.describe Biz::Periods::After do
           Time.utc(2006, 1, 3, 16)
         ),
         Biz::TimeSegment.new(
-          Time.utc(2006, 1, 4, 9),
-          Time.utc(2006, 1, 4, 17)
-        ),
-        Biz::TimeSegment.new(
+          Time.utc(2006, 1, 4, 8),
+          Time.utc(2006, 1, 4, 12)
+        ), Biz::TimeSegment.new(
           Time.utc(2006, 1, 5, 10),
           Time.utc(2006, 1, 5, 16)
         ),
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 6, 9),
-          Time.utc(2006, 1, 6, 17)
+          Time.utc(2006, 1, 6, 10)
         ),
         Biz::TimeSegment.new(
           Time.utc(2006, 1, 7, 11),
