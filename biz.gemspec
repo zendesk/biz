@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.license     = 'Apache 2.0'
   gem.files       = Dir['lib/**/*', 'README.md']
 
-  gem.required_ruby_version = '>= 2.2'
+  gem.required_ruby_version = '>= 2.3'
 
   gem.add_dependency 'clavius', '~> 1.0'
   gem.add_dependency 'tzinfo'
