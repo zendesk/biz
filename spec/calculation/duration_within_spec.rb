@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Calculation::DurationWithin do
   subject(:calculation) {
     described_class.new(schedule, calculation_period)

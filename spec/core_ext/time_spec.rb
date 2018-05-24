@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'biz/core_ext/time'
 
 RSpec.describe Biz::CoreExt::Time do

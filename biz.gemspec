@@ -1,4 +1,6 @@
-require File.expand_path('../lib/biz/version', __FILE__)
+# frozen_string_literal: true
+
+require File.expand_path('lib/biz/version', __dir__)
 
 Gem::Specification.new do |gem|
   gem.name        = 'biz'

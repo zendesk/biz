@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Biz
   class Holiday
 
@@ -13,7 +15,7 @@ module Biz
     delegate contains?: :to_time_segment
 
     def to_time_segment
-      @time_segment ||= begin
+      @to_time_segment ||= begin
         TimeSegment.new(
           Time.new(time_zone).on_date(date, DayTime.midnight),
           Time.new(time_zone).on_date(date, DayTime.endnight)

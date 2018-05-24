@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Schedule do
   let(:hours) {
     {

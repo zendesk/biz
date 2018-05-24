@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module Biz
   class DayTime
 
     VALID_SECONDS = (0..Time.day_seconds).freeze
 
     module Timestamp
-      FORMAT  = '%02d:%02d'.freeze
+      FORMAT  = '%02d:%02d'
       PATTERN = /\A(?<hour>\d{2}):(?<minute>\d{2})(:?(?<second>\d{2}))?\Z/
     end
 

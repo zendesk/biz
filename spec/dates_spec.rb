@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Dates do
   subject(:dates) {
     described_class.new(

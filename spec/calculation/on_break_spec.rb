@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Calculation::OnBreak do
   subject(:calculation) {
     described_class.new(

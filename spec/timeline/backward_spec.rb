@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Timeline::Backward do
   subject(:timeline) { described_class.new(backward_periods) }
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Interval do
   let(:start_time) { week_minute(wday: 1, hour: 9) }
   let(:end_time)   { week_minute(wday: 1, hour: 17) }

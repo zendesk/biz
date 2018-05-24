@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::WeekTime::Abstract do
   let(:week_time_class) { Class.new(described_class) }
 
