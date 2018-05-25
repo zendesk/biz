@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Date do
   describe '.epoch' do
     it 'returns the epoch date' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Biz
   class Duration
 
@@ -50,7 +52,7 @@ module Biz
     end
 
     def positive?
-      seconds > 0
+      seconds.positive?
     end
 
     def abs

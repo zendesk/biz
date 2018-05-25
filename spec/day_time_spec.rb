@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::DayTime do
   subject(:day_time) {
     described_class.new(day_second(hour: 9, min: 53, sec: 27))

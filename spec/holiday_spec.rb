@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Holiday do
   let(:date)      { Date.new(2010, 7, 15) }
   let(:time_zone) { TZInfo::Timezone.get('America/Los_Angeles') }

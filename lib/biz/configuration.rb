@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Biz
   class Configuration
 
@@ -133,7 +135,7 @@ module Biz
 
         BREAKS    = [].freeze
         HOLIDAYS  = [].freeze
-        TIME_ZONE = 'Etc/UTC'.freeze
+        TIME_ZONE = 'Etc/UTC'
       end
 
       def initialize(*)

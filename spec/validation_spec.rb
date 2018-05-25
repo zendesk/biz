@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Validation do
   let(:raw) { Struct.new(:hours, :holidays, :time_zone).new }
 

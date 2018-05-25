@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Biz
   module Calculation
     class ForDuration
@@ -86,7 +88,7 @@ module Biz
         @schedule = schedule
         @scalar   = Integer(scalar)
 
-        fail ArgumentError, 'negative scalar' if @scalar < 0
+        fail ArgumentError, 'negative scalar' if @scalar.negative?
       end
 
       protected

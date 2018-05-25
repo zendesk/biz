@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Week do
   subject(:week) { described_class.new(2) }
 

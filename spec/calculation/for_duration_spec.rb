@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Calculation::ForDuration do
   context 'when initializing' do
     context 'with a valid integer-like scalar' do

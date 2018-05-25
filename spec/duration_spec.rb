@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Duration do
   subject(:duration) {
     described_class.new(in_seconds(days: 2, hours: 5, minutes: 9, seconds: 30))

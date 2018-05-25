@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::TimeSegment do
   let(:start_time) { Time.utc(2006, 1, 8, 9, 30) }
   let(:end_time)   { Time.utc(2006, 1, 22, 17) }

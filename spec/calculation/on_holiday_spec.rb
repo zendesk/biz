@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Calculation::OnHoliday do
   subject(:calculation) {
     described_class.new(schedule(holidays: [Date.new(2006, 1, 4)]), time)

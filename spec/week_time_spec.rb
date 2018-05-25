@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::WeekTime do
   describe '.from_time' do
     let(:time) { Time.utc(2006, 1, 9, 9, 30) }

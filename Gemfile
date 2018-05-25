@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 gemspec
@@ -10,7 +12,7 @@ end
 
 group :ci do
   gem 'codeclimate-test-reporter', '~> 1.0',    require: false
-  gem 'simplecov',                 '~> 0.15.0', require: false
+  gem 'simplecov',                 '~> 0.16.0', require: false
 end
 
 group :development do
@@ -21,5 +23,5 @@ end
 group :ci, :development do
   gem 'rake',    '~> 12.0',   require: false
   gem 'rspec',   '~> 3.0',    require: false
-  gem 'rubocop', '~> 0.50.0', require: false
+  gem 'rubocop', '~> 0.56.0', require: false
 end

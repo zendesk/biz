@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::WeekTime::End do
   subject(:week_time) {
     described_class.new(week_minute(wday: 0, hour: 9, min: 30))

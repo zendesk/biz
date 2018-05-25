@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Time do
   let(:time_zone) { TZInfo::Timezone.get('America/Los_Angeles') }
 

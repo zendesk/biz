@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Biz::Error do
   it 'is a standard error' do
     expect(described_class.new.is_a?(StandardError)).to eq true
