@@ -24,7 +24,7 @@ module Biz
           .until(schedule.in_zone.on_date(date, DayTime.endnight))
       end
 
-      protected
+      private
 
       attr_reader :schedule
 

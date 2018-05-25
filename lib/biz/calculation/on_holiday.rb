@@ -13,7 +13,7 @@ module Biz
         schedule.holidays.any? { |holiday| holiday.contains?(time) }
       end
 
-      protected
+      private
 
       attr_reader :schedule,
                   :time

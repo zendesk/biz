@@ -35,15 +35,17 @@ module Biz
         timestamp
       ] => :day_time
 
+      protected
+
+      attr_reader :week_minute
+
+      private
+
       def <=>(other)
         return unless other.is_a?(WeekTime::Abstract)
 
         week_minute <=> other.week_minute
       end
-
-      protected
-
-      attr_reader :week_minute
 
     end
   end

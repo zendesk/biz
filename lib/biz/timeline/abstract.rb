@@ -36,7 +36,7 @@ module Biz
           end
       end
 
-      protected
+      private
 
       attr_reader :periods
 

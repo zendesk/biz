@@ -15,7 +15,7 @@ module Biz
           && schedule.holidays.none? { |holiday| holiday.contains?(time) }
       end
 
-      protected
+      private
 
       attr_reader :schedule,
                   :time

@@ -91,12 +91,10 @@ module Biz
         fail ArgumentError, 'negative scalar' if @scalar.negative?
       end
 
-      protected
+      private
 
       attr_reader :schedule,
                   :scalar
-
-      private
 
       def unit
         self.class.unit

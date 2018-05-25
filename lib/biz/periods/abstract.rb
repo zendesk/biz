@@ -15,12 +15,10 @@ module Biz
         Timeline::Proxy.new(self)
       end
 
-      protected
+      private
 
       attr_reader :schedule,
                   :origin
-
-      private
 
       def periods
         weeks

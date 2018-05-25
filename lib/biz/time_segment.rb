@@ -51,6 +51,8 @@ module Biz
       ].reject(&:empty?).map { |potential| self & potential }
     end
 
+    private
+
     def <=>(other)
       return unless other.is_a?(self.class)
 

@@ -82,16 +82,16 @@ module Biz
       format(Timestamp::FORMAT, hour, minute)
     end
 
-    def <=>(other)
-      return unless other.is_a?(self.class)
-
-      day_second <=> other.day_second
-    end
-
     private
 
     def valid_second?
       VALID_SECONDS.cover?(day_second)
+    end
+
+    def <=>(other)
+      return unless other.is_a?(self.class)
+
+      day_second <=> other.day_second
     end
 
     MIDNIGHT = from_hour(0)

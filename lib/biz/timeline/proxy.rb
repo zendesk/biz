@@ -16,7 +16,7 @@ module Biz
         Backward.new(periods)
       end
 
-      protected
+      private
 
       attr_reader :periods
 

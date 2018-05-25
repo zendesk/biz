@@ -53,6 +53,8 @@ module Biz
       wday == other_wday
     end
 
+    private
+
     def <=>(other)
       return unless other.is_a?(self.class)
 
