@@ -96,7 +96,7 @@ module Biz
       on_date(week.start_date + week_time.wday, week_time.day_time)
     end
 
-    protected
+    private
 
     attr_reader :time_zone
 

@@ -13,7 +13,7 @@ module Biz
         schedule.breaks.any? { |brake| brake.contains?(time) }
       end
 
-      protected
+      private
 
       attr_reader :schedule,
                   :time

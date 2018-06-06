@@ -23,12 +23,6 @@ module Biz
       end
     end
 
-    def <=>(other)
-      return unless other.is_a?(self.class)
-
-      [date, time_zone] <=> [other.date, other.time_zone]
-    end
-
     protected
 
     attr_reader :date,
@@ -38,6 +32,14 @@ module Biz
 
     def to_date
       date
+    end
+
+    private
+
+    def <=>(other)
+      return unless other.is_a?(self.class)
+
+      [date, time_zone] <=> [other.date, other.time_zone]
     end
 
   end

@@ -56,6 +56,8 @@ module Biz
       self.class.new(lower_bound, [lower_bound, upper_bound].max, time_zone)
     end
 
+    private
+
     def <=>(other)
       return unless other.is_a?(self.class)
 

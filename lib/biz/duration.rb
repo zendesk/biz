@@ -59,15 +59,17 @@ module Biz
       self.class.new(seconds.abs)
     end
 
+    protected
+
+    attr_reader :seconds
+
+    private
+
     def <=>(other)
       return unless other.is_a?(self.class)
 
       seconds <=> other.seconds
     end
-
-    protected
-
-    attr_reader :seconds
 
   end
 end

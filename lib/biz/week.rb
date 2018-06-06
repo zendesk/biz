@@ -43,15 +43,17 @@ module Biz
       self.class.new(week + other.week)
     end
 
+    protected
+
+    attr_reader :week
+
+    private
+
     def <=>(other)
       return unless other.is_a?(self.class)
 
       week <=> other.week
     end
-
-    protected
-
-    attr_reader :week
 
   end
 end

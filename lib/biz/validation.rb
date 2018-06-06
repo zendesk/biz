@@ -17,7 +17,7 @@ module Biz
       self
     end
 
-    protected
+    private
 
     attr_reader :raw
 
@@ -32,7 +32,7 @@ module Biz
         fail Error::Configuration, message unless condition.call(raw)
       end
 
-      protected
+      private
 
       attr_reader :message,
                   :condition
