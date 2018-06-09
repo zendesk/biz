@@ -31,9 +31,5 @@ Style/BlockDelimiters:
 Style/Documentation:
   Enabled: false
 
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    default: '[]'
-
 Style/SignalException:
   EnforcedStyle: semantic
