@@ -42,6 +42,12 @@ RSpec.describe Biz::TimeSegment do
     end
   end
 
+  describe '#date' do
+    it 'returns the date corresponding with the start time' do
+      expect(time_segment.date).to eq Date.new(2006, 1, 8)
+    end
+  end
+
   describe '#endpoints' do
     it 'returns the endpoints' do
       expect(time_segment.endpoints).to eq [

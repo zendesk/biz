@@ -16,10 +16,12 @@ module Biz
     def initialize(start_time, end_time)
       @start_time = start_time
       @end_time   = end_time
+      @date       = start_time.to_date
     end
 
     attr_reader :start_time,
-                :end_time
+                :end_time,
+                :date
 
     def duration
       Duration.new(end_time - start_time)

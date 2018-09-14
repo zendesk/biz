@@ -4,11 +4,23 @@ module Biz
   module Periods
     class After < Abstract
 
+      def initialize(schedule, origin)
+        @boundary  = TimeSegment.after(origin)
+        @intervals = schedule.intervals
+        @shifts    = schedule.shifts
+
+        super
+      end
+
       def timeline
         super.forward
       end
 
       private
+
+      def selector
+        :min_by
+      end
 
       def weeks
         Range.new(
@@ -19,14 +31,6 @@ module Biz
 
       def relevant?(period)
         origin < period.end_time
-      end
-
-      def boundary
-        @boundary ||= TimeSegment.after(origin)
-      end
-
-      def intervals
-        @intervals ||= schedule.intervals
       end
 
     end

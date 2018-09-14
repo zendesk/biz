@@ -39,6 +39,7 @@ module Biz
               sat: {'11:00' => '14:30'}
             )
 
+            config.shifts    = args.fetch(:shifts, {})
             config.breaks    = args.fetch(:breaks, {})
             config.holidays  = args.fetch(:holidays, [])
             config.time_zone = args.fetch(:time_zone, 'Etc/UTC')

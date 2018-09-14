@@ -11,6 +11,7 @@ module Biz
 
     delegate %i[
       intervals
+      shifts
       breaks
       holidays
       time_zone
