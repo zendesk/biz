@@ -11,8 +11,7 @@ group :benchmark do
 end
 
 group :ci do
-  gem 'codeclimate-test-reporter', '~> 1.0',    require: false
-  gem 'simplecov',                 '~> 0.16.0', require: false
+  gem 'simplecov', '~> 0.16.0', require: false
 end
 
 group :development do

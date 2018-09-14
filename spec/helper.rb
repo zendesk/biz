@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if ENV['CODECLIMATE_REPO_TOKEN']
+if ENV['CI']
   require 'simplecov'
 
   SimpleCov.start
