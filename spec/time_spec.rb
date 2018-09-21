@@ -63,13 +63,13 @@ RSpec.describe Biz::Time do
 
   describe '.big_bang' do
     it 'returns the beginning of time' do
-      expect(described_class.big_bang).to eq Time.new(-10**100)
+      expect(described_class.big_bang).to eq Date.new(-4712, 1, 1, Date::ITALY).to_time
     end
   end
 
   describe '.heat_death' do
     it 'returns the end of time' do
-      expect(described_class.heat_death).to eq Time.new(10**100)
+      expect(described_class.heat_death).to eq  Date.new(4712, 1, 1, Date::ITALY).to_time
     end
   end
 
