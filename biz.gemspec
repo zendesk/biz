@@ -15,6 +15,5 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = '>= 2.3'
 
-  gem.add_dependency 'clavius', '~> 1.0'
   gem.add_dependency 'tzinfo'
 end
