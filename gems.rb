@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'clavius', git: 'git@github.com:guizmaii/clavius.git', branch: 'jruby'
+gem 'clavius', git: 'git://github.com:guizmaii/clavius.git', branch: 'jruby'
 
 gemspec
 
