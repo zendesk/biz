@@ -14,8 +14,8 @@ module Biz
     DAY_MINUTES  = DAY_HOURS * HOUR_MINUTES
     WEEK_MINUTES = WEEK_DAYS * DAY_MINUTES
 
-    BIG_BANG   = ::Time.new(-10**100).freeze
-    HEAT_DEATH = ::Time.new(10**100).freeze
+    BIG_BANG   = ::Time.new(-100_000_000).freeze
+    HEAT_DEATH = ::Time.new(100_000_000).freeze
 
     private_constant :MINUTE_SECONDS,
                      :HOUR_MINUTES,
