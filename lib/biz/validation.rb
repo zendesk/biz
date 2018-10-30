@@ -3,23 +3,23 @@
 module Biz
   class Validation
 
-    def self.perform(raw)
-      new(raw).perform
+    def self.perform(configuration)
+      new(configuration).perform
     end
 
-    def initialize(raw)
-      @raw = raw
+    def initialize(configuration)
+      @configuration = configuration
     end
 
     def perform
-      RULES.each do |rule| rule.check(raw) end
+      RULES.each do |rule| rule.check(configuration) end
 
       self
     end
 
     private
 
-    attr_reader :raw
+    attr_reader :configuration
 
     class Rule
 
@@ -28,8 +28,8 @@ module Biz
         @condition = condition
       end
 
-      def check(raw)
-        fail Error::Configuration, message unless condition.call(raw)
+      def check(configuration)
+        fail Error::Configuration, message if condition.call(configuration)
       end
 
       private
@@ -40,11 +40,11 @@ module Biz
     end
 
     RULES = [
-      Rule.new('hours not hash-like') { |raw|
-        raw.hours.respond_to?(:to_h)
+      Rule.new('hours not provided') { |configuration|
+        configuration.intervals.none?
       },
-      Rule.new('hours not provided') { |raw|
-        raw.hours.to_h.any?
+      Rule.new('nonsensical hours provided') { |configuration|
+        configuration.intervals.any?(&:empty?)
       }
     ].freeze
 

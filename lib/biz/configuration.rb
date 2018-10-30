@@ -8,9 +8,9 @@ module Biz
 
       yield raw if block_given?
 
-      Validation.perform(raw)
-
       raw.freeze
+
+      Validation.perform(self)
     end
 
     def intervals
