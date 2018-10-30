@@ -1,41 +1,49 @@
 # frozen_string_literal: true
 
 RSpec.describe Biz::Validation do
-  let(:raw) { Struct.new(:hours, :holidays, :time_zone).new }
+  let(:configuration) {
+    Biz::Configuration.new do |config| config.hours = hours end
+  }
 
-  subject(:validation) { described_class.new(raw) }
+  subject(:validation) { described_class.new(configuration) }
 
   describe '.perform' do
-    before do raw.hours = {} end
+    let(:hours) { {} }
 
-    it 'performs the validation on the provided raw input' do
+    it 'performs the validation on the provided configuration' do
       expect {
-        described_class.perform(raw)
+        described_class.perform(configuration)
       }.to raise_error Biz::Error::Configuration
     end
   end
 
   describe '#perform' do
-    describe 'when the hours are hash-like' do
-      describe 'and the hours are not empty' do
-        before do raw.hours = {mon: {'09:00' => '17:00'}} end
+    context 'when hours are provided' do
+      let(:hours) { {mon: {'09:00' => '17:00'}} }
 
-        it 'does not raise an error' do
-          expect { validation.perform }.not_to raise_error
-        end
-      end
-
-      describe 'and the hours are empty' do
-        before do raw.hours = {} end
-
-        it 'raises a configuration error' do
-          expect { validation.perform }.to raise_error Biz::Error::Configuration
-        end
+      it 'does not raise an error' do
+        expect { validation.perform }.not_to raise_error
       end
     end
 
-    describe 'when the hours are not hash-like' do
-      before do raw.hours = 1 end
+    context 'when hours are not provided' do
+      let(:hours) { {} }
+
+      it 'raises a configuration error' do
+        expect { validation.perform }.to raise_error Biz::Error::Configuration
+      end
+    end
+
+    context 'when nonsensical hours are provided' do
+      let(:hours) { {mon: {'09:00' => '09:00'}} }
+
+      it 'raises a configuration error' do
+        expect { validation.perform }.to raise_error Biz::Error::Configuration
+      end
+    end
+
+    context 'when a day with no hours is provided' do
+      let(:hours) { {mon: {}} }
 
       it 'raises a configuration error' do
         expect { validation.perform }.to raise_error Biz::Error::Configuration
