@@ -4,7 +4,7 @@
 
 require 'bundler/setup'
 
-require 'benchmark/ips'
+require 'benchmark/ipsa'
 
 require 'biz'
 require 'business_time'
@@ -64,7 +64,7 @@ WorkingHours::Config.tap do |config|
 end
 
 benchmark 'Return time one business hour after origin'
-Benchmark.ips do |bm|
+Benchmark.ipsa do |bm|
   origin = Time.utc(2006, 1, 2, 9, 30)
 
   bm.report 'biz' do
@@ -83,7 +83,7 @@ Benchmark.ips do |bm|
 end
 
 benchmark 'Return time 100 business hours after origin'
-Benchmark.ips do |bm|
+Benchmark.ipsa do |bm|
   origin = Time.utc(2006, 1, 2, 9, 30)
 
   bm.report 'biz' do
@@ -102,7 +102,7 @@ Benchmark.ips do |bm|
 end
 
 benchmark 'Return time 10,000 business hours after origin'
-Benchmark.ips do |bm|
+Benchmark.ipsa do |bm|
   origin = Time.utc(2006, 1, 2, 9, 30)
 
   bm.report 'biz' do
@@ -121,7 +121,7 @@ Benchmark.ips do |bm|
 end
 
 benchmark 'Return time one business hour before origin'
-Benchmark.ips do |bm|
+Benchmark.ipsa do |bm|
   origin = Time.utc(2006, 1, 2, 9, 30)
 
   bm.report 'biz' do
@@ -140,7 +140,7 @@ Benchmark.ips do |bm|
 end
 
 benchmark 'Return time 100 business hours before origin'
-Benchmark.ips do |bm|
+Benchmark.ipsa do |bm|
   origin = Time.utc(2006, 1, 2, 9, 30)
 
   bm.report 'biz' do
@@ -159,7 +159,7 @@ Benchmark.ips do |bm|
 end
 
 benchmark 'Return time 10,000 business hours before origin'
-Benchmark.ips do |bm|
+Benchmark.ipsa do |bm|
   origin = Time.utc(2006, 1, 2, 9, 30)
 
   bm.report 'biz' do
@@ -178,7 +178,7 @@ Benchmark.ips do |bm|
 end
 
 benchmark 'Return amount of business time between two times one hour apart'
-Benchmark.ips do |bm|
+Benchmark.ipsa do |bm|
   origin   = Time.utc(2006, 1, 2, 9)
   terminus = Time.utc(2006, 1, 2, 10)
 
@@ -198,7 +198,7 @@ Benchmark.ips do |bm|
 end
 
 benchmark 'Return amount of business time between two times one week apart'
-Benchmark.ips do |bm|
+Benchmark.ipsa do |bm|
   origin   = Time.utc(2006, 1, 2, 9)
   terminus = Time.utc(2006, 1, 9, 9)
 
@@ -218,7 +218,7 @@ Benchmark.ips do |bm|
 end
 
 benchmark 'Return amount of business time between two times one year apart'
-Benchmark.ips do |bm|
+Benchmark.ipsa do |bm|
   origin   = Time.utc(2006, 1, 2, 9)
   terminus = Time.utc(2006, 7, 2, 9)
 
@@ -238,7 +238,7 @@ Benchmark.ips do |bm|
 end
 
 benchmark 'Check if an in-business-hours time is in business hours'
-Benchmark.ips do |bm|
+Benchmark.ipsa do |bm|
   time = Time.utc(2006, 1, 4, 12)
 
   bm.report 'biz' do
@@ -259,7 +259,7 @@ Benchmark.ips do |bm|
 end
 
 benchmark 'Check if an out-of-business-hours time is in business hours'
-Benchmark.ips do |bm|
+Benchmark.ipsa do |bm|
   time = Time.utc(2006, 1, 4, 6)
 
   bm.report 'biz' do
