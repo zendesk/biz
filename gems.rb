@@ -16,7 +16,7 @@ end
 
 group :development do
   gem 'bump',    '~> 0.7.0', require: false
-  gem 'bundler', '~> 1.8',   require: false
+  gem 'bundler', '~> 2.0',   require: false
 end
 
 group :ci, :development do
