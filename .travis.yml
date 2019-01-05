@@ -1,9 +1,10 @@
 language: ruby
 
 rvm:
-  - 2.3.7
-  - 2.4.4
-  - 2.5.1
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
   - jruby-9.1
   - jruby-head
 
@@ -12,6 +13,8 @@ cache: bundler
 gemfile: gems.rb
 
 bundler_args: --without benchmark development
+
+before_install: gem install bundler
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter

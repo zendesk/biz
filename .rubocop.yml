@@ -1,6 +1,11 @@
 AllCops:
   TargetRubyVersion: 2.3
 
+Layout/AlignHash:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle: table
+  EnforcedLastArgumentHashStyle: ignore_implicit
+
 Layout/EmptyLinesAroundClassBody:
   EnforcedStyle: empty_lines
 
