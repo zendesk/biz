@@ -26,11 +26,10 @@ module Biz
       def periods
         Linear.new(week_periods, shifts, selector)
           .lazy
-          .select   { |period| relevant?(period) }
-          .map      { |period| period & boundary }
+          .map { |period| period & boundary }
+          .reject(&:disjoint?)
           .flat_map { |period| active_periods(period) }
           .reject   { |period| on_holiday?(period) }
-          .reject(&:empty?)
       end
 
       def week_periods

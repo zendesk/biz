@@ -73,7 +73,7 @@ RSpec.describe Biz do
       it 'delegates to the top-level schedule' do
         expect(
           described_class.time(2, :hours).after(Time.utc(2006, 1, 1))
-        ).to eq Time.utc(2006, 1, 8, 12)
+        ).to eq Time.utc(2006, 1, 15, 11)
       end
     end
 

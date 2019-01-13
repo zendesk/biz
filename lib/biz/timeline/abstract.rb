@@ -14,9 +14,9 @@ module Biz
         periods
           .map { |period| period & comparison_period(period, terminus) }
           .each do |period|
-            yield period unless period.empty?
-
             break if occurred?(period, terminus)
+
+            yield period unless period.disjoint?
           end
       end
 
@@ -26,13 +26,20 @@ module Biz
         remaining = duration
 
         periods
-          .map { |period| period & duration_period(period, remaining) }
           .each do |period|
-            yield period unless period.empty?
+            if overflow?(period, remaining)
+              remaining = Duration.new(0)
 
-            remaining -= period.duration
+              yield period
+            else
+              scoped_period = period & duration_period(period, remaining)
 
-            break unless remaining.positive?
+              remaining -= scoped_period.duration
+
+              yield scoped_period unless scoped_period.disjoint?
+
+              break unless remaining.positive?
+            end
           end
       end
 

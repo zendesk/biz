@@ -24,7 +24,7 @@ module Biz
                 :date
 
     def duration
-      Duration.new(end_time - start_time)
+      Duration.new([end_time - start_time, 0].max)
     end
 
     def endpoints
@@ -32,7 +32,11 @@ module Biz
     end
 
     def empty?
-      start_time >= end_time
+      start_time == end_time
+    end
+
+    def disjoint?
+      start_time > end_time
     end
 
     def contains?(time)
@@ -40,17 +44,17 @@ module Biz
     end
 
     def &(other)
-      lower_bound = [self, other].map(&:start_time).max
-      upper_bound = [self, other].map(&:end_time).min
-
-      self.class.new(lower_bound, [lower_bound, upper_bound].max)
+      self.class.new(
+        [self, other].map(&:start_time).max,
+        [self, other].map(&:end_time).min
+      )
     end
 
     def /(other)
       [
         self.class.new(start_time, other.start_time),
         self.class.new(other.end_time, end_time)
-      ].reject(&:empty?).map { |potential| self & potential }
+      ].reject(&:disjoint?).map { |potential| self & potential }
     end
 
     private

@@ -29,10 +29,6 @@ module Biz
         )
       end
 
-      def relevant?(period)
-        origin < period.end_time
-      end
-
     end
   end
 end

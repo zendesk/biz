@@ -139,10 +139,10 @@ RSpec.describe Biz::Calculation::ForDuration do
       end
 
       describe '#after' do
-        let(:time) { Time.utc(2006, 1, 4, 15, 30) }
+        let(:time) { Time.utc(2006, 1, 4, 14, 30) }
 
         it 'returns the forward time after the elapsed duration' do
-          expect(calculation.after(time)).to eq Time.utc(2006, 1, 4, 17)
+          expect(calculation.after(time)).to eq Time.utc(2006, 1, 4, 16)
         end
 
         context 'when the scalar is zero' do
@@ -181,10 +181,10 @@ RSpec.describe Biz::Calculation::ForDuration do
       end
 
       describe '#after' do
-        let(:time) { Time.utc(2006, 1, 4, 14) }
+        let(:time) { Time.utc(2006, 1, 4, 13) }
 
         it 'returns the forward time after the elapsed duration' do
-          expect(calculation.after(time)).to eq Time.utc(2006, 1, 4, 17)
+          expect(calculation.after(time)).to eq Time.utc(2006, 1, 4, 16)
         end
 
         context 'when the scalar is zero' do

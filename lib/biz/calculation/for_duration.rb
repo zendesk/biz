@@ -25,14 +25,10 @@ module Biz
       def self.time_class
         Class.new(self) do
           def before(time)
-            return moment_before(time) if scalar.zero?
-
             advanced_periods(:before, time).last.start_time
           end
 
           def after(time)
-            return moment_after(time) if scalar.zero?
-
             advanced_periods(:after, time).last.end_time
           end
 
@@ -52,31 +48,34 @@ module Biz
       def self.day_class
         Class.new(self) do
           def before(time)
-            return moment_before(time) if scalar.zero?
-
             periods(:before, time).first.end_time
           end
 
           def after(time)
-            return moment_after(time) if scalar.zero?
-
             periods(:after, time).first.start_time
           end
 
           private
 
           def periods(direction, time)
-            schedule.periods.public_send(
-              direction,
-              advanced_time(direction, schedule.in_zone.local(time))
-            )
+            schedule
+              .periods
+              .public_send(
+                direction,
+                advanced_time(direction, schedule.in_zone.local(time))
+              )
           end
 
           def advanced_time(direction, time)
-            schedule.in_zone.on_date(
-              schedule.dates.days(scalar).public_send(direction, time),
-              DayTime.from_time(time)
-            )
+            schedule
+              .in_zone
+              .on_date(
+                schedule
+                  .dates
+                  .days(scalar)
+                  .public_send(direction, time.to_date),
+                DayTime.from_time(time)
+              )
           end
         end
       end
@@ -98,14 +97,6 @@ module Biz
 
       def unit
         self.class.unit
-      end
-
-      def moment_before(time)
-        schedule.periods.before(time).first.end_time
-      end
-
-      def moment_after(time)
-        schedule.periods.after(time).first.start_time
       end
 
       [
