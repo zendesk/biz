@@ -50,7 +50,7 @@ RSpec.describe Biz::Timeline::Backward do
       end
     end
 
-    context 'when the terminus at the end of the first period' do
+    context 'when the terminus is at the end of the first period' do
       let(:terminus) { Time.utc(2006, 2) }
 
       it 'returns no periods' do
@@ -106,8 +106,10 @@ RSpec.describe Biz::Timeline::Backward do
     context 'when the duration is zero' do
       let(:duration) { Biz::Duration.new(0) }
 
-      it 'returns no periods' do
-        expect(timeline.for(duration).to_a).to eq []
+      it 'returns the first active moment backward in time' do
+        expect(timeline.for(duration).to_a).to eq [
+          Biz::TimeSegment.new(Time.utc(2006, 2), Time.utc(2006, 2))
+        ]
       end
     end
 

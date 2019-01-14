@@ -45,7 +45,8 @@ RSpec.describe Biz::Timeline::Forward do
       it 'returns the proper periods' do
         expect(timeline.until(terminus).to_a).to eq [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
-          Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007, 2))
+          Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007, 2)),
+          Biz::TimeSegment.new(Time.utc(2008), Time.utc(2008))
         ]
       end
     end
@@ -53,8 +54,10 @@ RSpec.describe Biz::Timeline::Forward do
     context 'when the terminus at the beginning of the first period' do
       let(:terminus) { Time.utc(2006) }
 
-      it 'returns no periods' do
-        expect(timeline.until(terminus).to_a).to eq []
+      it 'returns the first active moment forward in time' do
+        expect(timeline.until(terminus).to_a).to eq [
+          Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006))
+        ]
       end
     end
 
@@ -103,8 +106,10 @@ RSpec.describe Biz::Timeline::Forward do
     context 'when the duration is zero' do
       let(:duration) { Biz::Duration.new(0) }
 
-      it 'returns no periods' do
-        expect(timeline.for(duration).to_a).to eq []
+      it 'returns the first active moment forward in time' do
+        expect(timeline.for(duration).to_a).to eq [
+          Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006))
+        ]
       end
     end
 
@@ -121,9 +126,10 @@ RSpec.describe Biz::Timeline::Forward do
     context 'when the duration is the length of the first period' do
       let(:duration) { Biz::Duration.seconds(in_seconds(days: 31)) }
 
-      it 'returns the first period' do
+      it 'returns the proper periods' do
         expect(timeline.for(duration).to_a).to eq [
-          Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2))
+          Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
+          Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007))
         ]
       end
     end
@@ -134,7 +140,8 @@ RSpec.describe Biz::Timeline::Forward do
       it 'returns the proper periods' do
         expect(timeline.for(duration).to_a).to eq [
           Biz::TimeSegment.new(Time.utc(2006), Time.utc(2006, 2)),
-          Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007, 2))
+          Biz::TimeSegment.new(Time.utc(2007), Time.utc(2007, 2)),
+          Biz::TimeSegment.new(Time.utc(2008), Time.utc(2008))
         ]
       end
     end

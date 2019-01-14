@@ -10,8 +10,12 @@ module Biz
 
       private
 
-      def occurred?(period, time)
-        period.start_time <= time
+      def occurred?(period, terminus)
+        period.end_time <= terminus
+      end
+
+      def overflow?(*)
+        false
       end
 
       def comparison_period(period, terminus)

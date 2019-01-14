@@ -28,6 +28,14 @@ RSpec.describe Biz::TimeSegment do
         Biz::Duration.new(end_time - start_time)
       )
     end
+
+    context 'when the time segment is disjoint' do
+      let(:time_segment) { described_class.new(end_time, start_time) }
+
+      it 'returns a zero duration' do
+        expect(time_segment.duration).to eq Biz::Duration.new(0)
+      end
+    end
   end
 
   describe '#start_time' do
@@ -77,8 +85,34 @@ RSpec.describe Biz::TimeSegment do
     context 'when the start time is after the end time' do
       let(:time_segment) { described_class.new(end_time + 1, end_time) }
 
+      it 'returns false' do
+        expect(time_segment.empty?).to eq false
+      end
+    end
+  end
+
+  describe '#disjoint?' do
+    context 'when the start time is before the end time' do
+      let(:time_segment) { described_class.new(start_time, start_time + 1) }
+
+      it 'returns false' do
+        expect(time_segment.disjoint?).to eq false
+      end
+    end
+
+    context 'when the start time is equal to the end time' do
+      let(:time_segment) { described_class.new(start_time, start_time) }
+
+      it 'returns false' do
+        expect(time_segment.disjoint?).to eq false
+      end
+    end
+
+    context 'when the start time is after the end time' do
+      let(:time_segment) { described_class.new(end_time + 1, end_time) }
+
       it 'returns true' do
-        expect(time_segment.empty?).to eq true
+        expect(time_segment.disjoint?).to eq true
       end
     end
   end
@@ -132,10 +166,8 @@ RSpec.describe Biz::TimeSegment do
       let(:other_start_time) { Time.utc(2006, 1, 1) }
       let(:other_end_time)   { Time.utc(2006, 1, 2) }
 
-      it 'returns a zero-duration time segment' do
-        expect(time_segment & other).to eq(
-          described_class.new(start_time, start_time)
-        )
+      it 'returns a disjoint time segment' do
+        expect(time_segment & other).to be_disjoint
       end
     end
 
@@ -191,10 +223,8 @@ RSpec.describe Biz::TimeSegment do
       let(:other_start_time) { Time.utc(2006, 2, 1) }
       let(:other_end_time)   { Time.utc(2006, 2, 7) }
 
-      it 'returns a zero-duration time segment' do
-        expect(time_segment & other).to eq(
-          described_class.new(other_start_time, other_start_time)
-        )
+      it 'returns a disjoint time segment' do
+        expect(time_segment & other).to be_disjoint
       end
     end
   end

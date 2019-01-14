@@ -28,10 +28,6 @@ module Biz
           .downto(Week.since_epoch(Time.big_bang))
       end
 
-      def relevant?(period)
-        origin > period.start_time
-      end
-
       def active_periods(*)
         super.reverse
       end
