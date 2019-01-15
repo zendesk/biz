@@ -8,7 +8,7 @@ module Biz
     module Timestamp
       FORMAT  = '%02d:%02d'
       PATTERN =
-        /\A(?<hour>\d{2}):(?<minute>\d{2})(:?(?<second>\d{2}))?\Z/.freeze
+        /\A(?<hour>\d{1,2}):(?<minute>\d{2})(:?(?<second>\d{2}))?\Z/.freeze
     end
 
     include Comparable

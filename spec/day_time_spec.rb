@@ -106,6 +106,16 @@ RSpec.describe Biz::DayTime do
           )
         end
       end
+
+      context 'with short format hours' do
+        let(:timestamp) { '8:55:23' }
+
+        it 'returns the appropriate day time' do
+          expect(described_class.from_timestamp(timestamp)).to eq(
+            described_class.new(day_second(hour: 8, min: 55, sec: 23))
+          )
+        end
+      end
     end
   end
 
