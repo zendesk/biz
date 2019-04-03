@@ -21,7 +21,7 @@ module Biz
                   :sequences
 
       def linear_periods
-        Enumerator.new do |yielder|
+        Array.new do |yielder|
           loop do
             periods.next and next if periods.peek.date == shifts.peek.date
 
