@@ -1,7 +1,7 @@
 ![biz](http://d26a57ydsghvgx.cloudfront.net/www/public/assets/images/bizlogo.png)
 
 [![Gem Version](https://badge.fury.io/rb/biz.svg)](http://badge.fury.io/rb/biz)
-[![Build Status](https://travis-ci.com/zendesk/biz.svg?branch=master)](https://travis-ci.com/zendesk/biz)
+![repo-checks](https://github.com/zendesk/biz/workflows/repo-checks/badge.svg)
 [![Code Climate](https://codeclimate.com/github/zendesk/biz/badges/gpa.svg)](https://codeclimate.com/github/zendesk/biz)
 [![Test Coverage](https://codeclimate.com/github/zendesk/biz/badges/coverage.svg)](https://codeclimate.com/github/zendesk/biz)
 
