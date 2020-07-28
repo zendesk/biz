@@ -41,6 +41,3 @@ jobs:
     - name: rake ${{ matrix.rvm }}
       run: |
         bundle exec rake
-    - name: after_success
-      if: success()
-      run: ./cc-test-reporter after-build -t simplecov --exit-code 0
