@@ -1,0 +1,43 @@
+name: repo-checks
+on:
+  push:
+    branches: [master]
+  pull_request:
+jobs:
+  main:
+    name: rvm
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+      BUNDLE_GEMFILE: gems.rb
+    strategy:
+      fail-fast: true
+      matrix:
+        rvm:
+          - 2.3
+          - 2.4
+          - 2.5
+          - 2.6
+          - jruby-9.1
+          - jruby-head
+    steps:
+    - uses: zendesk/checkout@v2
+    - uses: zendesk/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.rvm }}
+    - name: gem_cache
+      id: cache
+      uses: zendesk/cache@v2
+      with:
+        path: vendor/bundle
+        key: cache-${{ runner.os }}-ruby-${{ matrix.rvm }}-${{ hashFiles('Gemfile.lock') }}
+    - name: install
+      run: |
+        bundle config path vendor/bundle
+        bundle install --without benchmark development
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+        ./cc-test-reporter before-build
+    - name: rake ${{ matrix.rvm }}
+      run: |
+        bundle exec rake
