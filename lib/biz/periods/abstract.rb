@@ -33,11 +33,15 @@ module Biz
       end
 
       def week_periods
-        weeks
-          .lazy
-          .flat_map { |week|
-            intervals.map { |interval| interval.to_time_segment(week) }
-          }
+        if intervals.empty?
+          []
+        else
+          weeks
+            .lazy
+            .flat_map { |week|
+              intervals.map { |interval| interval.to_time_segment(week) }
+            }
+        end
       end
 
       def active_periods(period)

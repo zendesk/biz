@@ -40,9 +40,6 @@ module Biz
     end
 
     RULES = [
-      Rule.new('hours not provided') { |configuration|
-        configuration.intervals.none?
-      },
       Rule.new('nonsensical hours provided') { |configuration|
         configuration.intervals.any?(&:empty?)
       }

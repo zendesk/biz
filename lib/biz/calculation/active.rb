@@ -12,7 +12,10 @@ module Biz
       def result
         return in_hours? && active? if schedule.shifts.none?
 
-        schedule.periods.after(time).first.contains?(time)
+        period = schedule.periods.after(time).first
+        return false if period.blank?
+
+        period.contains?(time)
       end
 
       private
