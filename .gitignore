@@ -4,3 +4,4 @@ gems.locked
 pkg
 bin/
 coverage/
+.idea/
