@@ -74,12 +74,14 @@ RSpec.describe Biz::Time do
   end
 
   describe '#local' do
-    let(:provided_time) {
-      in_zone('America/New_York') { Time.utc(2006, 1, 1, 12, 30, 15) }
-    }
+    let(:provided_time) { Time.utc(2006, 1, 1, 12, 30, 15) }
 
-    it 'converts the time to the equivalent in the specified time zone' do
-      expect(time.local(provided_time)).to eq Time.utc(2006, 1, 1, 9, 30, 15)
+    it 'returns an equivalent time' do
+      expect(time.local(provided_time)).to eq provided_time
+    end
+
+    it 'returns a time with the appropriate time zone' do
+      expect(time.local(provided_time).zone).to eq 'PST'
     end
   end
 
