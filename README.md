@@ -3,7 +3,6 @@
 [![Gem Version](https://badge.fury.io/rb/biz.svg)](http://badge.fury.io/rb/biz)
 ![repo-checks](https://github.com/zendesk/biz/workflows/repo-checks/badge.svg)
 [![Code Climate](https://codeclimate.com/github/zendesk/biz/badges/gpa.svg)](https://codeclimate.com/github/zendesk/biz)
-[![Test Coverage](https://codeclimate.com/github/zendesk/biz/badges/coverage.svg)](https://codeclimate.com/github/zendesk/biz)
 
 Time calculations using business hours.
 
