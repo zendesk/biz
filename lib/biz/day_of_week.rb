@@ -42,7 +42,7 @@ module Biz
     end
 
     def day_minute(week_minute)
-      (week_minute - 1) % Time.day_minutes + 1
+      ((week_minute - 1) % Time.day_minutes) + 1
     end
 
     def symbol

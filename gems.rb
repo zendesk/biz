@@ -22,5 +22,5 @@ end
 group :ci, :development do
   gem 'rake',    '~> 12.0',   require: false
   gem 'rspec',   '~> 3.0',    require: false
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 1.45.0', require: false
 end

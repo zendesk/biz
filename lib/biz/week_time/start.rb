@@ -11,11 +11,10 @@ module Biz
       private
 
       def day_of_week
-        @day_of_week ||= begin
+        @day_of_week ||=
           DayOfWeek.all.find { |day_of_week|
             day_of_week.wday?(week_minute / Time.day_minutes % Time.week_days)
           }
-        end
       end
 
     end

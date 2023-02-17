@@ -83,31 +83,31 @@ RSpec.describe Biz::Duration do
 
   describe '#in_minutes' do
     it 'returns the number of whole minutes' do
-      expect(duration.in_minutes).to eq((2 * 24 + 5) * 60 + 9)
+      expect(duration.in_minutes).to eq (((2 * 24) + 5) * 60) + 9
     end
   end
 
   describe '#in_hours' do
     it 'returns the number of whole hours' do
-      expect(duration.in_hours).to eq 2 * 24 + 5
+      expect(duration.in_hours).to eq (2 * 24) + 5
     end
   end
 
   describe '#+' do
-    let(:duration_1) { described_class.hours(1) }
-    let(:duration_2) { described_class.minutes(30) }
+    let(:duration1) { described_class.hours(1) }
+    let(:duration2) { described_class.minutes(30) }
 
     it 'adds the durations' do
-      expect(duration_1 + duration_2).to eq described_class.minutes(90)
+      expect(duration1 + duration2).to eq described_class.minutes(90)
     end
   end
 
   describe '#-' do
-    let(:duration_1) { described_class.hours(1) }
-    let(:duration_2) { described_class.minutes(30) }
+    let(:duration1) { described_class.hours(1) }
+    let(:duration2) { described_class.minutes(30) }
 
     it 'subtracts the durations' do
-      expect(duration_1 - duration_2).to eq described_class.minutes(30)
+      expect(duration1 - duration2).to eq described_class.minutes(30)
     end
   end
 

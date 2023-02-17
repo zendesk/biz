@@ -72,11 +72,11 @@ RSpec.describe Biz::Week do
   end
 
   describe '#+' do
-    let(:week_1) { described_class.new(1) }
-    let(:week_2) { described_class.new(2) }
+    let(:week1) { described_class.new(1) }
+    let(:week2) { described_class.new(2) }
 
     it 'adds the weeks' do
-      expect(week_1 + week_2).to eq described_class.new(3)
+      expect(week1 + week2).to eq described_class.new(3)
     end
   end
 

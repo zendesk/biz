@@ -3,6 +3,21 @@
 module Biz
   class Configuration
 
+    module Default
+      HOURS = {
+        mon: {'09:00' => '17:00'},
+        tue: {'09:00' => '17:00'},
+        wed: {'09:00' => '17:00'},
+        thu: {'09:00' => '17:00'},
+        fri: {'09:00' => '17:00'}
+      }.freeze
+
+      SHIFTS    = [].freeze
+      BREAKS    = [].freeze
+      HOLIDAYS  = [].freeze
+      TIME_ZONE = 'Etc/UTC'
+    end
+
     def initialize
       @raw = Raw.new
 
@@ -14,17 +29,16 @@ module Biz
     end
 
     def intervals
-      @intervals ||= begin
+      @intervals ||=
         raw
           .hours
           .flat_map { |weekday, hours| weekday_intervals(weekday, hours) }
           .sort
           .freeze
-      end
     end
 
     def shifts
-      @shifts ||= begin
+      @shifts ||=
         raw
           .shifts
           .flat_map { |date, hours|
@@ -32,11 +46,10 @@ module Biz
           }
           .sort
           .freeze
-      end
     end
 
     def breaks
-      @breaks ||= begin
+      @breaks ||=
         raw
           .breaks
           .flat_map { |date, hours|
@@ -44,11 +57,10 @@ module Biz
           }
           .sort
           .freeze
-      end
     end
 
     def holidays
-      @holidays ||= begin
+      @holidays ||=
         raw
           .holidays
           .to_a
@@ -56,7 +68,6 @@ module Biz
           .map { |date| Holiday.new(date, time_zone) }
           .sort
           .freeze
-      end
     end
 
     def time_zone
@@ -137,21 +148,6 @@ module Biz
     end
 
     Raw = Struct.new(:hours, :shifts, :breaks, :holidays, :time_zone) do
-      module Default
-        HOURS = {
-          mon: {'09:00' => '17:00'},
-          tue: {'09:00' => '17:00'},
-          wed: {'09:00' => '17:00'},
-          thu: {'09:00' => '17:00'},
-          fri: {'09:00' => '17:00'}
-        }.freeze
-
-        SHIFTS    = [].freeze
-        BREAKS    = [].freeze
-        HOLIDAYS  = [].freeze
-        TIME_ZONE = 'Etc/UTC'
-      end
-
       def initialize(*)
         super
 
