@@ -78,33 +78,63 @@ RSpec.describe Biz::DayTime do
   end
 
   describe '.from_timestamp' do
-    context 'when the timestamp is malformed' do
+    context 'when the timestamp is not a timestamp' do
       let(:timestamp) { 'timestamp' }
 
-      it 'returns nil' do
-        expect(described_class.from_timestamp(timestamp)).to eq nil
+      it 'raises a configuration error' do
+        expect {
+          described_class.from_timestamp(timestamp)
+        }.to raise_error Biz::Error::Configuration
       end
     end
 
-    context 'when the timestamp is well formed' do
-      context 'without seconds' do
-        let(:timestamp) { '21:43' }
+    context 'when the timestamp is in `H:MM` format' do
+      let(:timestamp) { '5:35' }
 
-        it 'returns the appropriate day time' do
-          expect(described_class.from_timestamp(timestamp)).to eq(
-            described_class.new(day_second(hour: 21, min: 43))
-          )
-        end
+      it 'raises a configuration error' do
+        expect {
+          described_class.from_timestamp(timestamp)
+        }.to raise_error Biz::Error::Configuration
       end
+    end
 
-      context 'with seconds' do
-        let(:timestamp) { '10:55:23' }
+    context 'when the timestamp is in `HH:M` format' do
+      let(:timestamp) { '12:3' }
 
-        it 'returns the appropriate day time' do
-          expect(described_class.from_timestamp(timestamp)).to eq(
-            described_class.new(day_second(hour: 10, min: 55, sec: 23))
-          )
-        end
+      it 'raises a configuration error' do
+        expect {
+          described_class.from_timestamp(timestamp)
+        }.to raise_error Biz::Error::Configuration
+      end
+    end
+
+    context 'when the timestamp is in `HH:MM:S` format' do
+      let(:timestamp) { '11:35:3' }
+
+      it 'raises a configuration error' do
+        expect {
+          described_class.from_timestamp(timestamp)
+        }.to raise_error Biz::Error::Configuration
+      end
+    end
+
+    context 'when the timestamp is in `HH:MM` format' do
+      let(:timestamp) { '21:43' }
+
+      it 'returns the appropriate day time' do
+        expect(described_class.from_timestamp(timestamp)).to eq(
+          described_class.new(day_second(hour: 21, min: 43))
+        )
+      end
+    end
+
+    context 'when the timestamp is in `HH:MM:SS` format' do
+      let(:timestamp) { '10:55:23' }
+
+      it 'returns the appropriate day time' do
+        expect(described_class.from_timestamp(timestamp)).to eq(
+          described_class.new(day_second(hour: 10, min: 55, sec: 23))
+        )
       end
     end
   end

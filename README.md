@@ -68,6 +68,8 @@ Biz.configure do |config|
 end
 ```
 
+Configured timestamps must be in either `HH:MM` or `HH:MM:SS` format.
+
 Shifts act as exceptions to the hours configured for a particular date; that is,
 if a date is configured with both hours-based intervals and shifts, the shifts
 are in force and the intervals are disregarded.
