@@ -38,7 +38,10 @@ module Biz
               (match[:minute].to_i * Time.minute_seconds) +
               match[:second].to_i
           )
-        }
+        } or fail(
+          Error::Configuration,
+          'invalid timestamp: must be in `HH:MM` or `HH:MM:SS` format'
+        )
       end
 
       def midnight
