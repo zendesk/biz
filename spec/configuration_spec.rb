@@ -178,7 +178,7 @@ RSpec.describe Biz::Configuration do
     end
 
     context 'when unconfigured' do
-      subject(:configuration) { Biz::Configuration.new do end }
+      subject(:configuration) { Biz::Configuration.new }
 
       it 'returns the default set of shifts' do
         expect(configuration.shifts).to eq []
@@ -205,7 +205,7 @@ RSpec.describe Biz::Configuration do
     end
 
     context 'when unconfigured' do
-      subject(:configuration) { Biz::Configuration.new do end }
+      subject(:configuration) { Biz::Configuration.new }
 
       it 'returns the default set of breaks' do
         expect(configuration.breaks).to eq []
@@ -236,7 +236,7 @@ RSpec.describe Biz::Configuration do
     end
 
     context 'when unconfigured' do
-      subject(:configuration) { Biz::Configuration.new do end }
+      subject(:configuration) { Biz::Configuration.new }
 
       it 'returns the default set of holidays' do
         expect(configuration.holidays).to eq []
@@ -277,7 +277,7 @@ RSpec.describe Biz::Configuration do
 
   describe '#time_zone' do
     context 'when unconfigured' do
-      subject(:configuration) { Biz::Configuration.new do end }
+      subject(:configuration) { Biz::Configuration.new }
 
       it 'returns the default time zone' do
         expect(configuration.time_zone).to eq TZInfo::Timezone.get('Etc/UTC')

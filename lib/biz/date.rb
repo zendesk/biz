@@ -16,7 +16,7 @@ module Biz
     end
 
     def self.for_dst(date, day_time)
-      date + (day_time.day_second + Time.hour_seconds) / Time.day_seconds
+      date + ((day_time.day_second + Time.hour_seconds) / Time.day_seconds)
     end
 
   end

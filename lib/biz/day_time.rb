@@ -8,7 +8,7 @@ module Biz
     module Timestamp
       FORMAT  = '%02d:%02d'
       PATTERN =
-        /\A(?<hour>\d{2}):(?<minute>\d{2})(:?(?<second>\d{2}))?\Z/.freeze
+        /\A(?<hour>\d{2}):(?<minute>\d{2}):?(?<second>\d{2})?\Z/.freeze
     end
 
     include Comparable
@@ -17,8 +17,8 @@ module Biz
 
       def from_time(time)
         new(
-          time.hour * Time.hour_seconds +
-            time.min * Time.minute_seconds +
+          (time.hour * Time.hour_seconds) +
+            (time.min * Time.minute_seconds) +
             time.sec
         )
       end
@@ -34,8 +34,8 @@ module Biz
       def from_timestamp(timestamp)
         timestamp.match(Timestamp::PATTERN) { |match|
           new(
-            match[:hour].to_i * Time.hour_seconds +
-              match[:minute].to_i * Time.minute_seconds +
+            (match[:hour].to_i * Time.hour_seconds) +
+              (match[:minute].to_i * Time.minute_seconds) +
               match[:second].to_i
           )
         }
@@ -72,7 +72,7 @@ module Biz
     end
 
     def day_minute
-      hour * Time.hour_minutes + minute
+      (hour * Time.hour_minutes) + minute
     end
 
     def for_dst

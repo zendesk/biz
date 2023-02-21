@@ -1,8 +1,10 @@
-inherit_from: .rubocop_todo.yml
-
 AllCops:
-  TargetRubyVersion: 2.3
   NewCops: enable
+  SuggestExtensions: false
+  TargetRubyVersion: 2.7
+
+Bundler/GemFilename:
+  EnforcedStyle: gems.rb
 
 Layout/HashAlignment:
   EnforcedHashRocketStyle: table
