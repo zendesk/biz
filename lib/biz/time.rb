@@ -86,7 +86,8 @@ module Biz
           day_time.minute,
           day_time.second
         ),
-        true
+        true,
+        &:first
       )
     rescue TZInfo::PeriodNotFound
       on_date(Date.for_dst(date, day_time), day_time.for_dst)
