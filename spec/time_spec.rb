@@ -130,6 +130,18 @@ RSpec.describe Biz::Time do
         )
       end
     end
+
+    context 'when an ambiguous non-daylight-savings time is targeted' do
+      let(:time_zone) { TZInfo::Timezone.get('Asia/Pyongyang') }
+      let(:date)      { Date.new(2015, 8, 14) }
+      let(:day_time)  { Biz::DayTime.new(day_second(hour: 23, min: 59)) }
+
+      it 'returns the earliest occurrence of the time' do
+        expect(time.on_date(date, day_time)).to eq(
+          time_zone.local_to_utc(Time.utc(2015, 8, 14, 23, 59), &:first)
+        )
+      end
+    end
   end
 
   describe '#during_week' do
