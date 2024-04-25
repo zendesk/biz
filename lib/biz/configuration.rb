@@ -114,8 +114,8 @@ module Biz
 
     def date_period(date, timestamps)
       TimeSegment.new(
-        time.on_date(date, DayTime.from_timestamp(timestamps.first)),
-        time.on_date(date, DayTime.from_timestamp(timestamps.last))
+        time.on_date(date, DayTime.from_timestamp(timestamps.first)).localtime,
+        time.on_date(date, DayTime.from_timestamp(timestamps.last)).localtime
       )
     end
 
