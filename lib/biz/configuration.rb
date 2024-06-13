@@ -113,9 +113,11 @@ module Biz
     end
 
     def date_period(date, timestamps)
+      offset_int = time_zone.current_period.utc_total_offset
+
       TimeSegment.new(
-        time.on_date(date, DayTime.from_timestamp(timestamps.first)).localtime,
-        time.on_date(date, DayTime.from_timestamp(timestamps.last)).localtime
+        time.on_date(date, DayTime.from_timestamp(timestamps.first)).getlocal(offset_int),
+        time.on_date(date, DayTime.from_timestamp(timestamps.last)).getlocal(offset_int)
       )
     end
 
