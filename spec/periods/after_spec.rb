@@ -27,12 +27,11 @@ RSpec.describe Biz::Periods::After do
 
   subject(:periods) {
     described_class.new(
-      schedule(
-        hours:     hours,
-        shifts:    shifts,
-        breaks:    breaks,
-        holidays:  holidays,
-        time_zone: time_zone
+      schedule(hours:,
+        shifts:,
+        breaks:,
+        holidays:,
+        time_zone:)
       ),
       origin
     )

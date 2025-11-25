@@ -12,7 +12,7 @@ RSpec.describe Biz::Periods::Proxy do
     }
   }
 
-  subject(:periods) { described_class.new(schedule(hours: hours)) }
+  subject(:periods) { described_class.new(schedule(hours:))) }
 
   describe '#after' do
     let(:origin) { Time.utc(2006, 1, 3) }

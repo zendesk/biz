@@ -85,8 +85,8 @@ RSpec.describe Biz::Configuration do
         expect(configuration.intervals).to eq(
           (1..5).map { |wday|
             Biz::Interval.new(
-              Biz::WeekTime.start(week_minute(wday: wday, hour: 9)),
-              Biz::WeekTime.end(week_minute(wday: wday, hour: 17)),
+              Biz::WeekTime.start(week_minute(wday:, hour: 9)),
+              Biz::WeekTime.end(week_minute(wday:, hour: 17)),
               TZInfo::Timezone.get('America/New_York')
             )
           }
