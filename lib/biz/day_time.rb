@@ -3,12 +3,12 @@
 module Biz
   class DayTime
 
-    VALID_SECONDS = (0..Time.day_seconds).freeze
+    VALID_SECONDS = (0..Time.day_seconds)
 
     module Timestamp
       FORMAT  = '%02d:%02d'
       PATTERN =
-        /\A(?<hour>\d{2}):(?<minute>\d{2}):?(?<second>\d{2})?\Z/.freeze
+        /\A(?<hour>\d{2}):(?<minute>\d{2}):?(?<second>\d{2})?\Z/
     end
 
     include Comparable

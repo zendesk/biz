@@ -9,7 +9,7 @@ module Biz
         @time     = time
       end
 
-      def result
+      def result # rubocop:disable Naming/PredicateMethod
         return in_hours? && active? if schedule.shifts.none?
 
         schedule.periods.after(time).first.contains?(time)
