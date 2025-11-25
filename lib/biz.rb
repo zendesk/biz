@@ -12,8 +12,8 @@ module Biz
 
     extend Forwardable
 
-    def configure(&config)
-      Thread.current[:biz_schedule] = Schedule.new(&config)
+    def configure(&)
+      Thread.current[:biz_schedule] = Schedule.new(&)
     end
 
     delegate %i[
