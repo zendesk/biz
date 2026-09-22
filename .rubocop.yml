@@ -3,9 +3,6 @@ AllCops:
   SuggestExtensions: false
   TargetRubyVersion: 3.2
 
-Bundler/GemFilename:
-  EnforcedStyle: gems.rb
-
 Layout/HashAlignment:
   EnforcedHashRocketStyle: table
   EnforcedColonStyle: table
