@@ -1,6 +1,6 @@
 *.gem
 .bundle
-gems.locked
+/Gemfile.lock
 pkg
 bin/
 coverage/

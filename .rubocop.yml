@@ -1,10 +1,7 @@
 AllCops:
   NewCops: enable
   SuggestExtensions: false
-  TargetRubyVersion: 2.7
-
-Bundler/GemFilename:
-  EnforcedStyle: gems.rb
+  TargetRubyVersion: 3.2
 
 Layout/HashAlignment:
   EnforcedHashRocketStyle: table
@@ -16,6 +13,9 @@ Layout/EmptyLinesAroundClassBody:
 
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
+
+Layout/RedundantLineBreak:
+  InspectBlocks: true
 
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
@@ -32,6 +32,9 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Enabled: false
 
+Naming/BlockForwarding:
+  EnforcedStyle: explicit
+
 Style/AndOr:
   EnforcedStyle: conditionals
 
@@ -43,3 +46,6 @@ Style/Documentation:
 
 Style/SignalException:
   EnforcedStyle: semantic
+
+Style/SingleLineDoEndBlock:
+  Enabled: false

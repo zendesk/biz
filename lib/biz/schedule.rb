@@ -55,7 +55,7 @@ module Biz
     end
 
     def &(other)
-      self.class.new(&(configuration & other.configuration))
+      self.class.new(& configuration & other.configuration)
     end
 
     protected
