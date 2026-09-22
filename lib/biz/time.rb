@@ -87,7 +87,9 @@ module Biz
           day_time.second
         ),
         true
-      )
+      ) do |periods|
+        periods.max_by(&:utc_total_offset)
+      end
     rescue TZInfo::PeriodNotFound
       on_date(Date.for_dst(date, day_time), day_time.for_dst)
     end
