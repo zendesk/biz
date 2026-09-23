@@ -197,6 +197,38 @@ RSpec.describe Biz::Interval do
         )
       end
     end
+
+    context 'when its end is a non-DST ambiguous time' do
+      let(:time_zone) { TZInfo::Timezone.get('Africa/Casablanca') }
+      let(:start_time) { week_minute(wday: 0, hour: 0) }
+      let(:end_time)   { week_minute(wday: 0, hour: 1) }
+      let(:week)       { Biz::Week.from_date(Date.new(2026, 9, 20)) }
+
+      let(:periods) {
+        [
+          TZInfo::TimezonePeriod.new(TZInfo::TimezoneOffset.new(3600, 0, '+01')),
+          TZInfo::TimezonePeriod.new(TZInfo::TimezoneOffset.new(0, 0, '+00'))
+        ]
+      }
+
+      before do
+        allow(time_zone).to receive(:local_to_utc) do |local_time, _dst, &resolver|
+          period = local_time.hour == 1 ? resolver.call(periods) : periods.first
+          Time.utc(
+            local_time.year,
+            local_time.month,
+            local_time.mday,
+            local_time.hour,
+            local_time.min,
+            local_time.sec
+          ) - period.utc_total_offset
+        end
+      end
+
+      it 'does not extend the interval across the repeated hour' do
+        expect(interval.to_time_segment(week).duration).to eq Biz::Duration.new(3600)
+      end
+    end
   end
 
   describe '#&' do

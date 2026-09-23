@@ -130,6 +130,41 @@ RSpec.describe Biz::Time do
         )
       end
     end
+
+    context 'when a non-DST ambiguity is targeted' do
+      let(:time_zone) { TZInfo::Timezone.get('Africa/Casablanca') }
+      let(:date)      { Date.new(2026, 9, 20) }
+      let(:day_time)  { Biz::DayTime.new(day_second(hour: 1)) }
+
+      # tzdb rules for future Morocco transitions can change. Model the
+      # reported transition here so this regression remains stable while still
+      # exercising TZInfo's ambiguity-resolution block.
+      let(:periods) {
+        [
+          TZInfo::TimezonePeriod.new(TZInfo::TimezoneOffset.new(3600, 0, '+01')),
+          TZInfo::TimezonePeriod.new(TZInfo::TimezoneOffset.new(0, 0, '+00'))
+        ]
+      }
+
+      before do
+        allow(time_zone).to receive(:local_to_utc) do |local_time, _dst, &resolver|
+          period = resolver.call(periods)
+          Time.utc(
+            local_time.year,
+            local_time.month,
+            local_time.mday,
+            local_time.hour,
+            local_time.min,
+            local_time.sec
+          ) - period.utc_total_offset
+        end
+      end
+
+      it 'selects the earlier UTC occurrence' do
+        expect { time.on_date(date, day_time) }.not_to raise_error
+        expect(time.on_date(date, day_time)).to eq Time.utc(2026, 9, 20)
+      end
+    end
   end
 
   describe '#during_week' do
