@@ -7,9 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [v2.0.0] (September 24, 2026)
+
+### Changed
+
+- [#152](https://github.com/zendesk/biz/pull/152): Reject malformed configured timestamps with `Biz::Error::Configuration`. Configured timestamps must use `HH:MM` or `HH:MM:SS` format.
+
 ### Removed
 
-- [#158](https://github.com/zendesk/biz/pull/158): Drop support for Ruby 3.1 and below (and JRuby 9 and below).
+- [#158](https://github.com/zendesk/biz/pull/158): Drop support for Ruby 3.1 and below (and JRuby 9 and below). Ruby 3.2+ and JRuby 10+ are supported.
+
+### Fixed
+
+- [#160](https://github.com/zendesk/biz/pull/160): Resolve non-DST ambiguous local times by selecting the earlier UTC occurrence.
 
 ## [v1.8.2] (January 14, 2019)
 
@@ -172,6 +182,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial public release.
 
+[v2.0.0]: https://github.com/zendesk/biz/compare/v1.8.2...v2.0.0
 [v1.8.2]: https://github.com/zendesk/biz/compare/v1.8.1...v1.8.2
 [v1.8.1]: https://github.com/zendesk/biz/compare/v1.8.0...v1.8.1
 [v1.8.0]: https://github.com/zendesk/biz/compare/v1.7.0...v1.8.0
